@@ -4,6 +4,7 @@ import Create from './pages/Create'
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { purple, grey } from '@mui/material/colors';
 import ResponsiveAppBar from './components/ResponsiveAppbar';
+import ButtonAppBar from './components/navbar';
 
 const theme = createTheme({
   palette: {
@@ -23,7 +24,7 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <Router>
-      <ResponsiveAppBar>
+      <ButtonAppBar>
         <Switch>
           <Route exact path="/">
             <Notes />
@@ -32,7 +33,7 @@ function App() {
             <Create />
           </Route>
         </Switch>
-      </ResponsiveAppBar>
+      </ButtonAppBar>
       </Router>
     </ThemeProvider>
   );
