@@ -25,4 +25,10 @@
       "id": 4
     }
   ]
+  
+  "navbardata" : {
+                "Battery" : 77,
+                "MobilityStatus" : "Moving",
+                "InventoryStatus" : "Empty"
+                }
 }
