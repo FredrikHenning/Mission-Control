@@ -4,6 +4,7 @@ import Create from './pages/Create'
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { purple, grey } from '@mui/material/colors';
 import ResponsiveAppBar from './components/ResponsiveAppbar';
+import MapImage from './components/MapImage';
 
 const theme = createTheme({
   palette: {
@@ -26,7 +27,10 @@ function App() {
       <ResponsiveAppBar>
         <Switch>
           <Route exact path="/">
-            <Notes />
+            {/* <Notes /> */}
+            <div>
+              <MapImage/>
+            </div>
           </Route>
           <Route path="/create">
             <Create />
