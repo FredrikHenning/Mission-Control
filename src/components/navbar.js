@@ -114,7 +114,7 @@ export default function ButtonAppBar() {
       <AppBar position="static">
         <Toolbar>
 
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }} onMouseEnter={hoverBattery} onMouseLeave={handleClose}>
+          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             Mission Control
           </Typography>
           
@@ -142,7 +142,6 @@ export default function ButtonAppBar() {
             {message}
             </Alert>
         </Snackbar>
-      <p>test</p>
     </Box>
 
     
