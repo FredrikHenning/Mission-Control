@@ -3,6 +3,7 @@ import Grid from '@mui/material/Grid';
 import { Container } from '@mui/material';
 import NoteCard from '../components/NoteCard';
 import Masonry from 'react-masonry-css';
+import MapImage from '../components/MapImage';
 
 export default function Notes() {
   const [notes, setNotes] = useState([])
@@ -29,18 +30,23 @@ export default function Notes() {
   }
 
   return (
-    <Container>
+    <Container >
+      <div>
+        <MapImage/>
+      </div>
       <Masonry 
         breakpointCols={breakpoints}
         className="my-masonry-grid"
         columnClassName="my-masonry-grid_column"
       >
+        
         {notes.map(note => (
           <div key={note.id}>
             <NoteCard note={note} handleDelete={handleDelete}/>
           </div>
         ))}
-      </Masonry>
+        
+      </Masonry> 
     </Container>
   )
 }

@@ -6,6 +6,7 @@ import { Avatar, IconButton, Typography } from '@mui/material';
 import { DeleteOutlined } from '@mui/icons-material';
 import { makeStyles } from '@mui/styles';
 import { blue, green, pink, yellow } from '@mui/material/colors';
+import MapImage from './MapImage';
 
 
 

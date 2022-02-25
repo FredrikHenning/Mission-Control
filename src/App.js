@@ -6,6 +6,7 @@ import { purple, grey } from '@mui/material/colors';
 import ResponsiveAppBar from './components/ResponsiveAppbar';
 import ButtonAppBar from './components/navbar';
 import BasicSpeedDial from './components/SpeedDial.js';
+import MapImage from './components/MapImage';
 
 const theme = createTheme({
 
@@ -18,7 +19,10 @@ function App() {
       <ButtonAppBar>
         <Switch>
           <Route exact path="/">
-            <Notes />
+            {/* <Notes /> */}
+            <div>
+              <MapImage/>
+            </div>
           </Route>
           <Route path="/create">
             <Create />
