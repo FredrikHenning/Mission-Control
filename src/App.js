@@ -4,19 +4,10 @@ import Create from './pages/Create'
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { purple, grey } from '@mui/material/colors';
 import ResponsiveAppBar from './components/ResponsiveAppbar';
+import BasicSpeedDial from './components/SpeedDial.js';
 
 const theme = createTheme({
-  palette: {
-    primary: grey,
-    secondary: purple
-  },
-  typography: {
-    fontFamily: 'Quicksand',
-    fontWeightLight: 400,
-    fontWeightRegular: 500,
-    fontWeightMedium: 600,
-    fontWeightBold: 700
-  }
+
 })
 
 function App() {
@@ -34,6 +25,7 @@ function App() {
         </Switch>
       </ResponsiveAppBar>
       </Router>
+      <BasicSpeedDial />
     </ThemeProvider>
   );
 }
