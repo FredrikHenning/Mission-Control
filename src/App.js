@@ -7,6 +7,8 @@ import ResponsiveAppBar from './components/ResponsiveAppbar';
 import ButtonAppBar from './components/navbar';
 import BasicSpeedDial from './components/SpeedDial.js';
 import MapImage from './components/MapImage';
+import Slider from '@mui/material/Slider';
+import Timeline from './components/Timeline';
 
 const theme = createTheme({
 
@@ -21,7 +23,7 @@ function App() {
           <Route exact path="/">
             {/* <Notes /> */}
             <div>
-              <MapImage/>
+              
             </div>
           </Route>
           <Route path="/create">
@@ -31,6 +33,7 @@ function App() {
       </ButtonAppBar>
       </Router>
       <BasicSpeedDial />
+      <Timeline/>
     </ThemeProvider>
   );
 }
