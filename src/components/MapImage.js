@@ -10,7 +10,7 @@ import { blue, cyan, red } from '@mui/material/colors';
 import { ThreeSixty } from '@mui/icons-material';
 import { useState } from 'react';
 import { width } from '@mui/system';
-import MouseLocation from './components/MouseLocation';
+// import MouseLocation from './MouseLocation';
 
 const useStyles = makeStyles({
     root: {
@@ -118,7 +118,7 @@ const MapImage = () => {
                     image={map}
                     alt="Mars1"
                 />
-                <MouseLocation/>
+                {/* <MouseLocation/> */}
             </Card>
       </div>
      );

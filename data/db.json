@@ -1,8 +1,15 @@
 {
-  "navbardata" : {
-                "Battery" : 77,
-                "MobilityStatus" : "Moving",
-                "InventoryStatus" : "Empty"
-                }
+  "navbardata": {
+    "Battery": 77,
+    "MobilityStatus": "Moving",
+    "InventoryStatus": "Empty"
+  },
+  "points": [
+    {
+      "command": "Useless first point",
+      "x": 0,
+      "y": 0,
+      "id": 0
+    }
+  ]
 }
-
