@@ -1,7 +1,6 @@
 import { Avatar, avatarClasses, Button, Chip, IconButton, Popover, Typography } from '@mui/material';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 
-
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
 import CardContent from '@mui/material/CardContent';
@@ -11,6 +10,7 @@ import { blue, cyan, red } from '@mui/material/colors';
 import { ThreeSixty } from '@mui/icons-material';
 import { useState } from 'react';
 import { width } from '@mui/system';
+import MouseLocation from './components/MouseLocation';
 
 const useStyles = makeStyles({
     root: {
@@ -118,6 +118,7 @@ const MapImage = () => {
                     image={map}
                     alt="Mars1"
                 />
+                <MouseLocation/>
             </Card>
       </div>
      );
