@@ -4,12 +4,5 @@
     "MobilityStatus": "Moving",
     "InventoryStatus": "Empty"
   },
-  "points": [
-    {
-      "command": "Useless first point",
-      "x": 0,
-      "y": 0,
-      "id": 0
-    }
-  ]
+  "points": []
 }

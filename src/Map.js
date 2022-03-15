@@ -13,6 +13,7 @@ import { width, height, maxHeight } from '@mui/system';
 import useMouse from '@react-hook/mouse-position';
 import * as React from 'react'
 import ImageMarker from "react-image-marker";
+import SendPoints from './components/SendPoints';
 
 // Styles in height and width for the card/picture
 const useStyles = makeStyles({
@@ -92,7 +93,7 @@ const Map = () => {
 
     let [markers, setMarkers] = useState([]);
 
-    const [map, setMap] = useState("/cuteTurtleAlmostTurquis.png")
+    const [map, setMap] = useState("/mars1.png")
     const [mapTwo, setMapTwo] = useState("/mars2.png")
     // Function for toggling the maps
     const handleClick=() =>{
@@ -157,14 +158,17 @@ const Map = () => {
 
     const classes = useStyles()
     return ( 
+        
         <CardContent>
             <Card className={classes.root}>
+                
                 <CardHeader
                     className={classes.headerHeight}
                     // sx={{ bgcolor: cyan[700] }}
 
                     // Here is where the button for toggle the maps come to play
                     action={
+                        
                         <IconButton aria-owns={open ? 'mouse-over-popover' : undefined} 
                             onMouseEnter={handlePopoverOpen}
                             onMouseLeave={handlePopoverClose} 
@@ -205,6 +209,7 @@ const Map = () => {
                         </IconButton>
                     }   
                 />
+                    
                 <div ref={ref} onClick={handleClickOpen} >
                     {/* <CardMedia
                         className={classes.media}
@@ -281,6 +286,7 @@ const Map = () => {
                 </Dialog>                         
             </Card>      
       </CardContent>
+      
      );
 }
  

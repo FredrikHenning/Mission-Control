@@ -7,6 +7,7 @@ import ResponsiveAppBar from './components/ResponsiveAppbar';
 import ButtonAppBar from './components/navbar';
 import BasicSpeedDial from './components/SpeedDial.js';
 import Map from './Map';
+import SendPoints from './components/SendPoints';
 
 
 const theme = createTheme({
@@ -29,6 +30,7 @@ function App() {
       </Router>
 
       <Map/>
+      <SendPoints/>
       <BasicSpeedDial />
     </ThemeProvider>
   );
