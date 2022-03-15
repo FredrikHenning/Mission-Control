@@ -8,6 +8,7 @@ import ButtonAppBar from './components/navbar';
 import BasicSpeedDial from './components/SpeedDial.js';
 import Map from './Map';
 import SendPoints from './components/SendPoints';
+import Console from './components/console';
 
 
 const theme = createTheme({
@@ -32,6 +33,7 @@ function App() {
       <Map/>
       <SendPoints/>
       <BasicSpeedDial />
+      <Console/>
     </ThemeProvider>
   );
 }
