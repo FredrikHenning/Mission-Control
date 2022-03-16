@@ -4,5 +4,18 @@
     "MobilityStatus": "Moving",
     "InventoryStatus": "Empty"
   },
-  "points": []
+  "points": [
+    {
+      "command": "goto",
+      "x": 508,
+      "y": 296,
+      "id": 1
+    },
+    {
+      "command": "goto",
+      "x": 193,
+      "y": 297,
+      "id": 2
+    }
+  ]
 }

@@ -42,7 +42,7 @@ const Map = () => {
     //Open control window for that point and sets the coordniates
     const handleClickOpen = () => {
         setX(mouse.x)
-        setY(356 - mouse.y)
+        setY(341 - mouse.y)
         setOpenOne(true);
       };
     

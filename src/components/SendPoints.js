@@ -40,10 +40,21 @@ const SendPoints = () => {
     }
     
     const SendClickHandel=() =>{
+        var payload = {
+            "position": {
+                "x": 11,
+                "y": 15
+            }
+          }
+        ;
+        console.log(points)
+        var pointsObj = {"points":points}
+        var data = JSON.stringify(pointsObj);
+        var payload2 = JSON.stringify(payload);
         setSent('Use Points')
-        fetch('http://localhost:8001/points',
+        fetch('https://localhost:7071/todo/mcpoints',
         {method: 'POST',
-        body: JSON.stringify(points),
+        body: JSON.stringify(data),
         headers: {
         'Content-Type': 'application/json',
         }})
