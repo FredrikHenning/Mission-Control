@@ -8,6 +8,7 @@ import ButtonAppBar from './components/navbar';
 import BasicSpeedDial from './components/SpeedDial.js';
 import Map from './Map';
 import SendPoints from './components/SendPoints';
+import MapImage from './components/MapImage';
 
 
 const theme = createTheme({

@@ -7,22 +7,29 @@ import CardContent from '@mui/material/CardContent';
 import { CardMedia } from "@mui/material";
 import { makeStyles } from '@mui/styles';
 // import { blue, cyan, red } from '@mui/material/colors';
-import { ThreeSixty } from '@mui/icons-material';
+import { SettingsInputAntennaTwoTone, ThreeSixty} from '@mui/icons-material';
+import RoomTwoToneIcon from '@mui/icons-material/RoomTwoTone';
 import { useState } from 'react';
 import { width, height, maxHeight } from '@mui/system';
 import useMouse from '@react-hook/mouse-position';
 import * as React from 'react'
 import ImageMarker from "react-image-marker";
 import SendPoints from './components/SendPoints';
+import useFetch from './components/useFetch';
+import { useEffect } from 'react';
 
 // Styles in height and width for the card/picture
+const mapSizeX = 767;
+const mapSizeY =432;
 const useStyles = makeStyles({
     root: {
-        maxWidth: 600,
+        maxWidth: 767,
         maxHeight: 600,
     },
     media: {
-        height: 400
+        // scale: 50,
+        height: mapSizeY,
+        width: mapSizeX
     },
     popMap: {
         height: 40,
@@ -38,12 +45,31 @@ const Map = () => {
     const [openOne, setOpenOne] = useState(false);
     const [fullWidth, setFullWidth] = useState(true);
     const [maxWidth, setMaxWidth] = useState('');
+    const[nodes, setNodes] = useState('');
+    // const {data: points1} = useFetch('http://localhost:8000/points')
+
+    const [points, setPoints] = useState();
+    
+
+    useEffect(() => {
+        
+        console.log("hej");
+        fetch('http://localhost:8000/points')
+        .then(res => {
+            return res.json();
+        })
+        .then(data => {
+            setPoints(data);
+        })
+        console.log(points);
+    },[nodes]);
 
     //Open control window for that point and sets the coordniates
     const handleClickOpen = () => {
         setX(mouse.x)
-        setY(356 - mouse.y)
+        setY(mapSizeY - mouse.y)
         setOpenOne(true);
+        setNodes('Working on Point')
       };
     
       const handleClose = () => {
@@ -66,7 +92,7 @@ const Map = () => {
         leaveDelay: 100,
     });
 
-    const [command, setCommand] = useState('Goal State');
+    const [command, setCommand] = useState('goto');
     const [x, setX] = useState(mouse.x);
     const [y, setY] = useState(mouse.y);
     const [isPending, setIsPending] = useState(false);
@@ -86,6 +112,8 @@ const Map = () => {
         }).then(() => {
             console.log('Point is added')
             setIsPending(false);
+        }).then(() => {
+            setNodes('New point')
         })
         setOpenOne(false);
     }
@@ -112,6 +140,7 @@ const Map = () => {
     }  
 
     const [anchorEl, setAnchorEl] = useState(null);
+    const [anchorElP, setAnchorElP] = useState(null);
 
     const handlePopoverOpen = (event) => {
         setAnchorEl(event.currentTarget);
@@ -120,7 +149,11 @@ const Map = () => {
     const handlePopoverClose = () => {
         setAnchorEl(null);
     };
+    const handlePointPopoverOpen = (event) =>{
+        setAnchorElP(event.currentTarget);
+    }
 
+    const openPoint = Boolean(anchorElP);
     const open = Boolean(anchorEl);
 
     
@@ -160,8 +193,7 @@ const Map = () => {
     return ( 
         
         <CardContent>
-            <Card className={classes.root}>
-                
+            <Card className={classes.root}>    
                 <CardHeader
                     className={classes.headerHeight}
                     // sx={{ bgcolor: cyan[700] }}
@@ -211,23 +243,71 @@ const Map = () => {
                 />
                     
                 <div ref={ref} onClick={handleClickOpen} >
-                    {/* <CardMedia
+                     <CardMedia
                         className={classes.media}
+                        scale = {100}
                         component="img"
                         height="194"
                         image={map}
                         alt="Mars1"     
                     >
-                        </CardMedia> */}
-                    <ImageMarker
+                        </CardMedia> 
+                         
+                    {/* <ImageMarker
                         className={classes.media}
                         src={map}
                         scale = {100}
                         
                         markers={markers}
                         onAddMarker={(marker) => setMarkers((prev) => [...prev, marker])}
-                        markerComponent={CustomMarker}            
-                    />
+                        markerComponent={CustomMarker}    
+                               
+                    /> */}
+                        
+                   
+                     {
+                     points && points.map((point) => (
+                            <div className="point-marker" key = {point.id}
+                                style=
+                                {{
+                                    position: "absolute",
+                                    left: `${1 + point.x}px`,
+                                    top: `${107 + mapSizeY - point.y}px`
+                                    
+                                }}
+                            >
+                                <IconButton sx={{ fontSize: 30}} aria-owns={openPoint ? 'mouse-over-popover' : undefined} 
+                                    onMouseEnter={handlePointPopoverOpen}
+                                    onMouseLeave={handlePopoverClose} 
+                                >
+                                    <Popover 
+                                        id="mouse-over-popover"
+                                        sx={{
+                                        pointerEvents: 'none',
+                                        }}
+                                        open={openPoint}
+                                        anchorEl={anchorElP}
+                                        anchorOrigin={{
+                                        vertical: 'bottom',
+                                        horizontal: 'right',
+                                        }}
+                                        transformOrigin={{
+                                        vertical: 'top',
+                                        horizontal: 'right',
+                                        }}
+                                        onClose={handlePopoverClose}
+                                        disableRestoreFocus
+                                    
+                                    >
+                                        <div>{point.x.toFixed(2)} {point.y.toFixed(2)}</div>   
+                                    </Popover>
+                                    <RoomTwoToneIcon/>
+                                </IconButton>
+                                 {console.log("thresixty")} 
+
+                            </div>
+                        ))} 
+                    
                 </div>
                 
                 <Dialog
