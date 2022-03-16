@@ -113,8 +113,8 @@ const SendPoints = () => {
         {points && points.map((point) => (
             <div className="blog-preview" key={point.id}>
                 
-                    <p>Command: {point.command}</p>
-                    <p>ID: { point.id}</p> 
+                    <p>ID: {point.id} Command: {point.command} x: { point.x } y: { point.y }</p>
+                    <p></p> 
             </div>
         ))}
         </div>
