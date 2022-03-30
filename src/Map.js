@@ -8,7 +8,7 @@ import { CardMedia } from "@mui/material";
 import { makeStyles } from '@mui/styles';
 // import { blue, cyan, red } from '@mui/material/colors';
 import { SettingsInputAntennaTwoTone, ThreeSixty} from '@mui/icons-material';
-import RoomTwoToneIcon from '@mui/icons-material/RoomTwoTone';
+import RoomSharpIcon from '@mui/icons-material/RoomTwoTone';
 import { useState } from 'react';
 import { width, height, maxHeight } from '@mui/system';
 import useMouse from '@react-hook/mouse-position';
@@ -17,6 +17,7 @@ import ImageMarker from "react-image-marker";
 import SendPoints from './components/SendPoints';
 import useFetch from './components/useFetch';
 import { useEffect } from 'react';
+import { blue, cyan } from '@mui/material/colors';
 
 // Styles in height and width for the card/picture
 const mapSizeX = 767;
@@ -48,20 +49,26 @@ const Map = () => {
     const[nodes, setNodes] = useState('');
     // const {data: points1} = useFetch('http://localhost:8000/points')
 
-    const [points, setPoints] = useState();
+    const [points, setPoints] = useState(null);
+    const [oldPoints, setOldPoints] = useState(null);
     
 
     useEffect(() => {
         
         console.log("hej");
+        
         fetch('http://localhost:8000/points')
         .then(res => {
             return res.json();
         })
+        // .then( ()=> {
+        //     
+        // })
         .then(data => {
             setPoints(data);
         })
         console.log(points);
+        console.log(oldPoints);
     },[nodes]);
 
     //Open control window for that point and sets the coordniates
@@ -69,7 +76,8 @@ const Map = () => {
         setX(mouse.x)
         setY(mapSizeY - mouse.y)
         setOpenOne(true);
-        setNodes('Working on Point')
+        setNodes('Working on Point');
+        setOldPoints(points);
       };
     
       const handleClose = () => {
@@ -151,7 +159,10 @@ const Map = () => {
     };
     const handlePointPopoverOpen = (event) =>{
         setAnchorElP(event.currentTarget);
-    }
+    };
+    const handlePointPopoverClose = () => {
+        setAnchorElP(null);
+    };
 
     const openPoint = Boolean(anchorElP);
     const open = Boolean(anchorEl);
@@ -196,7 +207,7 @@ const Map = () => {
             <Card className={classes.root}>    
                 <CardHeader
                     className={classes.headerHeight}
-                    // sx={{ bgcolor: cyan[700] }}
+                     // sx={{ bgcolor: blue[700] }}
 
                     // Here is where the button for toggle the maps come to play
                     action={
@@ -264,21 +275,36 @@ const Map = () => {
                                
                     /> */}
                         
-                   
-                     {
-                     points && points.map((point) => (
+                    
+                     {points && points.map((point) => { 
+                        //  console.log(oldPoints.filter(point => point.id.includes(point.id)))
+                        
+                         return(
+                            // <div className="point-marker" key = {point.id}>
+                            //     {oldPoints && oldPoints.map((oldpoint) => {
+                            //         <div className="oldPoit-markers" key = {oldpoint.id}>
+                            //             {/* {console.log(point.id)}{ console.log(oldpoint.id) } */}
+                            //             {console.log(point.id===oldpoint.id)}
+                            //             {console.log(oldPoints[1])}
+                                        
+                                        
+                            //         </div>
+                            //     })}
+                            //     </div>
+                            //console.log(oldPoints && oldPoints.map.filter(p => p.includes(point.id))),
                             <div className="point-marker" key = {point.id}
                                 style=
                                 {{
                                     position: "absolute",
-                                    left: `${1 + point.x}px`,
-                                    top: `${107 + mapSizeY - point.y}px`
+                                    left: `${-4 + point.x}px`,
+                                    top: `${103 + mapSizeY - point.y}px`
                                     
                                 }}
                             >
-                                <IconButton sx={{ fontSize: 30}} aria-owns={openPoint ? 'mouse-over-popover' : undefined} 
+                                <IconButton  aria-owns={openPoint ? 'mouse-over-popover' : undefined} 
                                     onMouseEnter={handlePointPopoverOpen}
-                                    onMouseLeave={handlePopoverClose} 
+                                    onMouseLeave={handlePointPopoverClose} 
+                                    
                                 >
                                     <Popover 
                                         id="mouse-over-popover"
@@ -289,24 +315,29 @@ const Map = () => {
                                         anchorEl={anchorElP}
                                         anchorOrigin={{
                                         vertical: 'bottom',
-                                        horizontal: 'right',
+                                        horizontal: 'center',
                                         }}
                                         transformOrigin={{
                                         vertical: 'top',
-                                        horizontal: 'right',
+                                        horizontal: 'center',
                                         }}
-                                        onClose={handlePopoverClose}
+                                        onClose={handlePointPopoverClose}
                                         disableRestoreFocus
                                     
                                     >
-                                        <div>{point.x.toFixed(2)} {point.y.toFixed(2)}</div>   
+                                        <div>   
+                                            {"("  + point.x.toFixed(2) + ", "}  
+                                            { point.y.toFixed(2) + ")"}
+                                            
+                                        </div>   
                                     </Popover>
-                                    <RoomTwoToneIcon/>
+                                    <RoomSharpIcon style = {{color: "black"}}/>
                                 </IconButton>
-                                 {console.log("thresixty")} 
+                                 {/* {console.log(points)} */}
 
-                            </div>
-                        ))} 
+                            </div> 
+                            ) 
+                        })} 
                     
                 </div>
                 
