@@ -152,6 +152,9 @@ const Map = () => {
     const handlePointPopoverOpen = (event) =>{
         setAnchorElP(event.currentTarget);
     }
+    const handlePointPopoverClose = () => {
+        setAnchorElP(null);
+    };
 
     const openPoint = Boolean(anchorElP);
     const open = Boolean(anchorEl);
@@ -278,7 +281,7 @@ const Map = () => {
                             >
                                 <IconButton sx={{ fontSize: 30}} aria-owns={openPoint ? 'mouse-over-popover' : undefined} 
                                     onMouseEnter={handlePointPopoverOpen}
-                                    onMouseLeave={handlePopoverClose} 
+                                    onMouseLeave={handlePointPopoverClose} 
                                 >
                                     <Popover 
                                         id="mouse-over-popover"
@@ -295,7 +298,7 @@ const Map = () => {
                                         vertical: 'top',
                                         horizontal: 'right',
                                         }}
-                                        onClose={handlePopoverClose}
+                                        onClose={handlePointPopoverClose}
                                         disableRestoreFocus
                                     
                                     >

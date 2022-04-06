@@ -5,6 +5,7 @@ import Stack from '@mui/material/Stack';
 import { ConstructionOutlined, DriveEtaOutlined } from '@mui/icons-material';
 import { positions } from '@mui/system';
 import SmartToySharpIcon from '@mui/icons-material/SmartToySharp';
+import './console.css'
 
 
 class Console extends React.Component {
@@ -49,11 +50,11 @@ const listItems2 = this.state.alerts.map((number) =>
         
     
     return(
-      <div>
-      <Stack sx={{ width: '50%' }} spacing={2}>
+      <div className='console-root'>
+      
       {listItems}
-      </Stack>
-      <Stack sx={{ width: '50%' }} spacing={2}>
+      
+      <Stack sx={{ width: '100%' }} spacing={2}>
       {listItems2}
       </Stack>
       </div>
@@ -79,13 +80,13 @@ componentDidMount(){
       this.setState({y: position.position.y});
       message = "Position of the robot: x: "+ position.position.x.toFixed(2)+ " y: " + position.position.y.toFixed(2);
       if(message != this.state.alerts[0]){
-        if(this.state.alerts.length < 10){
+        if(this.state.alerts.length < 7){
       this.setState(prevState => ({
         alerts: [message,...prevState.alerts]
       }))}
       else{
         this.setState(prevState => ({
-          alerts: [message,...prevState.alerts]
+          alerts: [message]
         }))
         
       }

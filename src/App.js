@@ -10,6 +10,9 @@ import Map from './Map';
 import SendPoints from './components/SendPoints';
 import Console from './components/console';
 import MapImage from './components/MapImage';
+import PlanningComponent from './components/Planning';
+import './app.css';
+
 
 
 const theme = createTheme({
@@ -30,11 +33,14 @@ function App() {
         </Switch>
       </ButtonAppBar>
       </Router>
-
+      <div class="flexbox-container">
       <Map/>
+      <Console/>
+      </div>
       <SendPoints/>
       <BasicSpeedDial />
-      <Console/>
+      <PlanningComponent/>
+      
     </ThemeProvider>
   );
 }
