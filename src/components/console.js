@@ -6,6 +6,8 @@ import { ConstructionOutlined, DriveEtaOutlined } from '@mui/icons-material';
 import { positions } from '@mui/system';
 import SmartToySharpIcon from '@mui/icons-material/SmartToySharp';
 import './console.css'
+import Collapse from '@mui/material/Collapse';
+import { TransitionGroup } from 'react-transition-group';
 
 
 class Console extends React.Component {
@@ -42,9 +44,11 @@ render(){
 const listItems2 = this.state.alerts.map((number) =>
 <div key={number}
 >
+<Collapse in={true}>
 <Alert severity="error" >
      {number} 
-</Alert>        
+</Alert>
+</Collapse>        
   </div>);
         
         
@@ -53,29 +57,22 @@ const listItems2 = this.state.alerts.map((number) =>
       <div className='console-root'>
       
       {listItems}
-      
+      <TransitionGroup>
       <Stack sx={{ width: '100%' }} spacing={2}>
       {listItems2}
       </Stack>
+      </TransitionGroup>
       </div>
       
     );
 }
-componentDidMount(){
+componentDidMount(props){
   var position; 
   var message;
-    this.interval = setInterval(() => 
-    
-    
-    fetch('https://localhost:7071/todo/update')
-    .then(res => {
-    return res.json();
-  })
-  .then(data => {
+  var nr = 0;
       
-      console.log(data.message)
       console.log(this.state.alerts[this.state.alerts.length-1])
-      position = JSON.parse(data.message);
+      position = props.position;
       this.setState({x: position.position.x});
       this.setState({y: position.position.y});
       message = "Position of the robot: x: "+ position.position.x.toFixed(2)+ " y: " + position.position.y.toFixed(2);
@@ -92,8 +89,6 @@ componentDidMount(){
       }
     
     }
-
-  }), 1000);
 }
 }
 
