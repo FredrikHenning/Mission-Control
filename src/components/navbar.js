@@ -14,13 +14,12 @@ import Battery80Icon from '@mui/icons-material/Battery80';
 import BatteryAlertIcon from '@mui/icons-material/BatteryAlert';
 import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
-import { makeStyles } from '@mui/styles';
 import './navbar.css';
-import { useEffect, useState } from "react";
+import { useEffect} from "react";
 
 import DirectionsRunIcon from '@mui/icons-material/DirectionsRun';
 import GridOnIcon from '@mui/icons-material/GridOn';
-import reactDom from 'react-dom';
+
 
 //import MenuIcon from '@mui/icons-material/Menu';
 function ShowBattery(props){
@@ -50,7 +49,7 @@ function ShowBattery(props){
 export default function ButtonAppBar() {
     const [RunColor, setRunColor] = React.useState("default");
     const handleRunClick = () => {
-        if(RunColor == "default"){
+        if(RunColor === "default"){
             setRunColor("inherit")
             setMobilityStatus("Moving")
         }

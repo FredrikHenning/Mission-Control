@@ -1,34 +1,33 @@
 {
-  "notes": [
+  "navbardata": {
+    "Battery": 77,
+    "MobilityStatus": "Moving",
+    "InventoryStatus": "Empty"
+  },
+  "points": [
     {
-      "title": "Yoshi's birthday bash",
-      "details": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
-      "category": "reminders",
+      "command": "goto",
+      "x": 640,
+      "y": 317,
       "id": 1
     },
     {
-      "title": "Complete my ninja training",
-      "details": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took.",
-      "category": "work",
+      "command": "goto",
+      "x": 696,
+      "y": 215,
       "id": 2
     },
     {
-      "title": "Order a pizza!",
-      "details": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.\nLorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
-      "category": "todos",
+      "command": "goto",
+      "x": 489,
+      "y": 331,
       "id": 3
     },
     {
-      "title": "Pay the milkman",
-      "details": "blah blah blah",
-      "category": "money",
+      "command": "goto",
+      "x": 514,
+      "y": 74,
       "id": 4
     }
   ]
-  
-  "navbardata" : {
-                "Battery" : 77,
-                "MobilityStatus" : "Moving",
-                "InventoryStatus" : "Empty"
-                }
 }
