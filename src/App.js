@@ -5,7 +5,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { purple, grey } from '@mui/material/colors';
 import ResponsiveAppBar from './components/ResponsiveAppbar';
 import ButtonAppBar from './components/navbar';
-import BasicSpeedDial from './components/SpeedDial.js';
+import Control from './components/Control.js';
 import Map from './Map';
 import SendPoints from './components/SendPoints';
 import Console from './components/console';
@@ -38,7 +38,7 @@ function App() {
       <Console/>
       </div>
       <SendPoints/>
-      <BasicSpeedDial />
+      <Control />
       <PlanningComponent/>
       
     </ThemeProvider>
