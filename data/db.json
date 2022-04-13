@@ -5,29 +5,6 @@
     "InventoryStatus": "Empty"
   },
   "points": [
-    {
-      "command": "goto",
-      "x": 640,
-      "y": 317,
-      "id": 1
-    },
-    {
-      "command": "goto",
-      "x": 696,
-      "y": 215,
-      "id": 2
-    },
-    {
-      "command": "goto",
-      "x": 489,
-      "y": 331,
-      "id": 3
-    },
-    {
-      "command": "goto",
-      "x": 514,
-      "y": 74,
-      "id": 4
-    }
+    
   ]
 }

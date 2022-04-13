@@ -357,6 +357,7 @@ const Map = () => {
                         )}
 
                     </TransformWrapper>
+                    </div>
                      
                      {/* <CardMedia
                         className={classes.media}
@@ -379,51 +380,6 @@ const Map = () => {
                                
                     /> */}
                         
-                   
-                     {
-                     points && points.map((point) => (
-                            <div className="point-marker" key = {point.id}
-                                style=
-                                {{
-                                    position: "absolute",
-                                    left: `${1 + point.x}px`,
-                                    top: `${107 + mapSizeY - point.y}px`
-                                    
-                                }}
-                            >
-                                <IconButton sx={{ fontSize: 30}} aria-owns={openPoint ? 'mouse-over-popover' : undefined} 
-                                    onMouseEnter={handlePointPopoverOpen}
-                                    onMouseLeave={handlePointPopoverClose} 
-                                >
-                                    {/* <Popover 
-                                        id="mouse-over-popover"
-                                        sx={{
-                                        pointerEvents: 'none',
-                                        }}
-                                        open={openPoint}
-                                        anchorEl={anchorElP}
-                                        anchorOrigin={{
-                                        vertical: 'bottom',
-                                        horizontal: 'right',
-                                        }}
-                                        transformOrigin={{
-                                        vertical: 'top',
-                                        horizontal: 'right',
-                                        }}
-                                        onClose={handlePointPopoverClose}
-                                        disableRestoreFocus
-                                    
-                                    >
-                                        <div>{point.x.toFixed(2)} {point.y.toFixed(2)}</div>   
-                                    </Popover> */}
-                                    <RoomTwoToneIcon/>
-                                </IconButton>
-                                 {console.log("thresixty")} 
-
-                            </div>
-                        ))} 
-                    
-                </div>
                 
                 <Dialog
                     fullWidth={fullWidth}
