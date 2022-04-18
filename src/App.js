@@ -54,7 +54,7 @@ function App() {
       </ButtonAppBar>
       </Router>
       <div class="flexbox-container">
-      <Map/>
+      <Map position={position}/>
       <Console2 position={position}/>
       </div>
       <SendPoints/>

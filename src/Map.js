@@ -16,6 +16,7 @@ import * as React from 'react'
 import { useEffect } from 'react';
 import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 import './Map.css';
+import Robot from './components/Robot';
 
 // Styles in height and width for the card/picture
 const mapSizeX = 767;
@@ -39,7 +40,7 @@ const useStyles = makeStyles({
     },
 });
 
-const Map = () => {
+const Map = (props) => {
 
     const [openOne, setOpenOne] = useState(false);
     const [fullWidth, setFullWidth] = useState(true);
@@ -193,6 +194,22 @@ const Map = () => {
         setAnchorElP(null);
     };
 
+    let pos= {
+        x: props.position.position.x,
+        y: props.position.position.y,
+        map_size_x: mapSizeX,
+        map_size_y: mapSizeY
+        }
+    const getRobot = () => {
+       return(
+           <div>
+            <Robot pos={pos}/>
+        </div>
+       )
+      
+        
+    }
+
     const openPoint = Boolean(anchorElP);
     const open = Boolean(anchorEl);
 
@@ -263,6 +280,7 @@ const Map = () => {
                         initialScale={1}
                         initialPositionX={0}
                         initialPositionY={0}
+                        
                     >
 
                         {({ zoomIn, zoomOut, resetTransform, setTransform, ...rest }) => (
@@ -288,6 +306,8 @@ const Map = () => {
                                 <div ref={ref} onClick={handleClickOpen}>
                                     <TransformComponent>
                                         <img src={map} alt="test" onDrag={(offset) => {console.log(offset)}}/>
+                                        
+                                        {getRobot()}
                                         {points && points.map((point) => {
                                             //  console.log(oldPoints.filter(point => point.id.includes(point.id)))
 
