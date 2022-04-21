@@ -14,6 +14,7 @@ import MapImage from './components/MapImage';
 import PlanningComponent from './components/Planning';
 import './app.css';
 import React, { useState, useEffect } from 'react';
+import SensorList from './components/SensorList';
 
 
 
@@ -55,6 +56,7 @@ function App() {
       </Router>
       <div class="flexbox-container">
       <Map position={position}/>
+      <SensorList/>
       <Console2 position={position}/>
       </div>
       <SendPoints/>

@@ -17,30 +17,37 @@ import { useEffect } from 'react';
 import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 import './Map.css';
 import Robot from './components/Robot';
+import markerHandler from './components/MarkerHandler';
 
 // Styles in height and width for the card/picture
-const mapSizeX = 767;
-const mapSizeY =432;
-const useStyles = makeStyles({
-    root: {
-        maxWidth: 767,
-        maxHeight: 600,
-    },
-    media: {
-        // scale: 50,
-        height: mapSizeY,
-        width: mapSizeX
-    },
-    popMap: {
-        height: 40,
-        width: 60
-    },
-    headerHeight: {
-        height: 20
-    },
-});
+// const mapSizeX = 767;
+// const mapSizeY =432;
+
 
 const Map = (props) => {
+
+    const [mapSizeX, setMapSizeX] = useState(767);
+    const [mapSizeY, setMapSizeY] = useState(432);
+    // setMapSizeX(props.position.sizeX);
+    // setMapSizeX(props.position.sizeY);
+    const useStyles = makeStyles({
+        root: {
+            maxWidth: 767,
+            maxHeight: 600,
+        },
+        media: {
+            // scale: 50,
+            height: mapSizeY,
+            width: mapSizeX
+        },
+        popMap: {
+            height: 40,
+            width: 60
+        },
+        headerHeight: {
+            height: 20
+        },
+    });
 
     const [openOne, setOpenOne] = useState(false);
     const [fullWidth, setFullWidth] = useState(true);
@@ -50,6 +57,12 @@ const Map = (props) => {
 
     const [points, setPoints] = useState(null);
     const [oldPoints, setOldPoints] = useState(null);
+
+    const zoomedMarker = () =>{
+        var bx = x/offsetScale + (offsetX)
+        var by = y/offsetScale + (offsetY)
+        console.log("The true pixel: " + bx, by)
+    }
     
     const handleZoomPlus = () =>{
         if(zomvar < 6)
@@ -78,14 +91,20 @@ const Map = (props) => {
         .then(data => {
             setPoints(data);
         })
+        // console.log("-----------------------------")
         console.log(points);
-        console.log(oldPoints);
+        // console.log(oldPoints);
     },[nodes]);
 
     //Open control window for that point and sets the coordniates
     const handleClickOpen = () => {
-        setX(mouse.x )
-        setY((mapSizeY - mouse.y))
+        // setX(mouse.x )
+        // setY((mapSizeY - mouse.y))
+        var bx = mouse.x/offsetScale + (offsetX)
+        var by =(mapSizeY - mouse.y)/offsetScale + (offsetY)
+        setX(bx);
+        setY(by);
+        setSensor(sensor + 1)
         setOpenOne(true);
         setNodes('Working on Point');
         setOldPoints(points);
@@ -123,6 +142,7 @@ const Map = (props) => {
     const [command, setCommand] = useState('goto');
     const [x, setX] = useState(mouse.x);
     const [y, setY] = useState(mouse.y);
+    const [sensor, setSensor] = useState(1)
     const [isPending, setIsPending] = useState(false);
     const [zomvar, setZomvar] = useState(1);
     const [color, setColor] = useState("black")
@@ -131,7 +151,7 @@ const Map = (props) => {
     const createPoint = () => {
 
         console.log(x, y)
-        const point = {command, x, y, color};
+        const point = {command, x, y, color, sensor};
         
         setIsPending(true);
         fetch('http://localhost:8000/points', {
@@ -150,6 +170,9 @@ const Map = (props) => {
 
     const [map, setMap] = useState("/mars1.png")
     const [mapTwo, setMapTwo] = useState("/mars2.png")
+
+    // const [map, setMap] = useState(props.position.map1)
+    // const [mapTwo, setMapTwo] = useState(props.position.map2)
     // Function for toggling the maps
     const handleClick=() =>{
         if (map === "/mars1.png")( 
@@ -169,15 +192,21 @@ const Map = (props) => {
     const [anchorEl, setAnchorEl] = useState(null);
     const [anchorElP, setAnchorElP] = useState(null);
     const [offsetX, setOffsetX] = useState(0);
-    const [offsetY, setOffsetY] = useState(-mapSizeY);
+    const [offsetY, setOffsetY] = useState(0);
     const [offsetScale, setOffsetScale] = useState(1);
 
-    const handlerandom = (offX, offY, offScale) => {
+    const handleOffset = (offX, offY, offScale) => {
         console.log("It worked")
-        // setOffsetX(offX);
-        // setOffsetY(offY);
-        // setOffsetScale(offScale);
-        console.log(offX, offY, offScale)
+        setOffsetX(offX);
+        setOffsetY(offY);
+        setOffsetScale(offScale);
+        console.log(offsetX, offsetY, offScale);
+    }
+
+    const handleReset = () => {
+        setOffsetX(0);
+        setOffsetY(0);
+        setOffsetScale(1);
     }
 
     const handlePopoverOpen = (event) => {
@@ -206,7 +235,6 @@ const Map = (props) => {
             <Robot pos={pos}/>
         </div>
        )
-      
         
     }
 
@@ -279,24 +307,23 @@ const Map = (props) => {
                     <TransformWrapper
                         initialScale={1}
                         initialPositionX={0}
-                        initialPositionY={0}
-                        
+                        initialPositionY={0}  
                     >
-
                         {({ zoomIn, zoomOut, resetTransform, setTransform, ...rest }) => (
                             <React.Fragment>
                                 <Stack spacing={2} direction="row">
                                     <Box sx={{ '& button': { m: 1 } }}>
-                                        <div>
-                                            <Button variant="contained" size="small" onClick={() => { zoomIn(); handleZoomPlus() }}>+</Button>
-                                            <Button variant="contained" size="small" onClick={() => { zoomOut(); handleZoomNegative() }}>-</Button>
-                                            <Button variant="contained" size="small" onClick={() => { resetTransform(); setZomvar(1) }}>x</Button>
+                                        <div style={{top: -50}}>
+                                            <Button variant="contained" size="small" style={{top: -50}}
+                                            onClick={() => { zoomIn(); handleZoomPlus() }}>+</Button>
+                                            <Button variant="contained" size="small" style={{top: -50}} onClick={() => { zoomOut(); handleZoomNegative() }}>-</Button>
+                                            <Button variant="contained" size="small" style={{top: -50}} onClick={() => { resetTransform(); setZomvar(1); handleReset() }}>x</Button>
                                         </div>
-                                        <div> Quadrant:
-                                            <Button variant='contained' size="small" onClick={() => { setTransform(0, -mapSizeY, 2, 300, "easeOut"); handlerandom(0, -mapSizeY, 2) }}>2.1.1</Button>
-                                            <Button variant='contained' size="small" onClick={() => { setTransform(0, 0, 2, 300, "easeOut"); handlerandom(0, -mapSizeY / 2, 2) }}>2.1.2</Button>
-                                            <Button variant='contained' size="small" onClick={() => { setTransform(-mapSizeX, -mapSizeY, 2, 300, "easeOut"); handlerandom(mapSizeX / 2, -mapSizeY, 2) }}>2.2.1</Button>
-                                            <Button variant='contained' size="small" onClick={() => { setTransform(-mapSizeX, 0, 2, 300, "easeOut"); handlerandom(mapSizeX / 2, -mapSizeY / 2, 2) }}>2.2.2</Button>
+                                        <div style={{top: -50}}> Quadrant:
+                                            <Button variant='contained' size="small" style={{top: -50}} onClick={() => { setTransform(0, -mapSizeY, 2, 300, "easeOut");    handleOffset(0, 0, 2) }}>2.1.1</Button>
+                                            <Button variant='contained' size="small" style={{top: -50}} onClick={() => { setTransform(0, 0, 2, 300, "easeOut");            handleOffset(0, mapSizeY / 2, 2) }}>2.1.2</Button>
+                                            <Button variant='contained' size="small" style={{top: -50}} onClick={() => { setTransform(-mapSizeX, -mapSizeY, 2, 300, "easeOut");    handleOffset(mapSizeX / 2, 0, 2) }}>2.2.1</Button>
+                                            <Button variant='contained' size="small" style={{top: -50}} onClick={() => { setTransform(-mapSizeX, 0, 2, 300, "easeOut");            handleOffset(mapSizeX / 2, mapSizeY / 2, 2) }}>2.2.2</Button>
                                         </div>
                                     </Box>
                                 </Stack>

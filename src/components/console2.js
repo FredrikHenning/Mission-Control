@@ -26,19 +26,19 @@ export default function Console2(props) {
         }
     }});
 
-    const listItems = alerts.map((number) =>
-      <div key={number}
-        style = {{
-          position: "absolute",
-          left: `${1 + props.position.position.x}px`,
-          top: `${107 + 356 - props.position.position.y}px`
-        }}
-      >
-      <SmartToySharpIcon/>
-      {/* <Alert severity="error" >
-           {number} 
-        </Alert> */}        
-        </div>);
+    // const listItems = alerts.map((number) =>
+    //   <div key={number}
+    //     style = {{
+    //       position: "absolute",
+    //       left: `${1 + props.position.position.x}px`,
+    //       top: `${107 + 356 - props.position.position.y}px`
+    //     }}
+    //   >
+    //   <SmartToySharpIcon/>
+    //   {/* <Alert severity="error" >
+    //        {number} 
+    //     </Alert> */}        
+    //     </div>);
 
 const listItems2 = alerts.map((number) =>
 <div key={number}
@@ -52,7 +52,7 @@ const listItems2 = alerts.map((number) =>
     return(
         <div className='console-root'>
       
-      {listItems}
+      {/* {listItems} */}
       <TransitionGroup>
       <Stack sx={{ width: '100%' }} spacing={2}>
       {listItems2}
