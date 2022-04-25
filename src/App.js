@@ -59,7 +59,6 @@ function App() {
         </Switch>
       </ButtonAppBar>
       </Router>
-      <BasicSpeedDial />
       <Timeline/>
     </ThemeProvider>
   );
