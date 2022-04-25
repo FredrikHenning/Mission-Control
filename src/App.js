@@ -5,16 +5,43 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { purple, grey } from '@mui/material/colors';
 import ResponsiveAppBar from './components/ResponsiveAppbar';
 import ButtonAppBar from './components/navbar';
-import BasicSpeedDial from './components/SpeedDial.js';
+import Control from './components/Control.js';
+import Map from './Map';
+import SendPoints from './components/SendPoints';
+import Console from './components/console';
+import Console2 from './components/console2';
 import MapImage from './components/MapImage';
 import Slider from '@mui/material/Slider';
 import Timeline from './components/Timeline';
+import PlanningComponent from './components/Planning';
+import './app.css';
+import React, { useState, useEffect } from 'react';
+
+
 
 const theme = createTheme({
 
 })
 
 function App() {
+  var startPos ={"position": {
+    "x": 0,
+    "y": 0
+                    }};
+  const [position, setPosition] = useState(startPos);
+  useEffect(() => {
+    const interval = setInterval(() => {
+      fetch('https://localhost:7071/todo/update')
+      .then(res => {
+      return res.json();
+    })
+    .then(data => {
+        setPosition(JSON.parse(data.message)); 
+      
+    })}, 1000);
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <ThemeProvider theme={theme}>
       <Router>
