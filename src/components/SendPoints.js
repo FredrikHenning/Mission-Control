@@ -20,7 +20,7 @@ const SendPoints = () => {
 
     useEffect(() => {
 
-        console.log("hej");
+        // console.log("hej");
         fetch('http://localhost:8000/points')
             .then(res => {
                 return res.json();
@@ -28,7 +28,7 @@ const SendPoints = () => {
             .then(data => {
                 setPoints(data);
             })
-        console.log(points);
+        // console.log(points);
     }, [sent, pointList]);
 
     const DeleteClickHandel = (url) => {
@@ -48,7 +48,7 @@ const SendPoints = () => {
             }
         }
             ;
-        console.log(points)
+        // console.log(points)
         var pointsObj = { "points": points }
         var data = JSON.stringify(pointsObj);
         var payload2 = JSON.stringify(payload);
@@ -75,7 +75,7 @@ const SendPoints = () => {
     }
     
     const handleButton = (e) => {
-        console.log(e)
+        // console.log(e)
     }
 
     return (
@@ -130,7 +130,7 @@ const SendPoints = () => {
             <Button onClick={handlePointList} > See Point List</Button>
             {points && points.map((point) => (
                 <div className="blog-preview" key={point.id}>
-                    {console.log(point)}
+                    {/* {console.log(point)} */}
                     <MissionDetails spot={point}/>
                     {/* <p>ID: {point.id} Command: {point.command} x: {point.x} y: {point.y}</p>
                     <p></p> */}

@@ -21,6 +21,7 @@ import markerHandler from './components/MarkerHandler';
 import SensorDetails from './components/SensorDetails';
 import PointDetails from './components/PointDetails';
 import LineTo from 'react-lineto';
+import SensorsSharpIcon from '@mui/icons-material/SensorsSharp';
 
 
 // Styles in height and width for the card/picture
@@ -34,6 +35,7 @@ const Map = (props) => {
 
     const [mapSizeX, setMapSizeX] = useState(767);
     const [mapSizeY, setMapSizeY] = useState(432);
+    const [sensors, setSensors] = useState(props.sensors);
     // setMapSizeX(props.position.sizeX);
     // setMapSizeX(props.position.sizeY);
     const useStyles = makeStyles({
@@ -64,12 +66,6 @@ const Map = (props) => {
 
     const [points, setPoints] = useState(null);
     const [oldPoints, setOldPoints] = useState(null);
-
-    const zoomedMarker = () =>{
-        var bx = x/offsetScale + (offsetX)
-        var by = y/offsetScale + (offsetY)
-        console.log("The true pixel: " + bx, by)
-    }
     
     const handleZoomPlus = () =>{
         if(zomvar < 6)
@@ -86,7 +82,7 @@ const Map = (props) => {
 
     useEffect(() => {
         
-        console.log("hej");
+        // console.log("hej");
         
         fetch('http://localhost:8000/points')
         .then(res => {
@@ -99,7 +95,7 @@ const Map = (props) => {
             setPoints(data);
         })
         // console.log("-----------------------------")
-        console.log(points);
+        // console.log(points);
         // console.log(oldPoints);
     },[nodes]);
 
@@ -159,7 +155,7 @@ const Map = (props) => {
     // Create the given point and posts it in the json file
     const createPoint = () => {
 
-        console.log(x, y)
+        // console.log(x, y)
         const point = {command, x, y, color, sensor};
         
         setIsPending(true);
@@ -205,11 +201,11 @@ const Map = (props) => {
     const [offsetScale, setOffsetScale] = useState(1);
 
     const handleOffset = (offX, offY, offScale) => {
-        console.log("It worked")
+        // console.log("It worked")
         setOffsetX(offX);
         setOffsetY(offY);
         setOffsetScale(offScale);
-        console.log(offsetX, offsetY, offScale);
+        // console.log(offsetX, offsetY, offScale);
     }
 
     const handleReset = () => {
@@ -242,6 +238,7 @@ const Map = (props) => {
     const getRobot = () => {
        return(
            <div>
+               {console.log(pos)}
             <Robot pos={pos}/>
         </div>
        )
@@ -259,7 +256,7 @@ const Map = (props) => {
     const handleMouse=() =>{
         const x_cord = mouse.x
         const y_cord = mouse.y
-        console.log(x_cord, y_cord)
+        // console.log(x_cord, y_cord)
     }
 
     const classes = useStyles()
@@ -316,6 +313,7 @@ const Map = (props) => {
                 />
                     
                 <div>
+{/* {                console.log(props.sensors) }*/}
                     <TransformWrapper
                         initialScale={1}
                         initialPositionX={0}
@@ -365,12 +363,29 @@ const Map = (props) => {
                                             )
                                         })
                                         }
+                                        {console.log(sensors)}
+                                        {sensors && sensors.map((sensor) => {
+                                            return(
+                                                <div key={sensor.id}
+                                                    style={{
+                                                        position: "absolute",
+                                                        left: `${sensor.position.x/0.133 - 19}px`,
+                                                        top: `${-30 + mapSizeY - sensor.position.y/0.133}px`,
+                                                    }}
+                                                >
+                                                    <IconButton>
+                                                        <SensorsSharpIcon/>
+                                                    </IconButton>
+
+                                                </div>
+                                            )
+                                        })}
 
                                         {points && points.map((point) => {
                                             //  console.log(oldPoints.filter(point => point.id.includes(point.id)))
 
                                             return (
-                                                console.log("running here!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"),
+                                                // console.log("running here!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"),
                                                 // <div className="point-marker" key = {point.id}>
                                                 //     {oldPoints && oldPoints.map((oldpoint) => {
                                                 //         <div className="oldPoit-markers" key = {oldpoint.id}>

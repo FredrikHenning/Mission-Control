@@ -19,7 +19,7 @@ const SensorDetails = (props) => {
         var command = commandP
         var color = colorP
         var point = { command, x, y, color, sensor }
-        console.log(point)
+        // console.log(point)
 
         fetch('http://localhost:8000/points', {
             method: 'POST',
@@ -31,7 +31,7 @@ const SensorDetails = (props) => {
         var command = commandDrop
         var color = colorDrop
         var point = { command, x, y, color, sensor }
-        console.log(point)
+        // console.log(point)
 
         fetch('http://localhost:8000/points', {
             method: 'POST',
@@ -44,7 +44,7 @@ const SensorDetails = (props) => {
         var command = commandPic
         var color = colorPic
         var point = { command, x, y, color, sensor }
-        console.log(point)
+        // console.log(point)
 
         fetch('http://localhost:8000/points', {
             method: 'POST',
@@ -67,9 +67,9 @@ const SensorDetails = (props) => {
 
     return ( 
         <div>
-            {console.log(props.sensID)}
+            {/* {console.log(props.sensID)} */}
             <Stack>
-                <p>Position: [{props.sensID.x}, {props.sensID.y}]</p>
+                <p>Position: [{props.sensID.x.toFixed(2)}, {props.sensID.y.toFixed(2)}]</p>
                 {show ? <Button id="button" type="button" onClick={() => { handlePickUp(); toggle() }}> Pick-up Sensor </Button> : null}                
                 {!show ? <Button id="button" type="button" onClick={() => { handleDrop(); toggleDrop() }}> Drop Sensor </Button> : null}                
 

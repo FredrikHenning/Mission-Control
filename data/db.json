@@ -4,9 +4,7 @@
     "MobilityStatus": "Moving",
     "InventoryStatus": "Empty"
   },
-  "points": [
-    
-  ],
+  "points": [],
   "sensors": [
     {
       "sensor": 0,

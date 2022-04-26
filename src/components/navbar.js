@@ -48,7 +48,7 @@ function ShowBattery(props){
 
 
 
-export default function ButtonAppBar() {
+export default function ButtonAppBar(props1) {
     const [RunColor, setRunColor] = React.useState("default");
     const handleRunClick = () => {
         if(RunColor === "default"){
@@ -147,7 +147,8 @@ export default function ButtonAppBar() {
             </IconButton>
             <Popper id={id} open={openIn} anchorEl={anchorEl} placement={'bottom-end'}>
               <Box sx={{ border: 2, p: 1, bgcolor: 'background.paper' }}>
-                <SensorList />
+                <SensorList sensor = {props1.sensors}/>
+                
               </Box>
 
 

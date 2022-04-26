@@ -12,8 +12,8 @@ import SensorsSharpIcon from '@mui/icons-material/SensorsSharp';
 import SensorDetails from "./SensorDetails";
 
 
-const SensorList = () => {
-    const [sensorList, setSensorList] = useState();
+const SensorList = (props) => {
+    const [sensorList, setSensorList] = useState(props.sensor);
     const[nodes, setNodes] = useState('');
 
     const [open, setOpen] = React.useState(false);
@@ -27,7 +27,7 @@ const SensorList = () => {
     const [anchorEl, setAnchorEl] = React.useState(null);
     const handleClick = (event) => {
       setAnchorEl(anchorEl ? null : event.currentTarget.className[68]);
-      console.log(event.currentTarget.className[68])
+      // console.log(event.currentTarget.className[68])
     }
     const openIn = Boolean(anchorEl);
 
@@ -36,23 +36,23 @@ const SensorList = () => {
         
       };
 
-    useEffect(() => {
+    // useEffect(() => {
         
-        console.log("hej");
+    //     console.log("hej");
         
-        fetch('http://localhost:8000/sensors')
-        .then(res => {
-            return res.json();
-        })
-        // .then( ()=> {
-        //     
-        // })
-        .then(data => {
-            setSensorList(data);
-            console.log(data);
-        })
-        console.log(sensorList);
-    },[nodes]);
+    //     fetch('http://localhost:8000/sensors')
+    //     .then(res => {
+    //         return res.json();
+    //     })
+    //     // .then( ()=> {
+    //     //     
+    //     // })
+    //     .then(data => {
+    //         setSensorList(data);
+    //         console.log(data);
+    //     })
+    //     console.log(sensorList);
+    // },[nodes]);
 
     const handleSensor = (id) => {
       console.log(id)
@@ -75,20 +75,21 @@ const SensorList = () => {
         aria-labelledby="nested-list-subheader"
 
       >
+        {/* {console.log(sensorList)} */}
           {sensorList && sensorList.map((sensor) => {
             let sensID = {
-              id: sensor.sensor,
+              id: sensor.id,
               x: sensor.position.x,
               y: sensor.position.y,
 
             }
               return(
-                  <div key={sensor.sensor}>
-                <ListItemButton className={sensor.sensor} onClick={handleClick}>
+                  <div key={sensor.id}>
+                <ListItemButton className={sensor.id} onClick={handleClick}>
                 <ListItemIcon>
                   <SensorsSharpIcon/>
                 </ListItemIcon>
-                <ListItemText primary={"Sensor: " + sensor.sensor} />
+                <ListItemText primary={"Sensor: " + sensor.id} />
                 {openIn ? <ExpandLess /> : <ExpandMore />}
               </ListItemButton>
                <Collapse in={openIn} timeout="auto" unmountOnExit >
