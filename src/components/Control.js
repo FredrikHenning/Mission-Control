@@ -11,6 +11,7 @@ import IconButton from '@mui/material/IconButton';
 import PhotoCamera from '@mui/icons-material/PhotoCamera';
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
+import { Typography } from '@mui/material';
 
 
   export default function LoadingButtonsTransition() {
@@ -45,20 +46,9 @@ import Grid from '@mui/material/Grid';
       <Box display={flag ? "none" : "block"} >
       <Paper elevation={2} sx={{ padding: '20px' }}>
         <Box sx={{ '& > button': { m: 0.5 } }}>
-        <Fab size="small" aria-label="add">
-          <ArrowUpwardIcon />
-        </Fab>
-        </Box>
-        <Box sx={{ '& > button': { m: 0.5 } }}>
-        <Fab size="small" aria-label="add">
-          <ArrowBackIcon />
-        </Fab>
-        <Fab size="small" aria-label="add">
-          <ArrowDownwardIcon />
-        </Fab>
-        <Fab size="small" aria-label="add">
-          <ArrowForwardIcon />
-        </Fab>
+        <Typography variant="body2">
+          Move the robot by pressing the location on the map you wish to go
+        </Typography>
         </Box>
         <Grid sx={{ mt: 1 }}container spacing={1}>
           <Grid item xs={3}>
