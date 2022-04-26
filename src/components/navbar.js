@@ -19,6 +19,8 @@ import { useEffect} from "react";
 
 import DirectionsRunIcon from '@mui/icons-material/DirectionsRun';
 import GridOnIcon from '@mui/icons-material/GridOn';
+import SensorList from './SensorList';
+import { Popover, Popper } from '@mui/material';
 
 
 //import MenuIcon from '@mui/icons-material/Menu';
@@ -107,6 +109,21 @@ export default function ButtonAppBar() {
     }, [])
 
 
+
+      const [anchorEl, setAnchorEl] = React.useState(null);
+    
+      const handleClick = (event) => {
+        setAnchorEl(anchorEl ? null : event.currentTarget);
+      };
+    
+      const handleInventoryClose = () => {
+        setAnchorEl(null);
+        
+      };
+    
+      const openIn = Boolean(anchorEl);
+      const id = openIn ? 'simple-popover' : undefined;
+
     
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -124,9 +141,18 @@ export default function ButtonAppBar() {
           <IconButton color="inherit" onClick={handleBattery} onMouseEnter={hoverBattery} onMouseLeave={handleClose}>
             <ShowBattery Battery={Battery}/>
           </IconButton>
-          <IconButton color="inherit" onMouseEnter={hoverInventory} onMouseLeave={handleClose}>
-            <GridOnIcon  fontSize="large"/>
-          </IconButton>
+          <div>
+            <IconButton color="inherit" onClick={handleClick}>
+              <GridOnIcon fontSize="large" />
+            </IconButton>
+            <Popper id={id} open={openIn} anchorEl={anchorEl} placement={'bottom-end'}>
+              <Box sx={{ border: 2, p: 1, bgcolor: 'background.paper' }}>
+                <SensorList />
+              </Box>
+
+
+            </Popper>
+          </div>
           <Button color="inherit">Login</Button>
 
           

@@ -18,6 +18,8 @@ import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 import './Map.css';
 import Robot from './components/Robot';
 import markerHandler from './components/MarkerHandler';
+import SensorDetails from './components/SensorDetails';
+import PointDetails from './components/PointDetails';
 
 // Styles in height and width for the card/picture
 // const mapSizeX = 767;
@@ -52,6 +54,7 @@ const Map = (props) => {
     const [openOne, setOpenOne] = useState(false);
     const [fullWidth, setFullWidth] = useState(true);
     const [maxWidth, setMaxWidth] = useState('');
+    const [takeControl, setTakeControl] = useState(false);
     const[nodes, setNodes] = useState('');
     // const {data: points1} = useFetch('http://localhost:8000/points')
 
@@ -102,10 +105,12 @@ const Map = (props) => {
         // setY((mapSizeY - mouse.y))
         var bx = mouse.x/offsetScale + (offsetX)
         var by =(mapSizeY - mouse.y)/offsetScale + (offsetY)
-        setX(bx);
-        setY(by);
+        setX((bx*0.133).toFixed(3));
+        setY((by*0.133).toFixed(3));
         setSensor(sensor + 1)
-        setOpenOne(true);
+        if (takeControl != true)(
+            setOpenOne(true)
+        )
         setNodes('Working on Point');
         setOldPoints(points);
       };
@@ -142,7 +147,7 @@ const Map = (props) => {
     const [command, setCommand] = useState('goto');
     const [x, setX] = useState(mouse.x);
     const [y, setY] = useState(mouse.y);
-    const [sensor, setSensor] = useState(1)
+    const [sensor, setSensor] = useState(0)
     const [isPending, setIsPending] = useState(false);
     const [zomvar, setZomvar] = useState(1);
     const [color, setColor] = useState("black")
@@ -239,6 +244,8 @@ const Map = (props) => {
     }
 
     const openPoint = Boolean(anchorElP);
+    const openppp = [Boolean(anchorElP), Boolean(anchorElP)];
+    console.log(openppp);
     const open = Boolean(anchorEl);
 
     
@@ -339,6 +346,7 @@ const Map = (props) => {
                                             //  console.log(oldPoints.filter(point => point.id.includes(point.id)))
 
                                             return (
+                                                console.log("running here!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"),
                                                 // <div className="point-marker" key = {point.id}>
                                                 //     {oldPoints && oldPoints.map((oldpoint) => {
                                                 //         <div className="oldPoit-markers" key = {oldpoint.id}>
@@ -355,13 +363,13 @@ const Map = (props) => {
                                                     style=
                                                     {{
                                                         position: "absolute",
-                                                        left: `${point.x - 19}px`,
-                                                        top: `${-30 + mapSizeY - point.y}px`,
+                                                        left: `${point.x/0.133 - 19}px`,
+                                                        top: `${-30 + mapSizeY - point.y/0.133}px`,
                                                         
 
                                                     }}
                                                 >
-                                                    <IconButton aria-owns={openPoint ? 'mouse-over-popover' : undefined}
+                                                    <IconButton aria-owns={openppp[point.id-1] ? 'mouse-over-popover' : undefined}
                                                         onMouseEnter={handlePointPopoverOpen}
                                                         onMouseLeave={handlePointPopoverClose}
 
@@ -371,7 +379,7 @@ const Map = (props) => {
                                                             sx={{
                                                                 pointerEvents: 'none',
                                                             }}
-                                                            open={openPoint}
+                                                            open={openppp[point.id-1]}
                                                             anchorEl={anchorElP}
                                                             anchorOrigin={{
                                                                 vertical: 'bottom',
@@ -386,8 +394,8 @@ const Map = (props) => {
 
                                                         >
                                                             <div>
-                                                                {"(" + point.x.toFixed(2) + ", "}
-                                                                {point.y.toFixed(2) + ")"}
+                                                                <PointDetails spot={point}/>
+                                                                
 
                                                             </div>
                                                         </Popover> */}

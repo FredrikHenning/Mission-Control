@@ -1,43 +1,40 @@
 {
- 
   "navbardata": {
     "Battery": 77,
     "MobilityStatus": "Moving",
     "InventoryStatus": "Empty"
   },
- 
   "points": [
-    {
-      "command": "goto",
-      "x": 504,
-      "y": 299.5,
-      "color": "black",
-      "sensor": 2,
-      "id": 1
-    }
+    
   ],
   "sensors": [
     {
       "sensor": 0,
       "position": {
         "x": 20.75,
-        "y": 20.48
+        "y": 38.17
       }
     },
     {
       "sensor": 1,
       "position": {
         "x": 44.95,
-        "y": 24.34
+        "y": 34.31
       }
     },
     {
       "sensor": 2,
       "position": {
         "x": 34.3,
-        "y": 42.7
+        "y": 15.95
+      }
+    },
+    {
+      "sensor": 3,
+      "position": {
+        "x": null,
+        "y": null
       }
     }
   ]
 }
-

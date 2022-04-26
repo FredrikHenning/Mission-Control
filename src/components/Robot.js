@@ -23,8 +23,8 @@ const Robot = (props) => {
         <div key={number}
             style= {{
                 position: "absolute",
-                left: `${-12 + props.pos.x}px`,
-                top: `${props.pos.map_size_y - 18 - props.pos.y}px`
+                left: `${-12 + props.pos.x/0.133}px`,
+                top: `${props.pos.map_size_y - 18 - props.pos.y/0.133}px`
             }}
         >
             <NavigationSharpIcon/>

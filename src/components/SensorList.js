@@ -1,36 +1,39 @@
 import { useEffect, useState } from "react";
 import * as React from 'react'
-
-import ListSubheader from '@mui/material/ListSubheader';
 import List from '@mui/material/List';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import Collapse from '@mui/material/Collapse';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import DraftsIcon from '@mui/icons-material/Drafts';
-import SendIcon from '@mui/icons-material/Send';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
-import StarBorder from '@mui/icons-material/StarBorder';
+import RoomSharpIcon from '@mui/icons-material/RoomSharp';
+import SensorsSharpIcon from '@mui/icons-material/SensorsSharp';
+import SensorDetails from "./SensorDetails";
 
 
 const SensorList = () => {
     const [sensorList, setSensorList] = useState();
     const[nodes, setNodes] = useState('');
 
-    const [open, setOpen] = React.useState(true);
-    const [high, setHigh] = useState(250);
+    const [open, setOpen] = React.useState(false);
+    const [high, setHigh] = useState(700);
 
 
     const handleOpen = () => {
       setOpen(!open);
-      setHigh(high + 50);
+
     };
+    const [anchorEl, setAnchorEl] = React.useState(null);
+    const handleClick = (event) => {
+      setAnchorEl(anchorEl ? null : event.currentTarget.className[68]);
+      console.log(event.currentTarget.className[68])
+    }
+    const openIn = Boolean(anchorEl);
 
     const handleClose = () => {
        setOpen(!open);
-        setHigh(high - 50);
+        
       };
 
     useEffect(() => {
@@ -51,37 +54,56 @@ const SensorList = () => {
         console.log(sensorList);
     },[nodes]);
 
+    const handleSensor = (id) => {
+      console.log(id)
+    }
+
+    // const createPoint = () => {
+    //   // var point = {command, x, y, color, sensor}
+
+    //   fetch('http://localhost:8000/points', {
+    //     method: 'POST',
+    //     headers: { "Content-Type": "application/json" },
+    //     body: JSON.stringify(point)
+    //   })
+    // }
+
     return ( 
         <List
-        sx={{ width: '50%', maxWidth: 180, maxHeight: high, bgcolor: 'background.paper' }}
+        sx={{ width: '100%', maxWidth: 250, maxHeight: high, bgcolor: 'background.paper' }}
         component="nav"
         aria-labelledby="nested-list-subheader"
-        subheader={
-          <ListSubheader component="div" id="nested-list-subheader">
-            Nested List Items
-          </ListSubheader>
-        }
+
       >
           {sensorList && sensorList.map((sensor) => {
+            let sensID = {
+              id: sensor.sensor,
+              x: sensor.position.x,
+              y: sensor.position.y,
+
+            }
               return(
-                  <div>
-                <ListItemButton onClick={handleOpen}>
+                  <div key={sensor.sensor}>
+                <ListItemButton className={sensor.sensor} onClick={handleClick}>
                 <ListItemIcon>
-                  <InboxIcon ></InboxIcon>
+                  <SensorsSharpIcon/>
                 </ListItemIcon>
                 <ListItemText primary={"Sensor: " + sensor.sensor} />
-                {open ? <ExpandLess /> : <ExpandMore />}
+                {openIn ? <ExpandLess /> : <ExpandMore />}
               </ListItemButton>
-               <Collapse in={open} timeout="auto" unmountOnExit onClick={handleClose}>
+               <Collapse in={openIn} timeout="auto" unmountOnExit >
                <List component="div" disablePadding>
-                 <ListItemButton sx={{ pl: 4 }}>
+                 <ListItemButton sx={{ pl: 3, maxWidth: 250 }}>
                    <ListItemIcon>
-                     <StarBorder />
+                     
+                     <RoomSharpIcon/>
+                     <SensorDetails sensID = {sensID}/>
                    </ListItemIcon>
-                   <ListItemText primary={"Position:" + "[" + sensor.position.x + ", " + sensor.position.y + "]"} />
+                   {/* <Button onClick={handleSensor(sensor.sensor)}>Go to</Button> <Button> Pick up</Button> */}
                  </ListItemButton>
                </List>
              </Collapse>
+
              </div>
               )
           })}
