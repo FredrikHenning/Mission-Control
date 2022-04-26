@@ -8,17 +8,12 @@ const SensorDetails = (props) => {
     const [y, setY] = useState(props.sensID.y)
     const [sensor, setSensor] = useState(props.sensID.id)
     const [commandP, setCommandP] = useState("sensor-pickup")
+    const [commandDrop, setCommandDrop] = useState("sensor-drop")
     const [commandPic, setCommandPic] = useState("take-picture")
     const [colorPic, setColorPic] = useState("red")
     const [colorP, setColorP] = useState("purple")
-    const [show, setShow] = useState(null);
-
-    // if(x != null && y != null)
-    //     setShow(true);
-    // else
-    //     setShow(false);
-
-
+    const [colorDrop, setColorDrop] = useState("blue")
+    const [show, setShow] = useState(props.sensID.x ? true:false);
 
     const handlePickUp = () => {
         var command = commandP
@@ -31,8 +26,18 @@ const SensorDetails = (props) => {
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(point)
         })
-        
+    }
+    const handleDrop = () => {
+        var command = commandDrop
+        var color = colorDrop
+        var point = { command, x, y, color, sensor }
+        console.log(point)
 
+        fetch('http://localhost:8000/points', {
+            method: 'POST',
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(point)
+        })
     }
 
     const handlePicture = () => {
@@ -52,10 +57,12 @@ const SensorDetails = (props) => {
         
     }
 
-    let toggle = () => {
-        setShow(false);
-        
+    const toggle = () => {
+        setShow(false);  
       }
+    const toggleDrop = () => {
+        setShow(true);
+    }
     
 
     return ( 
@@ -64,7 +71,7 @@ const SensorDetails = (props) => {
             <Stack>
                 <p>Position: [{props.sensID.x}, {props.sensID.y}]</p>
                 {show ? <Button id="button" type="button" onClick={() => { handlePickUp(); toggle() }}> Pick-up Sensor </Button> : null}                
-                {!show ? <Button id="button" type="button" onClick={() => {}}> Drop Sensor </Button> : null}                
+                {!show ? <Button id="button" type="button" onClick={() => { handleDrop(); toggleDrop() }}> Drop Sensor </Button> : null}                
 
                 <Button onClick={handlePicture}> Take Picture </Button>
             </Stack>
