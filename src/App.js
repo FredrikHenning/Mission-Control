@@ -27,6 +27,19 @@ function App() {
     "y": 0
                     }};
   const [position, setPosition] = useState(startPos);
+  const [manualcontrol, setManualcontrol] = useState(0);
+  const [sensors, setSensors] = useState([]);
+  const [Plans, setPlans] = useState([]);
+  const [pStatus, setpStatus] = useState();
+
+  const [Battery, setBattery] = useState();
+  const [Rotation, setRotation] = useState();
+  const [Velocity, setVelocity] = useState();
+  const [Routen, setRouten] = useState();
+  const [consolemessage, setMessage] = useState();
+
+
+
   useEffect(() => {
     const interval = setInterval(() => {
       fetch('https://localhost:7071/todo/update')
@@ -34,7 +47,20 @@ function App() {
       return res.json();
     })
     .then(data => {
-        setPosition(JSON.parse(data.message)); 
+        setPosition(JSON.parse(data.position));
+        const sensorList = [];
+        for (let i = 0; i < data.sensors.length; i++) {
+           sensorList[i] = JSON.parse(data.sensors[i]);  
+        }
+        setSensors(sensorList); 
+        setPlans(JSON.parse(data.plans).plan);
+        setpStatus(JSON.parse(data.status));
+
+        setRotation(JSON.parse(data.rotation));
+        setBattery(JSON.parse(data.battery));
+        setVelocity(JSON.parse(data.velocity));
+        setRouten(JSON.parse(data.route))
+        setMessage(data.message)
       
     })}, 1000);
     return () => clearInterval(interval);
@@ -43,7 +69,7 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <Router>
-      <ButtonAppBar>
+      <ButtonAppBar sensors={sensors} battery={Battery} velocity={Velocity}>
         <Switch>
           <Route exact path="/">
           </Route>
@@ -54,12 +80,12 @@ function App() {
       </ButtonAppBar>
       </Router>
       <div class="flexbox-container">
-      <Map position={position}/>
-      <Console2 position={position}/>
+      <Map position={position} sensors={sensors} rotation={Rotation} routen={Routen}/>
+      <Console2 position={position} message={consolemessage}/>
       </div>
       <SendPoints/>
       <Control />
-      <PlanningComponent/>
+      <PlanningComponent plans={Plans} status={pStatus}/>
       
     </ThemeProvider>
   );

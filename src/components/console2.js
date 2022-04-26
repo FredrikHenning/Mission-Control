@@ -16,7 +16,8 @@ export default function Console2(props) {
     useEffect(() => {
     //   this.setState({x: props.position.position.x});
     //   this.setState({y: props.position.position.y});
-      var message = "Position of the robot: x: "+ props.position.position.x.toFixed(2)+ " y: " + props.position.position.y.toFixed(2);
+    var message = props.message;
+      //var message = "Position of the robot: x: "+ props.position.position.x.toFixed(2)+ " y: " + props.position.position.y.toFixed(2);
       if(message != alerts[0]){
         if(alerts.length < 7){
       setAlerts([message]
