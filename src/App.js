@@ -16,8 +16,6 @@ import './app.css';
 import React, { useState, useEffect } from 'react';
 import SensorList from './components/SensorList';
 
-
-
 const theme = createTheme({
 
 })
@@ -28,6 +26,7 @@ function App() {
     "y": 0
                     }};
   const [position, setPosition] = useState(startPos);
+  const [route, setRoute] = useState([]);
   useEffect(() => {
     const interval = setInterval(() => {
       fetch('https://localhost:7071/todo/update')
@@ -35,7 +34,8 @@ function App() {
       return res.json();
     })
     .then(data => {
-        setPosition(JSON.parse(data.message)); 
+        setPosition(JSON.parse(data.message));
+        setRoute(JSON.parse(data.Route))
       
     })}, 1000);
     return () => clearInterval(interval);
@@ -55,13 +55,12 @@ function App() {
       </ButtonAppBar>
       </Router>
       <div class="flexbox-container">
-      <Map position={position}/>
+      <Map position={position} route = {Route}/>
       <Console2 position={position}/>
       </div>
       <SendPoints/>
       <Control />
       <PlanningComponent/>
-      
     </ThemeProvider>
   );
 }

@@ -1,4 +1,4 @@
-import { Box, Button, Chip, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, FormControl, FormControlLabel, IconButton, InputLabel, MenuItem, Popover, Select, Stack, Switch } from '@mui/material';
+import { Box, Button, Chip, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, FormControl, FormControlLabel, getLinearProgressUtilityClass, IconButton, InputLabel, MenuItem, Popover, Select, Stack, Switch } from '@mui/material';
 // import MoreVertIcon from '@mui/icons-material/MoreVert';
 
 import Card from '@mui/material/Card';
@@ -20,11 +20,15 @@ import Robot from './components/Robot';
 import markerHandler from './components/MarkerHandler';
 import SensorDetails from './components/SensorDetails';
 import PointDetails from './components/PointDetails';
+import LineTo from 'react-lineto';
+
 
 // Styles in height and width for the card/picture
 // const mapSizeX = 767;
 // const mapSizeY =432;
 
+
+var route= [[255, 188], [255.32556081765156, 170.369254745772], [252.3438199487991, 160.82413969193345], [242.02886247117783, 166.95615830205404], [234.88435114390055, 184.5617244075335], [235.19549509657335, 188.54960472679022], [235.61507678124607, 189.45732230945964], [235.15000814621132, 190.3425969361755], [234.34861656992467, 190.94073700460163], [231.53984499195587, 191.99468302921323], [229.08842300124155, 195.15546303159275], [228.1528492437047, 198.0058492763337], [228, 200]];
 
 const Map = (props) => {
 
@@ -234,6 +238,7 @@ const Map = (props) => {
         map_size_x: mapSizeX,
         map_size_y: mapSizeY
         }
+
     const getRobot = () => {
        return(
            <div>
@@ -242,7 +247,7 @@ const Map = (props) => {
        )
         
     }
-
+    
     const openPoint = Boolean(anchorElP);
     const openppp = [Boolean(anchorElP), Boolean(anchorElP)];
     console.log(openppp);
@@ -342,6 +347,25 @@ const Map = (props) => {
                                         <img src={map} alt="test" onDrag={(offset) => {console.log(offset)}}/>
                                         
                                         {getRobot()}
+
+                                        {route.map((point, index) => {
+                                            var current = "pointMarker" + index;
+                                            var nextindex = index + 1;
+                                            var next = "pointMarker" + nextindex;
+
+                                            return (
+                                                <><div className={current} key={index}
+                                                    style={{
+                                                        position: "absolute",
+                                                        left: `${point[0] - 19}px`,
+                                                        top: `${-30 + mapSizeY - point[1]}px`,
+                                                    }}
+                                                >
+                                                </div><LineTo from={current} to={next} borderColor="black" borderStyle="dotted" borderWidth="3px"></LineTo></>
+                                            )
+                                        })
+                                        }
+
                                         {points && points.map((point) => {
                                             //  console.log(oldPoints.filter(point => point.id.includes(point.id)))
 
