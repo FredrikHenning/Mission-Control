@@ -8,6 +8,23 @@ import Button from '@mui/material/Button';
 import Popover from '@mui/material/Popover';
 import DirectionsRunIcon from '@mui/icons-material/DirectionsRun';
 
+function convertToPlans(oldPlans){
+    var PlansList = [];
+    for(var i = 0; i<oldPlans.length; i++){
+        var titleN = oldPlans[i].command;
+        if(titleN == "goto" || titleN == "take-picture"){
+        var bodyN = "x =" + oldPlans[i].x + ", y=" + oldPlans[i].y; 
+        }
+        else{
+            var bodyN = "Sensor " + oldPlans[i].id;
+        }
+        var keyN = oldPlans[i].id;
+        var plan = {title:titleN, body: bodyN, progress:0, key: keyN, visible:true}
+        PlansList[i] = plan;
+    }
+    return PlansList;
+}
+
 export default function PlanningComponent(props) {
     const obj1 = {title:"Pick-up", body:"x=5, y=8"};
    var PlansObjListFirst = [
@@ -20,7 +37,7 @@ export default function PlanningComponent(props) {
         {title:"Goto", body:"x=100, y=213",progress:0, key:"8", visible:true},
 ]
 
-const [PlansObjList, setPlansObjList] = React.useState(PlansObjListFirst);
+const [PlansObjList, setPlansObjList] = React.useState(convertToPlans(props.plans));
 const [checked, setChecked] = React.useState(true);
 const [direction, setDirection] = React.useState("right");
 const [planscounter, setPlanscounter] = React.useState(0);
