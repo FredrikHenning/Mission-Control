@@ -2,7 +2,21 @@ import { Button } from "@mui/material";
 import { useEffect, useState } from "react";
 import useFetch from "./useFetch";
 import { Box, Chip, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, FormControl, FormControlLabel, IconButton, InputLabel, MenuItem, Popover, Select, Switch } from '@mui/material';
+<<<<<<< Updated upstream
 
+=======
+import MissionDetails from "./MissionDetails";
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemButton from '@mui/material/ListItemButton';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
+import Checkbox from '@mui/material/Checkbox';
+import CommentIcon from '@mui/icons-material/Comment';
+import { generatePath } from "react-router-dom";
+import React from "react";
+import DeleteIcon from '@mui/icons-material/Delete';
+>>>>>>> Stashed changes
 
 
 
