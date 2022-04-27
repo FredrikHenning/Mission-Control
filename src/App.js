@@ -16,10 +16,9 @@ import './app.css';
 import React, { useState, useEffect } from 'react';
 import SensorList from './components/SensorList';
 import { parseJSON } from 'date-fns';
+import Photo from './components/photo';
+import { Grid } from '@mui/material';
 
-const theme = createTheme({
-
-})
 
 function App() {
   var startPos ={"position": {
@@ -87,28 +86,27 @@ function App() {
   }, []);
 
   return (
-   
-    <ThemeProvider theme={theme}>
-    {console.log(position)}
-      <Router>
-      <ButtonAppBar sensors={sensors} battery={Battery} velocity={Velocity}>
-        <Switch>
-          <Route exact path="/">
-          </Route>
-          <Route path="/create">
-            <Create />
-          </Route>
-        </Switch>
-      </ButtonAppBar>
-      </Router>
-      <div class="flexbox-container">
-      <Map position={position} sensors={sensors} rotation={Rotation} routen={Routen} satellite={imageEncoded}/>
-      <Console2 position={position} message={consolemessage}/>
-      </div>
-      <SendPoints/>
-      <PlanningComponent plans={Plans} status={pStatus}/>
-      
-    </ThemeProvider>
+      <>
+      <ButtonAppBar sensors={sensors} battery={Battery} velocity={Velocity}></ButtonAppBar>
+      <Grid container spacing={3}>
+        <Grid item xs={6}>
+          <Map position={position} sensors={sensors} rotation={Rotation} routen={Routen} satellite={imageEncoded} />
+        </Grid>
+        <Grid item xs={6}>
+          <Console2 position={position} message={consolemessage} />
+        </Grid>
+        <Grid item xs={6}>
+          <SendPoints />
+        </Grid>
+        <Grid item xs={6}>
+          <Photo />
+        </Grid>
+        <Grid item xs={6}>
+         <PlanningComponent plans={Plans} status={pStatus} />
+        </Grid>
+
+      </Grid>
+    </>
   );
 }
 

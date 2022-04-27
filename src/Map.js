@@ -23,6 +23,7 @@ import PointDetails from './components/PointDetails';
 import LineTo from 'react-lineto';
 import SensorsSharpIcon from '@mui/icons-material/SensorsSharp';
 import Control from './components/Control'
+import Grid from '@mui/material/Grid';
 
 
 // Styles in height and width for the card/picture
@@ -71,6 +72,7 @@ const Map = (props) => {
         root: {
             maxWidth: 767,
             maxHeight: 600,
+            Width: 767
         },
         media: {
             // scale: 50,
@@ -305,280 +307,285 @@ const Map = (props) => {
 
     const classes = useStyles()
     return ( 
-        
-        <CardContent>
-            <Card className={classes.root}>  
-                <CardHeader
-                
-                    className={classes.headerHeight}
-                     // sx={{ bgcolor: blue[700] }}
-
-                    // Here is where the button for toggle the maps come to play
-                    action={
+        <Grid container spacing={2}>
+            <Grid item xs={11}>
+                <CardContent>
+                    <Card className={classes.root} sx={{ width: 767 }}>  
+                        <CardHeader
                         
-                        <IconButton aria-owns={open ? 'mouse-over-popover' : undefined} 
-                            onMouseEnter={handlePopoverOpen}
-                            onMouseLeave={handlePopoverClose} 
-                            onClick = {handleClick}
-                            
-                            // edge = 'false' 
-                            // size='small'
+                            className={classes.headerHeight}
+                            // sx={{ bgcolor: blue[700] }}
+
+                            // Here is where the button for toggle the maps come to play
+                            action={
+                                
+                                <IconButton aria-owns={open ? 'mouse-over-popover' : undefined} 
+                                    onMouseEnter={handlePopoverOpen}
+                                    onMouseLeave={handlePopoverClose} 
+                                    onClick = {handleClick}
+                                    
+                                    // edge = 'false' 
+                                    // size='small'
+                                    >
+                                    <Popover
+                                            id="mouse-over-popover"
+                                            sx={{
+                                            pointerEvents: 'none',
+                                            }}
+                                            open={open}
+                                            anchorEl={anchorEl}
+                                            anchorOrigin={{
+                                            vertical: 'bottom',
+                                            horizontal: 'right',
+                                            }}
+                                            transformOrigin={{
+                                            vertical: 'top',
+                                            horizontal: 'right',
+                                            }}
+                                            onClose={handlePopoverClose}
+                                            disableRestoreFocus
+                                        >
+                                            <CardMedia
+                                                onClick = {handleClick}
+                                                className={classes.popMap}
+                                                component="img"
+                                                height="40"
+                                                image={mapTwo}
+                                                alt="Mars2"
+                                            />
+                                            
+                                    </Popover>
+                                {/* <ThreeSixty sx={{ fontSize: 30}}/> */}
+                                <Chip icon={<ThreeSixty sx={{ fontSize: 30}}/>} label="Change map" />
+                                </IconButton>
+                                
+                            }   
+                        />
+                        <div>
+        {/* {                console.log(props.sensors) }*/}
+                            <TransformWrapper
+                                initialScale={1}
+                                initialPositionX={0}
+                                initialPositionY={0}  
+                                
                             >
-                            <Popover
-                                    id="mouse-over-popover"
-                                    sx={{
-                                    pointerEvents: 'none',
-                                    }}
-                                    open={open}
-                                    anchorEl={anchorEl}
-                                    anchorOrigin={{
-                                    vertical: 'bottom',
-                                    horizontal: 'right',
-                                    }}
-                                    transformOrigin={{
-                                    vertical: 'top',
-                                    horizontal: 'right',
-                                    }}
-                                    onClose={handlePopoverClose}
-                                    disableRestoreFocus
-                                >
-                                    <CardMedia
-                                        onClick = {handleClick}
-                                        className={classes.popMap}
-                                        component="img"
-                                        height="40"
-                                        image={mapTwo}
-                                        alt="Mars2"
-                                    />
-                                     
-                            </Popover>
-                           {/* <ThreeSixty sx={{ fontSize: 30}}/> */}
-                           <Chip icon={<ThreeSixty sx={{ fontSize: 30}}/>} label="Change map" />
-                        </IconButton>
-                        
-                    }   
-                />
-                <div>
-{/* {                console.log(props.sensors) }*/}
-                    <TransformWrapper
-                        initialScale={1}
-                        initialPositionX={0}
-                        initialPositionY={0}  
-                        
-                    >
-                        {({ zoomIn, zoomOut, resetTransform, setTransform, ...rest }) => (
-                            <React.Fragment>
-                                <Stack spacing={2} direction="row">
-                                    <Box sx={{ '& button': { m: 1 } }}>
-                                        <div style={{top: -50}}>
-                                            <Button variant="contained" size="small" style={{top: -50}}
-                                            onClick={() => { zoomIn(); handleZoomPlus() }}>+</Button>
-                                            <Button variant="contained" size="small" style={{top: -50}} onClick={() => { zoomOut(); handleZoomNegative() }}>-</Button>
-                                            <Button variant="contained" size="small" style={{top: -50}} onClick={() => { resetTransform(); setZomvar(1); handleReset() }}>x</Button>
-                                        </div>
-                                        <div style={{top: -50}}> Quadrant:
-                                            <Button variant='contained' size="small" style={{top: -50}} onClick={() => { setTransform(0, -mapSizeY, 2, 300, "easeOut");    handleOffset(0, 0, 2) }}>2.1.1</Button>
-                                            <Button variant='contained' size="small" style={{top: -50}} onClick={() => { setTransform(0, 0, 2, 300, "easeOut");            handleOffset(0, mapSizeY / 2, 2) }}>2.1.2</Button>
-                                            <Button variant='contained' size="small" style={{top: -50}} onClick={() => { setTransform(-mapSizeX, -mapSizeY, 2, 300, "easeOut");    handleOffset(mapSizeX / 2, 0, 2) }}>2.2.1</Button>
-                                            <Button variant='contained' size="small" style={{top: -50}} onClick={() => { setTransform(-mapSizeX, 0, 2, 300, "easeOut");            handleOffset(mapSizeX / 2, mapSizeY / 2, 2) }}>2.2.2</Button>
-                                        </div>
-                                    </Box>
-                                </Stack>
-                                {/* {console.log(zomvar)} */}
-
-                                <div ref={ref} onClick={handleClickOpen}>
-                                    <TransformComponent>
-                                        
-                                        <img src={map} alt="test" onDrag={(offset) => {console.log(offset)}}/>
-                                        
-                                        {getRobot()}
-
-                                        {props.routen.map((point, index) => {
-                                            var current = "pointMarker" + index;
-                                            var nextindex = index + 1;
-                                            var next = "pointMarker" + nextindex;
-
-                                            return (
-                                                <div className={current} key={index}
-                                                    style={{
-                                                        position: "absolute",
-                                                        left: `${point[0] - 19}px`,
-                                                        top: `${-30 + mapSizeY - point[1]}px`,
-                                                    }}
-                                                >
-                                                <LineTo from={current} to={next} borderColor="black" borderStyle="dotted" borderWidth="3px"></LineTo>
+                                {({ zoomIn, zoomOut, resetTransform, setTransform, ...rest }) => (
+                                    <React.Fragment>
+                                        <Stack spacing={2} direction="row">
+                                            <Box sx={{ '& button': { m: 1 } }}>
+                                                <div style={{top: -50}}>
+                                                    <Button variant="contained" size="small" style={{top: -50}}
+                                                    onClick={() => { zoomIn(); handleZoomPlus() }}>+</Button>
+                                                    <Button variant="contained" size="small" style={{top: -50}} onClick={() => { zoomOut(); handleZoomNegative() }}>-</Button>
+                                                    <Button variant="contained" size="small" style={{top: -50}} onClick={() => { resetTransform(); setZomvar(1); handleReset() }}>x</Button>
                                                 </div>
-                                            )
-                                        })
-                                        }
-                                        
-                                        {sensors && sensors.map((sensor) => {
-                                            return(
-                                                <div key={sensor.id}
-                                                    style={{
-                                                        position: "absolute",
-                                                        left: `${sensor.position.x/0.133 - 19}px`,
-                                                        top: `${-30 + mapSizeY - sensor.position.y/0.133}px`,
-                                                    }}
-                                                >
-                                                    <IconButton>
-                                                        <SensorsSharpIcon/>
-                                                    </IconButton>
-
+                                                <div style={{top: -50}}> Quadrant:
+                                                    <Button variant='contained' size="small" style={{top: -50}} onClick={() => { setTransform(0, -mapSizeY, 2, 300, "easeOut");    handleOffset(0, 0, 2) }}>2.1.1</Button>
+                                                    <Button variant='contained' size="small" style={{top: -50}} onClick={() => { setTransform(0, 0, 2, 300, "easeOut");            handleOffset(0, mapSizeY / 2, 2) }}>2.1.2</Button>
+                                                    <Button variant='contained' size="small" style={{top: -50}} onClick={() => { setTransform(-mapSizeX, -mapSizeY, 2, 300, "easeOut");    handleOffset(mapSizeX / 2, 0, 2) }}>2.2.1</Button>
+                                                    <Button variant='contained' size="small" style={{top: -50}} onClick={() => { setTransform(-mapSizeX, 0, 2, 300, "easeOut");            handleOffset(mapSizeX / 2, mapSizeY / 2, 2) }}>2.2.2</Button>
                                                 </div>
-                                            )
-                                        })}
+                                            </Box>
+                                        </Stack>
+                                        {/* {console.log(zomvar)} */}
 
-                                        {points && points.map((point) => {
-                                            //  console.log(oldPoints.filter(point => point.id.includes(point.id)))
+                                        <div ref={ref} onClick={handleClickOpen}>
+                                            <TransformComponent>
+                                                
+                                                <img src={map} alt="test" onDrag={(offset) => {console.log(offset)}}/>
+                                                
+                                                {getRobot()}
 
-                                            return (
-                                                // <div className="point-marker" key = {point.id}>
-                                                //     {oldPoints && oldPoints.map((oldpoint) => {
-                                                //         <div className="oldPoit-markers" key = {oldpoint.id}>
-                                                //             {/* {console.log(point.id)}{ console.log(oldpoint.id) } */}
-                                                //             {console.log(point.id===oldpoint.id)}
-                                                //             {console.log(oldPoints[1])}
+                                                {props.routen.map((point, index) => {
+                                                    var current = "pointMarker" + index;
+                                                    var nextindex = index + 1;
+                                                    var next = "pointMarker" + nextindex;
 
-
-                                                //         </div>
-                                                //     })}
-                                                //     </div>
-                                                //console.log(oldPoints && oldPoints.map.filter(p => p.includes(point.id))),
-                                                <div className="point-marker" key={point.id}
-                                                    style=
-                                                    {{
-                                                        position: "absolute",
-                                                        left: `${point.x/0.133 - 19}px`,
-                                                        top: `${-30 + mapSizeY - point.y/0.133}px`,
-                                                        
-
-                                                    }}
-                                                >
-                                                    <IconButton aria-owns={openppp[point.id-1] ? 'mouse-over-popover' : undefined}
-                                                        onMouseEnter={handlePointPopoverOpen}
-                                                        onMouseLeave={handlePointPopoverClose}
-
-                                                    >
-                                                        {/* <Popover
-                                                            id="mouse-over-popover"
-                                                            sx={{
-                                                                pointerEvents: 'none',
+                                                    return (
+                                                        <div className={current} key={index}
+                                                            style={{
+                                                                position: "absolute",
+                                                                left: `${point[0] - 19}px`,
+                                                                top: `${-30 + mapSizeY - point[1]}px`,
                                                             }}
-                                                            open={openppp[point.id-1]}
-                                                            anchorEl={anchorElP}
-                                                            anchorOrigin={{
-                                                                vertical: 'bottom',
-                                                                horizontal: 'center',
-                                                            }}
-                                                            transformOrigin={{
-                                                                vertical: 'top',
-                                                                horizontal: 'center',
-                                                            }}
-                                                            onClose={handlePointPopoverClose}
-                                                            disableRestoreFocus
-
                                                         >
-                                                            <div>
-                                                                <PointDetails spot={point}/>
+                                                        <LineTo from={current} to={next} borderColor="black" borderStyle="dotted" borderWidth="3px"></LineTo>
+                                                        </div>
+                                                    )
+                                                })
+                                                }
+                                                
+                                                {sensors && sensors.map((sensor) => {
+                                                    return(
+                                                        <div key={sensor.id}
+                                                            style={{
+                                                                position: "absolute",
+                                                                left: `${sensor.position.x/0.133 - 19}px`,
+                                                                top: `${-30 + mapSizeY - sensor.position.y/0.133}px`,
+                                                            }}
+                                                        >
+                                                            <IconButton>
+                                                                <SensorsSharpIcon/>
+                                                            </IconButton>
+
+                                                        </div>
+                                                    )
+                                                })}
+
+                                                {points && points.map((point) => {
+                                                    //  console.log(oldPoints.filter(point => point.id.includes(point.id)))
+
+                                                    return (
+                                                        // <div className="point-marker" key = {point.id}>
+                                                        //     {oldPoints && oldPoints.map((oldpoint) => {
+                                                        //         <div className="oldPoit-markers" key = {oldpoint.id}>
+                                                        //             {/* {console.log(point.id)}{ console.log(oldpoint.id) } */}
+                                                        //             {console.log(point.id===oldpoint.id)}
+                                                        //             {console.log(oldPoints[1])}
+
+
+                                                        //         </div>
+                                                        //     })}
+                                                        //     </div>
+                                                        //console.log(oldPoints && oldPoints.map.filter(p => p.includes(point.id))),
+                                                        <div className="point-marker" key={point.id}
+                                                            style=
+                                                            {{
+                                                                position: "absolute",
+                                                                left: `${point.x/0.133 - 19}px`,
+                                                                top: `${-30 + mapSizeY - point.y/0.133}px`,
                                                                 
 
-                                                            </div>
-                                                        </Popover> */}
-                                                        <RoomSharpIcon style={{ color: point.color }} />
-                                                    </IconButton>
-                                                    {/* {console.log(points)} */}
+                                                            }}
+                                                        >
+                                                            <IconButton aria-owns={openppp[point.id-1] ? 'mouse-over-popover' : undefined}
+                                                                onMouseEnter={handlePointPopoverOpen}
+                                                                onMouseLeave={handlePointPopoverClose}
 
-                                                </div>
-                                            )
-                                        })}
-                                    </TransformComponent>
-                                </div>
-                            </React.Fragment>
-                        )}
+                                                            >
+                                                                {/* <Popover
+                                                                    id="mouse-over-popover"
+                                                                    sx={{
+                                                                        pointerEvents: 'none',
+                                                                    }}
+                                                                    open={openppp[point.id-1]}
+                                                                    anchorEl={anchorElP}
+                                                                    anchorOrigin={{
+                                                                        vertical: 'bottom',
+                                                                        horizontal: 'center',
+                                                                    }}
+                                                                    transformOrigin={{
+                                                                        vertical: 'top',
+                                                                        horizontal: 'center',
+                                                                    }}
+                                                                    onClose={handlePointPopoverClose}
+                                                                    disableRestoreFocus
 
-                    </TransformWrapper>
-                    </div>
-                     
-                     {/* <CardMedia
-                        className={classes.media}
-                        scale = {100}
-                        component="img"
-                        height="194"
-                        image={map}
-                        alt="Mars1"     
-                    >
-                        </CardMedia> 
-                         
-                    {/* <ImageMarker
-                        className={classes.media}
-                        src={map}
-                        scale = {100}
-                        
-                        markers={markers}
-                        onAddMarker={(marker) => setMarkers((prev) => [...prev, marker])}
-                        markerComponent={CustomMarker}    
-                               
-                    /> */}
-                        
-                
-                <Dialog
-                    fullWidth={fullWidth}
-                    maxWidth={'sm'}
-                    open={openOne}
-                    onClose={handleClose}
-                >
-                    
-                    <DialogTitle>Point</DialogTitle>
-                        <DialogContent>
-                            <DialogContentText >
-                                {"Do you want to use this point: (" + x + ", " + y + ")"}
-                                
-                            </DialogContentText>
-                        
-                            <Box
-                                noValidate
-                                component="form"
-                                sx={{
-                                display: 'flex',
-                                flexDirection: 'column',
-                                m: 'auto',
-                                width: 'fit-content',
-                                }}
+                                                                >
+                                                                    <div>
+                                                                        <PointDetails spot={point}/>
+                                                                        
+
+                                                                    </div>
+                                                                </Popover> */}
+                                                                <RoomSharpIcon style={{ color: point.color }} />
+                                                            </IconButton>
+                                                            {/* {console.log(points)} */}
+
+                                                        </div>
+                                                    )
+                                                })}
+                                            </TransformComponent>
+                                        </div>
+                                    </React.Fragment>
+                                )}
+
+                            </TransformWrapper>
+                            </div>
+                            
+                            {/* <CardMedia
+                                className={classes.media}
+                                scale = {100}
+                                component="img"
+                                height="194"
+                                image={map}
+                                alt="Mars1"     
                             >
+                                </CardMedia> 
                                 
-                                <FormControl sx={{ mt: 2, minWidth: 120 }}>
-                                    <InputLabel htmlFor="max-width">Misson</InputLabel>
-                                    <Select
-                                        autoFocus
-                                        value={command}
+                            {/* <ImageMarker
+                                className={classes.media}
+                                src={map}
+                                scale = {100}
+                                
+                                markers={markers}
+                                onAddMarker={(marker) => setMarkers((prev) => [...prev, marker])}
+                                markerComponent={CustomMarker}    
+                                    
+                            /> */}
+                                
+                        
+                        <Dialog
+                            fullWidth={fullWidth}
+                            maxWidth={'sm'}
+                            open={openOne}
+                            onClose={handleClose}
+                        >
+                            
+                            <DialogTitle>Point</DialogTitle>
+                                <DialogContent>
+                                    <DialogContentText >
+                                        {"Do you want to use this point: (" + x + ", " + y + ")"}
                                         
-                                        onChange={handleMaxWidthChange}
-                                        label="Misson"
-                                        inputProps={{
-                                        //name: 'intell',
-                                        //id: 'Misson',
+                                    </DialogContentText>
+                                
+                                    <Box
+                                        noValidate
+                                        component="form"
+                                        sx={{
+                                        display: 'flex',
+                                        flexDirection: 'column',
+                                        m: 'auto',
+                                        width: 'fit-content',
                                         }}
                                     >
-                                        <MenuItem value="sensor-drop">sensor-drop</MenuItem>
-                                        <MenuItem value="goto">goto</MenuItem>
-                                        <MenuItem value="sensor-pickup">sensor-pickup</MenuItem>
-                                        <MenuItem value="take-picture">take-picture</MenuItem>
                                         
-                                    </Select>
-                                </FormControl>
-                            </Box>
-                        </DialogContent>
-                    <DialogActions>
-                        <Button onClick={handleClose}>Disagree</Button>
-                        <Button onClick={createPoint} autoFocus>
-                            Agree
-                        </Button>
-                    </DialogActions>
-                </Dialog>                         
-            </Card>
-            <Control x={x} y ={y} manual={manual} setManual={updateManual}/>       
-      </CardContent>
+                                        <FormControl sx={{ mt: 2, minWidth: 120 }}>
+                                            <InputLabel htmlFor="max-width">Misson</InputLabel>
+                                            <Select
+                                                autoFocus
+                                                value={command}
+                                                
+                                                onChange={handleMaxWidthChange}
+                                                label="Misson"
+                                                inputProps={{
+                                                //name: 'intell',
+                                                //id: 'Misson',
+                                                }}
+                                            >
+                                                <MenuItem value="sensor-drop">sensor-drop</MenuItem>
+                                                <MenuItem value="goto">goto</MenuItem>
+                                                <MenuItem value="sensor-pickup">sensor-pickup</MenuItem>
+                                                <MenuItem value="take-picture">take-picture</MenuItem>
+                                                
+                                            </Select>
+                                        </FormControl>
+                                    </Box>
+                                </DialogContent>
+                            <DialogActions>
+                                <Button onClick={handleClose}>Disagree</Button>
+                                <Button onClick={createPoint} autoFocus>
+                                    Agree
+                                </Button>
+                            </DialogActions>
+                        </Dialog>                         
+                    </Card>       
+            </CardContent>
+        </Grid>
+        <Grid item xs={1}>
+            <Control x={x} y ={y} manual={manual} setManual={updateManual}/>
+        </Grid>
+      </Grid>
       
       
      );
