@@ -4,7 +4,7 @@ import NavigationSharpIcon from '@mui/icons-material/NavigationSharp';
 
 
 const Robot = (props) => {
-    var rot = 'rotate(' + Math.round(props.rotation) + 'deg)'
+    var rot = 'rotate(' + Math.round(props.rotation*180/Math.PI) + 'deg)'
     const [alerts, setAlerts] = useState([]);
     // console.log(props)
     useEffect(() => {
