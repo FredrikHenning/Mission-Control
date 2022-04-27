@@ -175,9 +175,6 @@ const Map = (props) => {
 
     const [map, setMap] = useState("/mars1.png")
     const [mapTwo, setMapTwo] = useState("/mars2.png")
-
-    // const [map, setMap] = useState(props.position.map1)
-    // const [mapTwo, setMapTwo] = useState(props.position.map2)
     // Function for toggling the maps
     const handleClick=() =>{
         if (map === "/mars1.png")( 
@@ -192,7 +189,25 @@ const Map = (props) => {
         else( 
             setMapTwo("/mars2.png")
             )
-    }  
+    }
+    // var ConstMap1 = props.satellite.map1
+    // var ConstMap2 = props.satellite.map2
+    // const [map, setMap] = useState(props.satellite.map1)
+    // const [mapTwo, setMapTwo] = useState(props.satellite.map2)  
+    // const handleClick=() =>{
+    //     if (map === ConstMap1)( 
+    //         setMap(ConstMap2)
+    //         )
+    //     else( 
+    //         setMap(ConstMap1)
+    //         )
+    //     if (map === ConstMap1)( 
+    //         setMapTwo(ConstMap1)
+    //         )
+    //     else( 
+    //         setMapTwo(ConstMap2)
+    //         )
+    // }
 
     const [anchorEl, setAnchorEl] = useState(null);
     const [anchorElP, setAnchorElP] = useState(null);
@@ -250,8 +265,6 @@ const Map = (props) => {
     console.log(openppp);
     const open = Boolean(anchorEl);
 
-    
-    
     // DbConnection()
     const handleMouse=() =>{
         const x_cord = mouse.x
@@ -318,6 +331,7 @@ const Map = (props) => {
                         initialScale={1}
                         initialPositionX={0}
                         initialPositionY={0}  
+                        
                     >
                         {({ zoomIn, zoomOut, resetTransform, setTransform, ...rest }) => (
                             <React.Fragment>
@@ -342,7 +356,8 @@ const Map = (props) => {
 
                                 <div ref={ref} onClick={handleClickOpen}>
                                     <TransformComponent>
-                                        <img src={map} alt="test" onDrag={(offset) => {console.log(offset)}}/>
+                                        
+                                        <img src={`data:image/jpeg;base64,${data}`} alt="test" onDrag={(offset) => {console.log(offset)}}/>
                                         
                                         {getRobot()}
 
