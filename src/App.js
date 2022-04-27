@@ -27,34 +27,32 @@ function App() {
     "y": 0
                     }};
 
-  const [position, setPosition] = useState(startPos);
+  //const [position, setPosition] = useState(startPos);
 
-  const [x, setX] = useState(0);
-  const [y, setY] = useState(0);
+
 
   const [manualcontrol, setManualcontrol] = useState(0);
-  const [sensors, setSensors] = useState([]);
-  const [Plans, setPlans] = useState([]);
-  const [pStatus, setpStatus] = useState();
 
-  const [Battery, setBattery] = useState();
-  const [Rotation, setRotation] = useState();
-  const [Velocity, setVelocity] = useState();
-  const [Routen, setRouten] = useState([]);
-  const [consolemessage, setMessage] = useState();
 
   const [imageEncoded, setImage] = useState("");
 
+  const [update, setUpdate] = useState({Plans: [], Status: {}, Rotation: "", Battery:"", Velocity:{}, Routen:[], Message: "", Sensors: [], Position: startPos});
+  var count1;
+
+useEffect(() => {
+  fetch('https://localhost:7071/todo/satellite')
+  .then(res => {
+  return res.json();
+})
+.then(data => {
+  setImage(data)
+  console.log(data)
+})
+}, [count1]);
 
 
   useEffect(() => {
-    //fetch('https://localhost:7071/todo/satellite')
-      //.then(res => {
-      //return res.json();
-    //})
-    //.then(data => {
-    //  setImage(data)
-   // })
+   
 
     const interval = setInterval(() => {
       fetch('https://localhost:7071/todo/update')
@@ -64,34 +62,48 @@ function App() {
     .then(data => {
         //console.log(data)
         //console.log(JSON.parse(data.position))
-        setPosition(JSON.parse(data.position));
+        let position;
+        if(data.position == null){
+          position = update.Position;
+          console.log("NULLILIIL")
+        }
+        else{
+          position = JSON.parse(data.position)
 
+        }
         
         const sensorList = [];
         for (let i = 0; i < data.sensors.length; i++) {
            sensorList[i] = JSON.parse(data.sensors[i]);  
         }
-        setSensors(sensorList); 
-        setPlans(JSON.parse(data.plans).plan);
-        setpStatus(JSON.parse(data.status));
+        //setSensors(sensorList); 
+        let plans = JSON.parse(data.plans).plan;
+        let status = JSON.parse(data.status)
 
-        setRotation(JSON.parse(data.rotation));
-        setBattery(JSON.parse(data.battery));
-        setVelocity(JSON.parse(data.velocity));
-        setRouten(JSON.parse(data.route))
-        setMessage(data.message)
-        console.log(position)
+        let rotation;
+        if(data.rotation == null){
+          rotation = update.Rotation;
+          console.log("NULLILIIL")
+        }
+        else{
+         rotation = JSON.parse(data.rotation)
+        }
+        let battery = JSON.parse(data.battery)
+        let velocity = JSON.parse(data.velocity)
+        let routen = JSON.parse(data.route)
+        let message = data.message;
+        var alldata = {Plans: plans, Status: status, Rotation: rotation, Battery:battery, Velocity:velocity, Routen:routen, Message: message, Sensors: sensorList, Position: position}
+        setUpdate(alldata)
       
     })}, 1000);
     return () => clearInterval(interval);
   }, []);
 
   return (
-   
     <ThemeProvider theme={theme}>
-    {console.log(position)}
+    
       <Router>
-      <ButtonAppBar sensors={sensors} battery={Battery} velocity={Velocity}>
+      <ButtonAppBar sensors={update.Sensors} battery={update.Battery} velocity={update.Velocity}>
         <Switch>
           <Route exact path="/">
           </Route>
@@ -102,11 +114,11 @@ function App() {
       </ButtonAppBar>
       </Router>
       <div class="flexbox-container">
-      <Map position={position} sensors={sensors} rotation={Rotation} routen={Routen} satellite={imageEncoded}/>
-      <Console2 position={position} message={consolemessage}/>
+      <Map position={update.Position} sensors={update.Sensors} rotation={update.Rotation} routen={update.Routen} satellite ={imageEncoded} /> 
+      <console2 message={update.Message}/>
       </div>
       <SendPoints/>
-      <PlanningComponent plans={Plans} status={pStatus}/>
+      <PlanningComponent plans={update.Plans} status={update.pStatus}/>
       
     </ThemeProvider>
   );

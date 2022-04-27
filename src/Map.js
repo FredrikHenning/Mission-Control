@@ -388,9 +388,9 @@ const Map = (props) => {
 
                                 <div ref={ref} onClick={handleClickOpen}>
                                     <TransformComponent>
-                                        
+                                        {//<img src={`data:image/jpeg;base64,${data}`} alt="test" onDrag={(offset) => {console.log(offset)}}/>}
+                                        }
                                         <img src={map} alt="test" onDrag={(offset) => {console.log(offset)}}/>
-                                        
                                         {getRobot()}
 
                                         {props.routen.map((point, index) => {
