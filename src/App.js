@@ -15,6 +15,7 @@ import PlanningComponent from './components/Planning';
 import './app.css';
 import React, { useState, useEffect } from 'react';
 import SensorList from './components/SensorList';
+import { parseJSON } from 'date-fns';
 
 const theme = createTheme({
 
@@ -34,12 +35,22 @@ function App() {
   const [Battery, setBattery] = useState();
   const [Rotation, setRotation] = useState();
   const [Velocity, setVelocity] = useState();
-  const [Routen, setRouten] = useState();
+  const [Routen, setRouten] = useState([]);
   const [consolemessage, setMessage] = useState();
+
+  const [imageEncoded, setImage] = useState();
 
 
 
   useEffect(() => {
+    fetch('https://localhost:7071/todo/satellite')
+      .then(res => {
+      return res.json();
+    })
+    .then(data => {
+      setImage(data)
+    })
+
     const interval = setInterval(() => {
       fetch('https://localhost:7071/todo/update')
       .then(res => {

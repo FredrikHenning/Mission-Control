@@ -33,6 +33,7 @@ var route= [[255, 188], [255.32556081765156, 170.369254745772], [252.34381994879
 
 const Map = (props) => {
 
+   //console.log(props.routen)
     const [mapSizeX, setMapSizeX] = useState(767);
     const [mapSizeY, setMapSizeY] = useState(432);
     const [sensors, setSensors] = useState(props.sensors);
@@ -262,7 +263,7 @@ const Map = (props) => {
     
     const openPoint = Boolean(anchorElP);
     const openppp = [Boolean(anchorElP), Boolean(anchorElP)];
-    console.log(openppp);
+    //console.log(openppp);
     const open = Boolean(anchorEl);
 
     // DbConnection()
@@ -361,7 +362,7 @@ const Map = (props) => {
                                         
                                         {getRobot()}
 
-                                        {route.map((point, index) => {
+                                        {props.routen.map((point, index) => {
                                             var current = "pointMarker" + index;
                                             var nextindex = index + 1;
                                             var next = "pointMarker" + nextindex;
