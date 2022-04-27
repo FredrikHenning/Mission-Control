@@ -48,13 +48,13 @@ function App() {
 
 
   useEffect(() => {
-    fetch('https://localhost:7071/todo/satellite')
-      .then(res => {
-      return res.json();
-    })
-    .then(data => {
-      setImage(data)
-    })
+    //fetch('https://localhost:7071/todo/satellite')
+      //.then(res => {
+      //return res.json();
+    //})
+    //.then(data => {
+    //  setImage(data)
+   // })
 
     const interval = setInterval(() => {
       fetch('https://localhost:7071/todo/update')
@@ -63,7 +63,7 @@ function App() {
     })
     .then(data => {
         //console.log(data)
-        console.log(JSON.parse(data.position))
+        //console.log(JSON.parse(data.position))
         setPosition(JSON.parse(data.position));
 
         
@@ -87,7 +87,9 @@ function App() {
   }, []);
 
   return (
+   
     <ThemeProvider theme={theme}>
+    {console.log(position)}
       <Router>
       <ButtonAppBar sensors={sensors} battery={Battery} velocity={Velocity}>
         <Switch>

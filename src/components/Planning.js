@@ -37,7 +37,7 @@ export default function PlanningComponent(props) {
         {title:"Goto", body:"x=100, y=213",progress:0, key:"8", visible:true},
 ]
 
-const [PlansObjList, setPlansObjList] = React.useState(convertToPlans(props.plans));
+const [PlansObjList, setPlansObjList] = React.useState(PlansObjListFirst);//convertToPlans(props.plans)
 const [checked, setChecked] = React.useState(true);
 const [direction, setDirection] = React.useState("right");
 const [planscounter, setPlanscounter] = React.useState(0);
