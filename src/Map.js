@@ -37,6 +37,7 @@ const Map = (props) => {
     const [mapSizeX, setMapSizeX] = useState(767);
     const [mapSizeY, setMapSizeY] = useState(432);
     const [sensors, setSensors] = useState(props.sensors);
+    var data = props.satellite.data;
     // setMapSizeX(props.position.sizeX);
     // setMapSizeX(props.position.sizeY);
     const useStyles = makeStyles({
@@ -254,7 +255,6 @@ const Map = (props) => {
     const getRobot = () => {
        return(
            <div>
-               {console.log(pos)}
             <Robot pos={pos}/>
         </div>
        )
@@ -379,7 +379,7 @@ const Map = (props) => {
                                             )
                                         })
                                         }
-                                        {console.log(sensors)}
+                                        
                                         {sensors && sensors.map((sensor) => {
                                             return(
                                                 <div key={sensor.id}

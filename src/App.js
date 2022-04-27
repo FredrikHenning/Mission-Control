@@ -26,7 +26,12 @@ function App() {
     "x": 0,
     "y": 0
                     }};
+
   const [position, setPosition] = useState(startPos);
+
+  const [x, setX] = useState(0);
+  const [y, setY] = useState(0);
+
   const [manualcontrol, setManualcontrol] = useState(0);
   const [sensors, setSensors] = useState([]);
   const [Plans, setPlans] = useState([]);
@@ -38,7 +43,7 @@ function App() {
   const [Routen, setRouten] = useState([]);
   const [consolemessage, setMessage] = useState();
 
-  const [imageEncoded, setImage] = useState();
+  const [imageEncoded, setImage] = useState("");
 
 
 
@@ -57,7 +62,11 @@ function App() {
       return res.json();
     })
     .then(data => {
+        //console.log(data)
+        console.log(JSON.parse(data.position))
         setPosition(JSON.parse(data.position));
+
+        
         const sensorList = [];
         for (let i = 0; i < data.sensors.length; i++) {
            sensorList[i] = JSON.parse(data.sensors[i]);  
@@ -71,6 +80,7 @@ function App() {
         setVelocity(JSON.parse(data.velocity));
         setRouten(JSON.parse(data.route))
         setMessage(data.message)
+        console.log(position)
       
     })}, 1000);
     return () => clearInterval(interval);
@@ -90,7 +100,7 @@ function App() {
       </ButtonAppBar>
       </Router>
       <div class="flexbox-container">
-      <Map position={position} sensors={sensors} rotation={Rotation} routen={Routen}/>
+      <Map position={position} sensors={sensors} rotation={Rotation} routen={Routen} satellite={imageEncoded}/>
       <Console2 position={position} message={consolemessage}/>
       </div>
       <SendPoints/>

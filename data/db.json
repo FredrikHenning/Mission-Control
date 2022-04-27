@@ -5,7 +5,30 @@
     "InventoryStatus": "Empty"
   },
   "points": [
-
+    {
+      "command": "sensor-pickup",
+      "x": 34.29999923706055,
+      "y": 15.949999809265137,
+      "color": "purple",
+      "sensor": 2,
+      "id": 3
+    },
+    {
+      "command": "goto",
+      "x": "33.250",
+      "y": "41.828",
+      "color": "black",
+      "sensor": 4,
+      "id": 4
+    },
+    {
+      "command": "goto",
+      "x": "76.741",
+      "y": "21.745",
+      "color": "black",
+      "sensor": 5,
+      "id": 5
+    }
   ],
   "sensors": [
     {
