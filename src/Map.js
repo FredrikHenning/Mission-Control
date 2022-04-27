@@ -22,6 +22,7 @@ import SensorDetails from './components/SensorDetails';
 import PointDetails from './components/PointDetails';
 import LineTo from 'react-lineto';
 import SensorsSharpIcon from '@mui/icons-material/SensorsSharp';
+import Control from './components/Control'
 
 
 // Styles in height and width for the card/picture
@@ -37,6 +38,32 @@ const Map = (props) => {
     const [mapSizeX, setMapSizeX] = useState(767);
     const [mapSizeY, setMapSizeY] = useState(432);
     const [sensors, setSensors] = useState(props.sensors);
+    const [manual, setManual] = useState(false);
+
+    function updateManual(value){
+        setManual(value)
+        fetch('https://localhost:7071/todo/mc/manualcontrol',
+        {method: 'POST',
+        body: value,
+        headers: {
+        'Content-Type': 'application/json',
+        }})
+    }
+
+    function sendManual(x, y){
+        var points = {"x": x, "y": y}
+
+        fetch('https://localhost:7071/todo/mc/manualpoints',
+        {method: 'POST',
+        body: points,
+        headers: {
+        'Content-Type': 'application/json',
+        }})
+
+        console.log(points)
+    }
+
+
     // setMapSizeX(props.position.sizeX);
     // setMapSizeX(props.position.sizeY);
     const useStyles = makeStyles({
@@ -109,9 +136,12 @@ const Map = (props) => {
         setX((bx*0.133).toFixed(3));
         setY((by*0.133).toFixed(3));
         setSensor(sensor + 1)
-        if (takeControl != true)(
+        if (takeControl != true && !manual)(
             setOpenOne(true)
         )
+        else if (manual == true){
+            sendManual(x, y)
+        }
         setNodes('Working on Point');
         setOldPoints(points);
       };
@@ -254,8 +284,8 @@ const Map = (props) => {
     const getRobot = () => {
        return(
            <div>
-               {console.log(pos)}
-            <Robot pos={pos}/>
+            {console.log(pos)}
+            <Robot rotation={props.rotation} pos={pos}/>
         </div>
        )
         
@@ -277,8 +307,9 @@ const Map = (props) => {
     return ( 
         
         <CardContent>
-            <Card className={classes.root}>    
+            <Card className={classes.root}>  
                 <CardHeader
+                
                     className={classes.headerHeight}
                      // sx={{ bgcolor: blue[700] }}
 
@@ -319,13 +350,14 @@ const Map = (props) => {
                                         image={mapTwo}
                                         alt="Mars2"
                                     />
+                                     
                             </Popover>
                            {/* <ThreeSixty sx={{ fontSize: 30}}/> */}
                            <Chip icon={<ThreeSixty sx={{ fontSize: 30}}/>} label="Change map" />
                         </IconButton>
+                        
                     }   
                 />
-                    
                 <div>
 {/* {                console.log(props.sensors) }*/}
                     <TransformWrapper
@@ -354,7 +386,6 @@ const Map = (props) => {
                                 </Stack>
                                 {/* {console.log(zomvar)} */}
 
-
                                 <div ref={ref} onClick={handleClickOpen}>
                                     <TransformComponent>
                                         
@@ -368,14 +399,15 @@ const Map = (props) => {
                                             var next = "pointMarker" + nextindex;
 
                                             return (
-                                                <><div className={current} key={index}
+                                                <div className={current} key={index}
                                                     style={{
                                                         position: "absolute",
                                                         left: `${point[0] - 19}px`,
                                                         top: `${-30 + mapSizeY - point[1]}px`,
                                                     }}
                                                 >
-                                                </div><LineTo from={current} to={next} borderColor="black" borderStyle="dotted" borderWidth="3px"></LineTo></>
+                                                <LineTo from={current} to={next} borderColor="black" borderStyle="dotted" borderWidth="3px"></LineTo>
+                                                </div>
                                             )
                                         })
                                         }
@@ -401,7 +433,6 @@ const Map = (props) => {
                                             //  console.log(oldPoints.filter(point => point.id.includes(point.id)))
 
                                             return (
-                                                // console.log("running here!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"),
                                                 // <div className="point-marker" key = {point.id}>
                                                 //     {oldPoints && oldPoints.map((oldpoint) => {
                                                 //         <div className="oldPoit-markers" key = {oldpoint.id}>
@@ -545,8 +576,10 @@ const Map = (props) => {
                         </Button>
                     </DialogActions>
                 </Dialog>                         
-            </Card>      
+            </Card>
+            <Control x={x} y ={y} manual={manual} setManual={updateManual}/>       
       </CardContent>
+      
       
      );
 }
