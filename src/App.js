@@ -104,7 +104,6 @@ function App() {
       <Console2 position={position} message={consolemessage}/>
       </div>
       <SendPoints/>
-      <Control />
       <PlanningComponent plans={Plans} status={pStatus}/>
       
     </ThemeProvider>
