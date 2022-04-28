@@ -38,6 +38,7 @@ function App() {
 
 
   const [imageEncoded, setImage] = useState("");
+  const [landscapeEncoded, setLandscape] = useState("");
 
   const [update, setUpdate] = useState({Plans: [], Status: {}, Rotation: "", Battery:"", Velocity:{}, Routen:[], Message: "", Sensors: [], Position: startPos});
   var count1;
@@ -49,8 +50,17 @@ useEffect(() => {
 })
 .then(data => {
   setImage(data)
+  //console.log(data)
+})
+fetch('https://localhost:7071/todo/landscape')
+  .then(res => {
+  return res.json();
+})
+.then(data => {
+  setLandscape(data)
   console.log(data)
 })
+
 }, [count1]);
 
 
@@ -127,7 +137,7 @@ useEffect(() => {
       <console2 message={update.Message}/>
       </div>
       <SendPoints/>
-      <Photo / >
+      <Photo landscape = {landscapeEncoded}/ >
       <PlanningComponent plans={update.Plans} status={update.pStatus}/>
       
     </ThemeProvider>

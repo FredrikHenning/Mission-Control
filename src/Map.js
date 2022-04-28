@@ -389,9 +389,9 @@ const Map = (props) => {
 
                                 <div ref={ref} onClick={handleClickOpen}>
                                     <TransformComponent>
-                                        {/* <img src={`data:image/jpeg;base64,${data}`} alt="test" onDrag={(offset) => {console.log(offset)}}/> */}
+                                         <img src={`data:image/jpeg;base64,${data}`} alt="test" onDrag={(offset) => {console.log(offset)}}/>
                                         
-                                        <img src={map} alt="test" onDrag={(offset) => {console.log(offset)}}/>
+                                        {/*<img src={map} alt="test" onDrag={(offset) => {console.log(offset)}}/>*/}
                                         
                                         {getRobot()}
 
@@ -414,17 +414,7 @@ const Map = (props) => {
                                                 })
                                                 }
                                                 
-                                                {sensors && sensors.map((sensor) => {
-                                                    return(
-                                                        <div key={sensor.id}
-                                                            style={{
-                                                                position: "absolute",
-                                                                left: `${sensor.position.x/0.133 - 19}px`,
-                                                                top: `${-30 + mapSizeY - sensor.position.y/0.133}px`,
-                                                            }}>
-                                                        </div>
-                                                    )
-                                                })}
+                                                
                                         
                                         {props.sensors && props.sensors.map((sensor) => {
                                             return(
