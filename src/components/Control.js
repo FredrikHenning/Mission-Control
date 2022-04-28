@@ -59,13 +59,15 @@ import { PortraitSharp } from '@mui/icons-material';
         </Typography>
         </Box>
         <Grid sx={{ mt: 1 }}container spacing={1}>
-          <Grid item xs={3}>
-          <IconButton color="primary" aria-label="upload picture" component="span">
-          <PhotoCamera/> 
-          </IconButton>
+          <Grid item xs={6}>
+          <Button color="primary" variant="contained" startIcon={<PhotoCamera />}>
+            Take photo
+          </Button>
           </Grid>
-          <Grid item xs={9}>
-          <Button variant="outlined">Place sensor</Button>
+          <Grid item xs={6}>
+          <Button color="primary" variant="contained">
+            Place sensor
+          </Button>
           </Grid>
         </Grid>
       </Paper>
