@@ -3,6 +3,21 @@ import { useEffect, useState } from "react";
 import useFetch from "./useFetch";
 import { Box, Chip, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, FormControl, FormControlLabel, IconButton, InputLabel, MenuItem, Popover, Select, Switch } from '@mui/material';
 import MissionDetails from "./MissionDetails";
+import * as React from 'react';
+import { styled } from '@mui/material/styles';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemAvatar from '@mui/material/ListItemAvatar';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
+import Avatar from '@mui/material/Avatar';
+import FormGroup from '@mui/material/FormGroup';
+import Checkbox from '@mui/material/Checkbox';
+import Grid from '@mui/material/Grid';
+import Typography from '@mui/material/Typography';
+import FolderIcon from '@mui/icons-material/Folder';
+import DeleteIcon from '@mui/icons-material/Delete';
+import { Paper } from "@mui/material";
 
 
 
@@ -79,65 +94,74 @@ const SendPoints = () => {
     }
 
     return (
-        <div>
-            {/* <Button variant="contained" onClick={SendClickHandel}>Send</Button> */}
+        <><Box>
+            <Paper elevation={2} >
             <Button onClick={() => {
-                if (sent === 'Use Points') {
-                    setSent('New points waiting to be sent')
-                    setOpenOne(true);
-                }
-                else {
-                    setSent('Use Points')
-                }
-            }}>{sent}
-            </Button>
+                    if (sent === 'Use Points') {
+                        setSent('New points waiting to be sent');
+                        setOpenOne(true);
+                    }
+                    else {
+                        setSent('Use Points');
+                    }
+                } }>{sent}
+                </Button>
+                    <List>
+                        {points && points.map((point) => (
+                            <ListItem
+                                secondaryAction={<IconButton edge="end" aria-label="delete">
+                                    <DeleteIcon />
+                                </IconButton>}
+                            >
+                            
+                                <ListItemText
+                                    primary={<MissionDetails spot={point} />}
+                                />
+                            </ListItem>
+                            ))} 
+                    </List>
+                    </Paper>
+        </Box>
+        <Dialog
+                    fullWidth={fullWidth}
+                    maxWidth={'sm'}
+                    open={openOne}
+                    onClose={handleClose}
+                >
 
-            <Dialog
-                fullWidth={fullWidth}
-                maxWidth={'sm'}
-                open={openOne}
-                onClose={handleClose}
-            >
+                    <DialogTitle>Point</DialogTitle>
+                    <DialogContent>
+                        <DialogContentText>
+                            {"Do you want to use these points: "}
 
-                <DialogTitle>Point</DialogTitle>
-                <DialogContent>
-                    <DialogContentText >
-                        {"Do you want to use these points: "}
+                        </DialogContentText>
 
-                    </DialogContentText>
-
-                    <Box
-                        noValidate
-                        component="form"
-                        sx={{
-                            display: 'flex',
-                            flexDirection: 'column',
-                            m: 'auto',
-                            width: 'fit-content',
-                        }}
-                    >
+                        <Box
+                            noValidate
+                            component="form"
+                            sx={{
+                                display: 'flex',
+                                flexDirection: 'column',
+                                m: 'auto',
+                                width: 'fit-content',
+                            }}
+                        >
 
 
-                    </Box>
-                </DialogContent>
-                <DialogActions>
-                    <Button onClick={handleClose}>Disagree</Button>
-                    <Button onClick={SendClickHandel} autoFocus>
-                        Agree
-                    </Button>
-                </DialogActions>
-            </Dialog>
-            <Button onClick={handlePointList} > See Point List</Button>
-            {points && points.map((point) => (
-                <div className="blog-preview" key={point.id}>
-                    {/* {console.log(point)} */}
-                    <MissionDetails spot={point}/>
-                    {/* <p>ID: {point.id} Command: {point.command} x: {point.x} y: {point.y}</p>
-                    <p></p> */}
-                    
-                </div>
-            ))}
-        </div>
+                        </Box>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={handleClose}>Disagree</Button>
+                        <Button onClick={SendClickHandel} autoFocus>
+                            Agree
+                        </Button>
+                    </DialogActions>
+                </Dialog>
+        <div>
+                
+                <Button onClick={handlePointList}> See Point List</Button>
+                
+            </div></>
 
     );
 }
