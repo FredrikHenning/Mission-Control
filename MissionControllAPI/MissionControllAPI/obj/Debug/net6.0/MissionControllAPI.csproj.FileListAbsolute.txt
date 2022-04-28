@@ -26,3 +26,31 @@ C:\Users\wgurr\source\repos\MissionControllAPI\MissionControllAPI\obj\Debug\net6
 C:\Users\wgurr\source\repos\MissionControllAPI\MissionControllAPI\obj\Debug\net6.0\MissionControllAPI.pdb
 C:\Users\wgurr\source\repos\MissionControllAPI\MissionControllAPI\obj\Debug\net6.0\MissionControllAPI.genruntimeconfig.cache
 C:\Users\wgurr\source\repos\MissionControllAPI\MissionControllAPI\bin\Debug\net6.0\MQTTnet.dll
+C:\Users\GTSA - Infinity\Desktop\filer\react\mission-control\Mission-Control2\MissionControllAPI\MissionControllAPI\bin\Debug\net6.0\appsettings.Development.json
+C:\Users\GTSA - Infinity\Desktop\filer\react\mission-control\Mission-Control2\MissionControllAPI\MissionControllAPI\bin\Debug\net6.0\appsettings.json
+C:\Users\GTSA - Infinity\Desktop\filer\react\mission-control\Mission-Control2\MissionControllAPI\MissionControllAPI\bin\Debug\net6.0\MissionControllAPI.exe
+C:\Users\GTSA - Infinity\Desktop\filer\react\mission-control\Mission-Control2\MissionControllAPI\MissionControllAPI\bin\Debug\net6.0\MissionControllAPI.deps.json
+C:\Users\GTSA - Infinity\Desktop\filer\react\mission-control\Mission-Control2\MissionControllAPI\MissionControllAPI\bin\Debug\net6.0\MissionControllAPI.runtimeconfig.json
+C:\Users\GTSA - Infinity\Desktop\filer\react\mission-control\Mission-Control2\MissionControllAPI\MissionControllAPI\bin\Debug\net6.0\MissionControllAPI.dll
+C:\Users\GTSA - Infinity\Desktop\filer\react\mission-control\Mission-Control2\MissionControllAPI\MissionControllAPI\bin\Debug\net6.0\ref\MissionControllAPI.dll
+C:\Users\GTSA - Infinity\Desktop\filer\react\mission-control\Mission-Control2\MissionControllAPI\MissionControllAPI\bin\Debug\net6.0\MissionControllAPI.pdb
+C:\Users\GTSA - Infinity\Desktop\filer\react\mission-control\Mission-Control2\MissionControllAPI\MissionControllAPI\bin\Debug\net6.0\Microsoft.OpenApi.dll
+C:\Users\GTSA - Infinity\Desktop\filer\react\mission-control\Mission-Control2\MissionControllAPI\MissionControllAPI\bin\Debug\net6.0\MQTTnet.dll
+C:\Users\GTSA - Infinity\Desktop\filer\react\mission-control\Mission-Control2\MissionControllAPI\MissionControllAPI\bin\Debug\net6.0\Swashbuckle.AspNetCore.Swagger.dll
+C:\Users\GTSA - Infinity\Desktop\filer\react\mission-control\Mission-Control2\MissionControllAPI\MissionControllAPI\bin\Debug\net6.0\Swashbuckle.AspNetCore.SwaggerGen.dll
+C:\Users\GTSA - Infinity\Desktop\filer\react\mission-control\Mission-Control2\MissionControllAPI\MissionControllAPI\bin\Debug\net6.0\Swashbuckle.AspNetCore.SwaggerUI.dll
+C:\Users\GTSA - Infinity\Desktop\filer\react\mission-control\Mission-Control2\MissionControllAPI\MissionControllAPI\obj\Debug\net6.0\MissionControllAPI.csproj.AssemblyReference.cache
+C:\Users\GTSA - Infinity\Desktop\filer\react\mission-control\Mission-Control2\MissionControllAPI\MissionControllAPI\obj\Debug\net6.0\MissionControllAPI.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\GTSA - Infinity\Desktop\filer\react\mission-control\Mission-Control2\MissionControllAPI\MissionControllAPI\obj\Debug\net6.0\MissionControllAPI.AssemblyInfoInputs.cache
+C:\Users\GTSA - Infinity\Desktop\filer\react\mission-control\Mission-Control2\MissionControllAPI\MissionControllAPI\obj\Debug\net6.0\MissionControllAPI.AssemblyInfo.cs
+C:\Users\GTSA - Infinity\Desktop\filer\react\mission-control\Mission-Control2\MissionControllAPI\MissionControllAPI\obj\Debug\net6.0\MissionControllAPI.csproj.CoreCompileInputs.cache
+C:\Users\GTSA - Infinity\Desktop\filer\react\mission-control\Mission-Control2\MissionControllAPI\MissionControllAPI\obj\Debug\net6.0\MissionControllAPI.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\GTSA - Infinity\Desktop\filer\react\mission-control\Mission-Control2\MissionControllAPI\MissionControllAPI\obj\Debug\net6.0\MissionControllAPI.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\GTSA - Infinity\Desktop\filer\react\mission-control\Mission-Control2\MissionControllAPI\MissionControllAPI\obj\Debug\net6.0\staticwebassets.build.json
+C:\Users\GTSA - Infinity\Desktop\filer\react\mission-control\Mission-Control2\MissionControllAPI\MissionControllAPI\obj\Debug\net6.0\staticwebassets.development.json
+C:\Users\GTSA - Infinity\Desktop\filer\react\mission-control\Mission-Control2\MissionControllAPI\MissionControllAPI\obj\Debug\net6.0\scopedcss\bundle\MissionControllAPI.styles.css
+C:\Users\GTSA - Infinity\Desktop\filer\react\mission-control\Mission-Control2\MissionControllAPI\MissionControllAPI\obj\Debug\net6.0\MissionControllAPI.csproj.CopyComplete
+C:\Users\GTSA - Infinity\Desktop\filer\react\mission-control\Mission-Control2\MissionControllAPI\MissionControllAPI\obj\Debug\net6.0\MissionControllAPI.dll
+C:\Users\GTSA - Infinity\Desktop\filer\react\mission-control\Mission-Control2\MissionControllAPI\MissionControllAPI\obj\Debug\net6.0\ref\MissionControllAPI.dll
+C:\Users\GTSA - Infinity\Desktop\filer\react\mission-control\Mission-Control2\MissionControllAPI\MissionControllAPI\obj\Debug\net6.0\MissionControllAPI.pdb
+C:\Users\GTSA - Infinity\Desktop\filer\react\mission-control\Mission-Control2\MissionControllAPI\MissionControllAPI\obj\Debug\net6.0\MissionControllAPI.genruntimeconfig.cache

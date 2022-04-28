@@ -581,7 +581,8 @@ const Map = (props) => {
                                 </Button>
                             </DialogActions>
                         </Dialog>                         
-                    </Card>       
+                    </Card>
+                    <Control x={x} y={y} manual={manual} setManual={setManual}/>       
             </CardContent>
       
       
