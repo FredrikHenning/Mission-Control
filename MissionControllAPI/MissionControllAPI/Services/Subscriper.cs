@@ -85,7 +85,7 @@ namespace MissionControllAPI.Services
                     //sw.Close();
                     if (topic == "mcpos" || topic == "simulation/robot/position")
                     {
-                        Console.WriteLine($"Recived new message: {message}");
+                        //Console.WriteLine($"Recived new message: {message}");
                         try { File.WriteAllText("position.txt", message); }
                         catch { };
                     }
@@ -134,14 +134,14 @@ namespace MissionControllAPI.Services
 
                     if (topic == "simulation/robot/battery")
                     {
-                        Console.WriteLine($"Recived new message: {message}");
+                        //Console.WriteLine($"Recived new message: {message}");
                         try { File.WriteAllText("battery.txt", message); }
                         catch { };
                     }
 
                     if (topic == "simulation/robot/rotation")
                     {
-                        Console.WriteLine($"Recived new message: {message}");
+                        //Console.WriteLine($"Recived new message: {message}");
                         try { File.WriteAllText("rotation.txt", message); }
                         catch { };
                     }

@@ -121,8 +121,14 @@ namespace MissionControllAPI.Controllers
                     sr.Close();
                 }
                 catch { };
-
-                mess = mess.Remove(mess.Length - 1);
+                int il = 1;
+                
+                while(mess[mess.Length - il].ToString() != "}")
+                {
+                    il++;
+                    
+                }
+                mess = mess.Remove(mess.Length - il);
                 mess = mess + ", " + '"' + "id" + '"'+": " + i + "}";
 
                 sensorList.Add(mess);

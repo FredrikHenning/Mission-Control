@@ -75,7 +75,7 @@ fetch('https://localhost:7071/todo/landscape')
       return res.json();
     })
     .then(data => {
-        //console.log(data)
+        console.log(data)
         //console.log(JSON.parse(data.position))
         let position;
         if(data.position == null){
@@ -91,10 +91,14 @@ fetch('https://localhost:7071/todo/landscape')
         const sensorListPlaced = [];
 
         for (let i = 0; i < data.sensors.length; i++) {
+          //console.log(data.sensors[i])
            sensorList[i] = JSON.parse(data.sensors[i]);
-          //if(sensorList[i].is_placed == true){
-            //sensorListPlaced.push(sensorList[i]) 
+          if(sensorList[i].is_placed == true){
+            sensorListPlaced.push(sensorList[i]) 
+            
           }
+        
+        }
            
         
         //setSensors(sensorList); 
@@ -111,10 +115,10 @@ fetch('https://localhost:7071/todo/landscape')
         }
         let battery = JSON.parse(data.battery)
         let velocity = JSON.parse(data.velocity)
-        console.log(data.route)
+        
         let routen = JSON.parse(data.route).path
         let message = data.message;
-        var alldata = {Plans: plans, Status: status, Rotation: rotation, Battery:battery, Velocity:velocity, Routen:routen, Message: message, Sensors: sensorList, Position: position}
+        var alldata = {Plans: plans, Status: status, Rotation: rotation, Battery:battery, Velocity:velocity, Routen:routen, Message: message, Sensors: sensorListPlaced, Position: position}
         setUpdate(alldata)
       
     })}, 1000);
