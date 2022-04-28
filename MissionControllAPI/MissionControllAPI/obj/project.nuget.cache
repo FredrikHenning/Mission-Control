@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "qeAsErRpyRR+4GgrSYfC7D2aKj9oR2NreW1Bbf7ieZ0XzvkEBK9BaBrx4EwrlRlVBjfzdEGjTiL3M6docMYZTg==",
+  "dgSpecHash": "Ipy7GxMcNB6yQZEMqPRvjAcqiZoKpqYwnrbvYJpW1LbFLNrqXwMPwgg4OirqyPH1HWfk4AkTTdM+VIq7X2xnqQ==",
   "success": true,
-  "projectFilePath": "C:\\Users\\wgurr\\source\\repos\\MissionControllAPI\\MissionControllAPI\\MissionControllAPI.csproj",
+  "projectFilePath": "C:\\Users\\wgurr\\Desktop\\MCnya\\Mission-Control\\MissionControllAPI\\MissionControllAPI\\MissionControllAPI.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\wgurr\\.nuget\\packages\\microsoft.extensions.apidescription.server\\3.0.0\\microsoft.extensions.apidescription.server.3.0.0.nupkg.sha512",
     "C:\\Users\\wgurr\\.nuget\\packages\\microsoft.openapi\\1.2.3\\microsoft.openapi.1.2.3.nupkg.sha512",

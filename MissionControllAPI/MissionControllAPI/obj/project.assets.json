@@ -250,11 +250,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\wgurr\\source\\repos\\MissionControllAPI\\MissionControllAPI\\MissionControllAPI.csproj",
+      "projectUniqueName": "C:\\Users\\wgurr\\Desktop\\MCnya\\Mission-Control\\MissionControllAPI\\MissionControllAPI\\MissionControllAPI.csproj",
       "projectName": "MissionControllAPI",
-      "projectPath": "C:\\Users\\wgurr\\source\\repos\\MissionControllAPI\\MissionControllAPI\\MissionControllAPI.csproj",
+      "projectPath": "C:\\Users\\wgurr\\Desktop\\MCnya\\Mission-Control\\MissionControllAPI\\MissionControllAPI\\MissionControllAPI.csproj",
       "packagesPath": "C:\\Users\\wgurr\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\wgurr\\source\\repos\\MissionControllAPI\\MissionControllAPI\\obj\\",
+      "outputPath": "C:\\Users\\wgurr\\Desktop\\MCnya\\Mission-Control\\MissionControllAPI\\MissionControllAPI\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\wgurr\\AppData\\Roaming\\NuGet\\NuGet.Config",
