@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "ProjectMap": {
+    "b7af9bdc-baa6-48e2-9f88-bca8ff4dbbe8": {
+      "ProjectGuid": "b7af9bdc-baa6-48e2-9f88-bca8ff4dbbe8",
+      "DisplayName": "MissionControllAPI",
+      "ColorIndex": 0
+    }
+  },
+  "NextColorIndex": 1
+}
