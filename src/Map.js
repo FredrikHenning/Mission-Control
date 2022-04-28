@@ -426,7 +426,7 @@ const Map = (props) => {
                                                     }}
                                                 >
                                                     <IconButton>
-                                                    {console.log("EY IM WALKING HERE-------------------")}
+                                                
                                                         <SensorsSharpIcon style={{color: "red"}}/>
                                                     </IconButton>
 
