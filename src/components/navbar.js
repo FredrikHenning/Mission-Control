@@ -101,6 +101,10 @@ export default function ButtonAppBar(props) {
       setOpen(false);
     };
 
+    const handleSub = (event) => {
+      fetch('https://localhost:7071/todo/sub')
+    };
+
   useEffect(() => {
     fetch('http://localhost:8000/navbardata')
       .then(res => {
@@ -159,7 +163,7 @@ export default function ButtonAppBar(props) {
 
             </Popper>
           </div>
-          <Button color="inherit">Login</Button>
+          <Button color="inherit" onClick={handleSub}>Sub</Button>
 
           
 

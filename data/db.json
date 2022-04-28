@@ -4,16 +4,7 @@
     "MobilityStatus": "Moving",
     "InventoryStatus": "Empty"
   },
-  "points": [
-    {
-      "command": "take-picture",
-      "x": 78.603,
-      "y": 26.933,
-      "color": "red",
-      "sensor": 1,
-      "id": 1
-    }
-  ],
+  "points": [],
   "sensors": [
     {
       "sensor": 0,
