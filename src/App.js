@@ -73,9 +73,15 @@ useEffect(() => {
         }
         
         const sensorList = [];
+        const sensorListPlaced = [];
+
         for (let i = 0; i < data.sensors.length; i++) {
-           sensorList[i] = JSON.parse(data.sensors[i]);  
-        }
+           sensorList[i] = JSON.parse(data.sensors[i]);
+          //if(sensorList[i].is_placed == true){
+            //sensorListPlaced.push(sensorList[i]) 
+          }
+           
+        
         //setSensors(sensorList); 
         let plans = JSON.parse(data.plans).plan;
         let status = JSON.parse(data.status)
