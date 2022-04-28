@@ -16,9 +16,12 @@ import './app.css';
 import React, { useState, useEffect } from 'react';
 import SensorList from './components/SensorList';
 import { parseJSON } from 'date-fns';
+import Photo from './components/photo';
+import { Grid } from '@mui/material';
+
 
 const theme = createTheme({
-
+  
 })
 
 function App() {
@@ -124,6 +127,7 @@ useEffect(() => {
       <console2 message={update.Message}/>
       </div>
       <SendPoints/>
+      <Photo / >
       <PlanningComponent plans={update.Plans} status={update.pStatus}/>
       
     </ThemeProvider>
