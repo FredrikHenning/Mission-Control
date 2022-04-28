@@ -9,7 +9,7 @@ import Control from './components/Control.js';
 import Map from './Map';
 import SendPoints from './components/SendPoints';
 import Console from './components/console';
-import Console2 from './components/console2';
+import Console2 from './components/Console2';
 import MapImage from './components/MapImage';
 import PlanningComponent from './components/Planning';
 import './app.css';
@@ -18,10 +18,12 @@ import SensorList from './components/SensorList';
 import { parseJSON } from 'date-fns';
 import Photo from './components/photo';
 import { Grid } from '@mui/material';
+import GridList from '@material-ui/core/GridList';
+import GridListTile from '@material-ui/core/GridListTile';
 
 
 const theme = createTheme({
-  
+
 })
 
 function App() {
@@ -121,25 +123,24 @@ fetch('https://localhost:7071/todo/landscape')
 
   return (
     <ThemeProvider theme={theme}>
-      <Router>
-      <ButtonAppBar sensors={update.Sensors} battery={update.Battery} velocity={update.Velocity}>
-        <Switch>
-          <Route exact path="/">
-          </Route>
-          <Route path="/create">
-            <Create />
-          </Route>
-        </Switch>
-      </ButtonAppBar>
-      </Router>
-      <div class="flexbox-container">
-      <Map position={update.Position} sensors={update.Sensors} rotation={update.Rotation} routen={update.Routen} satellite ={imageEncoded} /> 
-      <console2 message={update.Message}/>
-      </div>
-      <SendPoints/>
-      <Photo landscape = {landscapeEncoded}/ >
-      <PlanningComponent plans={update.Plans} status={update.pStatus}/>
-      
+      <ButtonAppBar sensors={update.Sensors} battery={update.Battery} velocity={update.Velocity}></ButtonAppBar>
+        <Grid container spacing={2}>
+          <Grid item md={6}>
+            <Map position={update.Position} sensors={update.Sensors} rotation={update.Rotation} routen={update.Routen} satellite ={imageEncoded} /> 
+          </Grid>
+          <Grid item md={3}>
+            <Photo landscape = {landscapeEncoded}/ >
+          </Grid>
+          <Grid item md={3}>
+            <SendPoints/>
+          </Grid>
+          <Grid item md={6}>
+            <PlanningComponent plans={update.Plans} status={update.pStatus}/>
+          </Grid>
+          <Grid item md={6}>
+            <Console2 message={update.Message}/>
+          </Grid>
+        </Grid>
     </ThemeProvider>
   );
 }

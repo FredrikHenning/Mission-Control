@@ -19,9 +19,6 @@ import FolderIcon from '@mui/icons-material/Folder';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { Paper } from "@mui/material";
 
-
-
-
 const SendPoints = () => {
     const [openOne, setOpenOne] = useState(false);
     const [points, setPoints] = useState(null);
@@ -93,8 +90,14 @@ const SendPoints = () => {
         // console.log(e)
     }
 
+    const handleDelete=(id) =>{
+        fetch('http://localhost:8000/points/' + id, {
+            method: 'DELETE'
+        })
+    }
+
     return (
-        <><Box>
+        <><Box sx={{width: "400px"}}>
             <Paper elevation={2} >
             <Button onClick={() => {
                     if (sent === 'Use Points') {
@@ -106,16 +109,18 @@ const SendPoints = () => {
                     }
                 } }>{sent}
                 </Button>
+                <Button onClick={handlePointList}> See Point List</Button>
                     <List>
                         {points && points.map((point) => (
-                            <ListItem
+                            <ListItem 
+                                onClick={handleDelete(point.id)}
                                 secondaryAction={<IconButton edge="end" aria-label="delete">
                                     <DeleteIcon />
                                 </IconButton>}
                             >
                             
                                 <ListItemText
-                                    primary={<MissionDetails spot={point} />}
+                                    primary={<p>Command: {point.command}, Pos: ({parseFloat(point.x).toFixed(2)}, {parseFloat(point.y).toFixed(2)})</p>}
                                 />
                             </ListItem>
                             ))} 
@@ -156,12 +161,7 @@ const SendPoints = () => {
                             Agree
                         </Button>
                     </DialogActions>
-                </Dialog>
-        <div>
-                
-                <Button onClick={handlePointList}> See Point List</Button>
-                
-            </div></>
+                </Dialog></>
 
     );
 }
