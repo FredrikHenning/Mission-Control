@@ -73,7 +73,7 @@ const Map = (props) => {
         root: {
             maxWidth: 767,
             maxHeight: 600,
-            Width: 767
+            width: 767
         },
         media: {
             // scale: 50,
