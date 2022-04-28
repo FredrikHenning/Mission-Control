@@ -90,7 +90,8 @@ useEffect(() => {
         }
         let battery = JSON.parse(data.battery)
         let velocity = JSON.parse(data.velocity)
-        let routen = JSON.parse(data.route)
+        console.log(data.route)
+        let routen = JSON.parse(data.route).path
         let message = data.message;
         var alldata = {Plans: plans, Status: status, Rotation: rotation, Battery:battery, Velocity:velocity, Routen:routen, Message: message, Sensors: sensorList, Position: position}
         setUpdate(alldata)
@@ -101,7 +102,6 @@ useEffect(() => {
 
   return (
     <ThemeProvider theme={theme}>
-    
       <Router>
       <ButtonAppBar sensors={update.Sensors} battery={update.Battery} velocity={update.Velocity}>
         <Switch>

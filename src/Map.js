@@ -23,6 +23,7 @@ import PointDetails from './components/PointDetails';
 import LineTo from 'react-lineto';
 import SensorsSharpIcon from '@mui/icons-material/SensorsSharp';
 import Control from './components/Control'
+import { red } from '@mui/material/colors';
 
 
 // Styles in height and width for the card/picture
@@ -134,8 +135,8 @@ const Map = (props) => {
         // setY((mapSizeY - mouse.y))
         var bx = mouse.x/offsetScale + (offsetX)
         var by =(mapSizeY - mouse.y)/offsetScale + (offsetY)
-        setX((bx*0.133).toFixed(3));
-        setY((by*0.133).toFixed(3));
+        setX(parseFloat((bx*0.133).toFixed(3)));
+        setY(parseFloat((by*0.133).toFixed(3)));
         setSensor(sensor + 1)
         if (takeControl != true && !manual)(
             setOpenOne(true)
@@ -388,9 +389,10 @@ const Map = (props) => {
 
                                 <div ref={ref} onClick={handleClickOpen}>
                                     <TransformComponent>
-                                        {//<img src={`data:image/jpeg;base64,${data}`} alt="test" onDrag={(offset) => {console.log(offset)}}/>}
-                                        }
-                                        <img src={map} alt="test" onDrag={(offset) => {console.log(offset)}}/>
+                                        <img src={`data:image/jpeg;base64,${data}`} alt="test" onDrag={(offset) => {console.log(offset)}}/>
+                                        
+                                        {/* //{<img src={map} alt="test" onDrag={(offset) => {console.log(offset)}}/>
+                                        } */}
                                         {getRobot()}
 
                                         {props.routen.map((point, index) => {
@@ -402,8 +404,8 @@ const Map = (props) => {
                                                 <div className={current} key={index}
                                                     style={{
                                                         position: "absolute",
-                                                        left: `${point[0] - 19}px`,
-                                                        top: `${-30 + mapSizeY - point[1]}px`,
+                                                        left: `${point[0]}px`,
+                                                        top: `${mapSizeY - point[1]}px`,
                                                     }}
                                                 >
                                                 <LineTo from={current} to={next} borderColor="black" borderStyle="dotted" borderWidth="3px"></LineTo>
@@ -412,7 +414,7 @@ const Map = (props) => {
                                         })
                                         }
                                         
-                                        {sensors && sensors.map((sensor) => {
+                                        {props.sensors && props.sensors.map((sensor) => {
                                             return(
                                                 <div key={sensor.id}
                                                     style={{
@@ -422,7 +424,8 @@ const Map = (props) => {
                                                     }}
                                                 >
                                                     <IconButton>
-                                                        <SensorsSharpIcon/>
+                                                    {console.log("EY IM WALKING HERE-------------------")}
+                                                        <SensorsSharpIcon style={{color: "red"}}/>
                                                     </IconButton>
 
                                                 </div>

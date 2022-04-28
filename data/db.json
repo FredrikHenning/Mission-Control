@@ -6,52 +6,12 @@
   },
   "points": [
     {
-      "command": "sensor-drop",
-      "x": 20.75,
-      "y": 38.16999816894531,
-      "color": "blue",
-      "sensor": 0,
+      "command": "take-picture",
+      "x": 78.603,
+      "y": 26.933,
+      "color": "red",
+      "sensor": 1,
       "id": 1
-    },
-    {
-      "command": "sensor-drop",
-      "x": 44.95000076293945,
-      "y": 34.310001373291016,
-      "color": "blue",
-      "sensor": 1,
-      "id": 2
-    },
-    {
-      "command": "sensor-drop",
-      "x": 34.29999923706055,
-      "y": 15.949999809265137,
-      "color": "blue",
-      "sensor": 2,
-      "id": 3
-    },
-    {
-      "command": "sensor-pickup",
-      "x": 20.75,
-      "y": 38.16999816894531,
-      "color": "purple",
-      "sensor": 0,
-      "id": 4
-    },
-    {
-      "command": "sensor-pickup",
-      "x": 44.95000076293945,
-      "y": 34.310001373291016,
-      "color": "purple",
-      "sensor": 1,
-      "id": 5
-    },
-    {
-      "command": "sensor-pickup",
-      "x": 34.29999923706055,
-      "y": 15.949999809265137,
-      "color": "purple",
-      "sensor": 2,
-      "id": 6
     }
   ],
   "sensors": [
