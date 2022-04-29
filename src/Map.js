@@ -106,8 +106,8 @@ const Map = (props) => {
         // setY((mapSizeY - mouse.y))
         var bx = mouse.x/offsetScale + (offsetX)
         var by =(mapSizeY - mouse.y)/offsetScale + (offsetY)
-        setX((bx*0.133).toFixed(3));
-        setY((by*0.133).toFixed(3));
+        setX(parseFloat((bx*0.133).toFixed(3)));
+        setY(parseFloat((by*0.133).toFixed(3)));
         setSensor(sensor + 1)
         if (takeControl != true)(
             setOpenOne(true)
@@ -358,8 +358,9 @@ const Map = (props) => {
                                 <div ref={ref} onClick={handleClickOpen}>
                                     <TransformComponent>
                                         
-                                        <img src={`data:image/jpeg;base64,${data}`} alt="test" onDrag={(offset) => {console.log(offset)}}/>
-                                        
+                                        {/* <img src={`data:image/jpeg;base64,${data}`} alt="test" onDrag={(offset) => {console.log(offset)}}/> */}
+                                        <img src={map} alt="test" onDrag={(offset) => {console.log(offset)}}/>
+
                                         {getRobot()}
 
                                         {props.routen.map((point, index) => {
