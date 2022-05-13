@@ -1,4 +1,4 @@
-import { Box, Button, Chip, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, FormControl, FormControlLabel, getLinearProgressUtilityClass, IconButton, InputLabel, MenuItem, Popover, Select, Stack, Switch } from '@mui/material';
+import { Box, Button, Checkbox, Chip, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, FormControl, FormControlLabel, getLinearProgressUtilityClass, IconButton, InputLabel, MenuItem, Popover, Select, Stack, Switch } from '@mui/material';
 // import MoreVertIcon from '@mui/icons-material/MoreVert';
 
 import Card from '@mui/material/Card';
@@ -107,7 +107,6 @@ const Map = (props) => {
         var by =(mapSizeY - mouse.y)/offsetScale + (offsetY)
         setX((bx*0.133).toFixed(3));
         setY((by*0.133).toFixed(3));
-        setSensor(sensor + 1)
         if (takeControl != true)(
             setOpenOne(true)
         )
@@ -127,7 +126,7 @@ const Map = (props) => {
             if(event.target.value === "goto")
                 setColor("black")
             else if(event.target.value === "sensor-drop")
-                setColor("blue")
+                setColor("blue") 
             else if (event.target.value === "sensor-pickup")
                 setColor("purple")
             else if (event.target.value === "take-picture")
@@ -272,6 +271,32 @@ const Map = (props) => {
         // console.log(x_cord, y_cord)
     }
 
+    const [stuff, setStuff] = useState([
+        { nr: "1",  id: 1 },
+        { nr: "2",  id: 2 }
+      ]);
+    const sensorPick = () => {
+        // setSensor(ppp.id)
+    }
+    const handleDropSensor = () => {
+        return (
+            <div>
+                {stuff.map((stff) => {
+                    return (
+                        <div>
+                            <FormControlLabel
+                                control={
+                                    <Checkbox disabled={!(command==="sensor-drop")} onChange={sensorPick()} name={stff.id}></Checkbox>
+                                }
+                                label={stff.id}
+                            />
+                        </div>
+                    )
+                })}
+            </div>
+        )
+    }
+
     const classes = useStyles()
     return ( 
         
@@ -357,8 +382,8 @@ const Map = (props) => {
                                 <div ref={ref} onClick={handleClickOpen}>
                                     <TransformComponent>
                                         
-                                        <img src={`data:image/jpeg;base64,${data}`} alt="test" onDrag={(offset) => {console.log(offset)}}/>
-                                        
+                                        {/* <img src={`data:image/jpeg;base64,${data}`} alt="test" onDrag={(offset) => {console.log(offset)}}/> */}
+                                        <img src={map} alt="test"/>
                                         {getRobot()}
 
                                         {route.map((point, index) => {
@@ -535,7 +560,9 @@ const Map = (props) => {
                                         
                                     </Select>
                                 </FormControl>
+                                
                             </Box>
+                            {handleDropSensor()}
                         </DialogContent>
                     <DialogActions>
                         <Button onClick={handleClose}>Disagree</Button>
@@ -543,6 +570,7 @@ const Map = (props) => {
                             Agree
                         </Button>
                     </DialogActions>
+                    
                 </Dialog>                         
             </Card>      
       </CardContent>
