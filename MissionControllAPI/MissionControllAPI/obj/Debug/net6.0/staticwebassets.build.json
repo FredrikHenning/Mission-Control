@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "kmgMFDmvWX6YideXJuRHMSG+xRzMGOPzYgdApEoV5x8=",
+  "Source": "MissionControllAPI",
+  "BasePath": "_content/MissionControllAPI",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}

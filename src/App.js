@@ -15,6 +15,9 @@ import PlanningComponent from './components/Planning';
 import './app.css';
 import React, { useState, useEffect } from 'react';
 import SensorList from './components/SensorList';
+import { parseJSON } from 'date-fns';
+import Photo from './components/photo';
+import { Grid } from '@mui/material';
 
 const theme = createTheme({
 
@@ -25,41 +28,95 @@ function App() {
     "x": 0,
     "y": 0
                     }};
-  const [position, setPosition] = useState(startPos);
+
+  //const [position, setPosition] = useState(startPos);
+
+
+
   const [manualcontrol, setManualcontrol] = useState(0);
-  const [sensors, setSensors] = useState([]);
-  const [Plans, setPlans] = useState([]);
-  const [pStatus, setpStatus] = useState();
 
-  const [Battery, setBattery] = useState();
-  const [Rotation, setRotation] = useState();
-  const [Velocity, setVelocity] = useState();
-  const [Routen, setRouten] = useState();
-  const [consolemessage, setMessage] = useState();
 
+  const [imageEncoded, setImage] = useState("");
+  const [landscapeEncoded, setLandscape] = useState("");
+
+  const [update, setUpdate] = useState({Plans: [], Status: {}, Rotation: "", Battery:"", Velocity:{}, Routen:[], Message: "", Sensors: [], Position: startPos});
+  var count1;
+
+useEffect(() => {
+  fetch('https://localhost:7071/todo/satellite')
+  .then(res => {
+  return res.json();
+})
+.then(data => {
+  setImage(data)
+  //console.log(data)
+})
+fetch('https://localhost:7071/todo/landscape')
+  .then(res => {
+  return res.json();
+})
+.then(data => {
+  setLandscape(data)
+  console.log(data)
+})
+
+}, [count1]);
 
 
   useEffect(() => {
+   
+
     const interval = setInterval(() => {
       fetch('https://localhost:7071/todo/update')
       .then(res => {
       return res.json();
     })
     .then(data => {
-        setPosition(JSON.parse(data.position));
-        const sensorList = [];
-        for (let i = 0; i < data.sensors.length; i++) {
-           sensorList[i] = JSON.parse(data.sensors[i]);  
+        console.log(data)
+        //console.log(JSON.parse(data.position))
+        let position;
+        if(data.position == null){
+          position = update.Position;
+          console.log("NULLILIIL")
         }
-        setSensors(sensorList); 
-        setPlans(JSON.parse(data.plans).plan);
-        setpStatus(JSON.parse(data.status));
+        else{
+          position = JSON.parse(data.position)
 
-        setRotation(JSON.parse(data.rotation));
-        setBattery(JSON.parse(data.battery));
-        setVelocity(JSON.parse(data.velocity));
-        setRouten(JSON.parse(data.route))
-        setMessage(data.message)
+        }
+        
+        const sensorList = [];
+        const sensorListPlaced = [];
+
+        for (let i = 0; i < data.sensors.length; i++) {
+          //console.log(data.sensors[i])
+           sensorList[i] = JSON.parse(data.sensors[i]);
+          if(sensorList[i].is_placed == true){
+            sensorListPlaced.push(sensorList[i]) 
+            
+          }
+        
+        }
+           
+        
+        //setSensors(sensorList); 
+        let plans = JSON.parse(data.plans).plan;
+        let status = JSON.parse(data.status)
+
+        let rotation;
+        if(data.rotation == null){
+          rotation = update.Rotation;
+          console.log("NULLILIIL")
+        }
+        else{
+         rotation = JSON.parse(data.rotation)
+        }
+        let battery = JSON.parse(data.battery)
+        let velocity = JSON.parse(data.velocity)
+        
+        let routen = JSON.parse(data.route).path
+        let message = data.message;
+        var alldata = {Plans: plans, Status: status, Rotation: rotation, Battery:battery, Velocity:velocity, Routen:routen, Message: message, Sensors: sensorListPlaced, Position: position}
+        setUpdate(alldata)
       
     })}, 1000);
     return () => clearInterval(interval);
@@ -67,25 +124,24 @@ function App() {
 
   return (
     <ThemeProvider theme={theme}>
-      <Router>
-      <ButtonAppBar sensors={sensors} battery={Battery} velocity={Velocity}>
-        <Switch>
-          <Route exact path="/">
-          </Route>
-          <Route path="/create">
-            <Create />
-          </Route>
-        </Switch>
-      </ButtonAppBar>
-      </Router>
-      <div class="flexbox-container">
-      <Map position={position} sensors={sensors} rotation={Rotation} routen={Routen}/>
-      <Console2 position={position} message={consolemessage}/>
-      </div>
-      <SendPoints/>
-      <Control />
-      <PlanningComponent plans={Plans} status={pStatus}/>
-      
+      <ButtonAppBar sensors={update.Sensors} battery={update.Battery} velocity={update.Velocity}></ButtonAppBar>
+        <Grid container spacing={2}>
+          <Grid item md={6}>
+            <Map position={update.Position} sensors={update.Sensors} rotation={update.Rotation} routen={update.Routen} satellite ={imageEncoded} /> 
+          </Grid>
+          <Grid item md={3}>
+            <Photo landscape = {landscapeEncoded}/ >
+          </Grid>
+          <Grid item md={3}>
+            <SendPoints/>
+          </Grid>
+          <Grid item md={6}>
+            <PlanningComponent plans={update.Plans} status={update.pStatus}/>
+          </Grid>
+          <Grid item md={6}>
+            <Console2 message={update.Message}/>
+          </Grid>
+        </Grid>
     </ThemeProvider>
   );
 }

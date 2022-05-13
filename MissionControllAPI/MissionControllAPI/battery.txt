@@ -1,0 +1,5 @@
+<<<<<<< HEAD
+{"battery_level":42221.33984375,"charging":true,"voltage":153.52818298339844}
+=======
+{"battery_level":42185.05859375,"charging":true,"voltage":153.44833374023438}
+>>>>>>> 7eec6c76311384f82593922d3b7e6430377c5371

@@ -48,7 +48,7 @@ function ShowBattery(props){
 
 
 
-export default function ButtonAppBar(props1) {
+export default function ButtonAppBar(props) {
     const [RunColor, setRunColor] = React.useState("default");
     const handleRunClick = () => {
         if(RunColor === "default"){
@@ -73,6 +73,8 @@ export default function ButtonAppBar(props1) {
   const [mobilityStatus, setMobilityStatus] = React.useState("Moving");
   const [open, setOpen] = React.useState(false);
   const [message, setMessage] = React.useState(null);
+  const [message2, setMessage2] = React.useState(null);
+  const [message3, setMessage3] = React.useState(null);
   const [icon, setIcon] = React.useState(null);
 
   const hoverInventory = () => {
@@ -81,8 +83,11 @@ export default function ButtonAppBar(props1) {
     setOpen(true);}
 
   const hoverBattery = () => {
-    var batteryMessage = "Battery: " + Battery + "%"
+    console.log(props.battery)
+    var batteryMessage = "Battery Level: " + props.battery.battery_level;
+    var batteryVoltage = "Voltage: " + props.battery.voltage;
     setMessage(batteryMessage)
+    setMessage2(batteryVoltage)
     setIcon(<ShowBattery Battery={Battery}/>)
     setOpen(true);}
    
@@ -94,6 +99,10 @@ export default function ButtonAppBar(props1) {
 
   const handleClose = (event) => {
       setOpen(false);
+    };
+
+    const handleSub = (event) => {
+      fetch('https://localhost:7071/todo/sub')
     };
 
   useEffect(() => {
@@ -147,14 +156,14 @@ export default function ButtonAppBar(props1) {
             </IconButton>
             <Popper id={id} open={openIn} anchorEl={anchorEl} placement={'bottom-end'}>
               <Box sx={{ border: 2, p: 1, bgcolor: 'background.paper' }}>
-                <SensorList sensor = {props1.sensors}/>
+                <SensorList sensor = {props.sensors}/>
                 
               </Box>
 
 
             </Popper>
           </div>
-          <Button color="inherit">Login</Button>
+          <Button color="inherit" onClick={handleSub}>Sub</Button>
 
           
 
@@ -166,6 +175,8 @@ export default function ButtonAppBar(props1) {
           className="snaapbar">
             <Alert icon={icon} severity="success" sx={{ width: '100%' }} onClose={handleClose}>
             {message}
+            <br></br>
+            {message2}
             </Alert>
         </Snackbar>
     </Box>
