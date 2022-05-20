@@ -83,7 +83,6 @@ fetch('https://localhost:7071/todo/landscape')
           position = JSON.parse(data.position)
 
         }
-        
         const sensorList = [];
         const sensorListPlaced = [];
 
@@ -96,7 +95,6 @@ fetch('https://localhost:7071/todo/landscape')
           }
         
         }
-           
         
         //setSensors(sensorList); 
         let plans = JSON.parse(data.plans).plan;
@@ -110,11 +108,13 @@ fetch('https://localhost:7071/todo/landscape')
         else{
          rotation = JSON.parse(data.rotation)
         }
+        console.log(data.velocity)
         let battery = JSON.parse(data.battery)
         let velocity = JSON.parse(data.velocity)
         
         let routen = JSON.parse(data.route).path
         let message = data.message;
+
         var alldata = {Plans: plans, Status: status, Rotation: rotation, Battery:battery, Velocity:velocity, Routen:routen, Message: message, Sensors: sensorListPlaced, Position: position}
         setUpdate(alldata)
       
@@ -126,19 +126,19 @@ fetch('https://localhost:7071/todo/landscape')
     <ThemeProvider theme={theme}>
       <ButtonAppBar sensors={update.Sensors} battery={update.Battery} velocity={update.Velocity}></ButtonAppBar>
         <Grid container spacing={2}>
-          <Grid item md={6}>
+          <Grid item md={"auto"}>
             <Map position={update.Position} sensors={update.Sensors} rotation={update.Rotation} routen={update.Routen} satellite ={imageEncoded} /> 
           </Grid>
-          <Grid item md={3}>
-            <Photo landscape = {landscapeEncoded}/ >
+          <Grid item md={"auto"}>
+            <Photo landscape = {landscapeEncoded}/>
           </Grid>
-          <Grid item md={3}>
+          <Grid item md={"auto"}>
             <SendPoints/>
           </Grid>
-          <Grid item md={6}>
+          <Grid item md={"auto"}>
             <PlanningComponent plans={update.Plans} status={update.pStatus}/>
           </Grid>
-          <Grid item md={6}>
+          <Grid item md={"auto"}>
             <Console2 message={update.Message}/>
           </Grid>
         </Grid>
