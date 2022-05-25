@@ -18,6 +18,7 @@ import SensorList from './components/SensorList';
 import { parseJSON } from 'date-fns';
 import Photo from './components/photo';
 import { Grid } from '@mui/material';
+import AlienCounter from './components/alienCounter';
 
 const theme = createTheme({
 
@@ -115,19 +116,23 @@ fetch('https://localhost:7071/todo/landscape')
         let routen = JSON.parse(data.route).path
         let message = data.message;
 
-        var alldata = {Plans: plans, Status: status, Rotation: rotation, Battery:battery, Velocity:velocity, Routen:routen, Message: message, Sensors: sensorListPlaced, Position: position}
+        var alldata = {Plans: plans, Status: status, Rotation: rotation, Battery:battery, Velocity:velocity, Routen:routen, Message: message, Sensors: sensorListPlaced, Position: position, AllSensors: sensorList}
         setUpdate(alldata)
       
     })}, 1000);
     return () => clearInterval(interval);
   }, []);
 
+  const [lidar, setLidar] = useState([
+    { "segments": [-1, -1, -1, 744, -1]},
+  ]);
+
   return (
     <ThemeProvider theme={theme}>
       <ButtonAppBar sensors={update.Sensors} battery={update.Battery} velocity={update.Velocity}></ButtonAppBar>
         <Grid container spacing={2}>
           <Grid item md={"auto"}>
-            <Map position={update.Position} sensors={update.Sensors} rotation={update.Rotation} routen={update.Routen} satellite ={imageEncoded} /> 
+            <Map position={update.Position} sensors={update.Sensors} rotation={update.Rotation} routen={update.Routen} satellite ={imageEncoded} allSensors={update.AllSensors}/> 
           </Grid>
           <Grid item md={"auto"}>
             <Photo landscape = {landscapeEncoded}/>
@@ -140,6 +145,9 @@ fetch('https://localhost:7071/todo/landscape')
           </Grid>
           <Grid item md={"auto"}>
             <Console2 message={update.Message}/>
+          </Grid>
+          <Grid item md={"auto"}>
+            <AlienCounter lidar={lidar}></AlienCounter>
           </Grid>
         </Grid>
     </ThemeProvider>

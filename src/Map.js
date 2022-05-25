@@ -24,9 +24,13 @@ var route= [[255, 188], [255.32556081765156, 170.369254745772], [252.34381994879
 const Map = (props) => {
 
    //console.log(props.routen)
-    const [mapSizeX, setMapSizeX] = useState(767);
-    const [mapSizeY, setMapSizeY] = useState(432);
-    var mapImage = props.satellite.data;
+            //Mapsize we want to show
+    const [mapSizeX, setMapSizeX] = useState(767.00);
+    const [mapSizeY, setMapSizeY] = useState(432.00);
+            //Scale from pixel to meter
+    const [scale, setScale] = useState(0.133);
+
+    var data = props.satellite.data;
     const [manual, setManual] = useState(false);
 
     function updateManual(value){
@@ -93,24 +97,15 @@ const Map = (props) => {
             setPoints(data);
         })
     },[nodes]);
-
+// Skalan 123: 0.132
     //Open control window for that point and sets the coordniates
     const handleClickOpen = () => {
         // setX(mouse.x )
         // setY((mapSizeY - mouse.y))
         var bx = mouse.x/offsetScale + (offsetX)
         var by =(mapSizeY - mouse.y)/offsetScale + (offsetY)
-        setX(parseFloat((bx*0.133).toFixed(3)));
-        setY(parseFloat((by*0.133).toFixed(3)));
-        //Tanken är att kolla igenom vilka sensorer som är lediga/uppplockade
-        //och sen används dess index för att sätta vilken sensor som ska 
-        //dropas
-        // if(sensors[0].state === false)
-        //     setSensor(0)
-        // else if(sensors[1].state === false)
-        //     setSensor(1)
-        // else if(sensors[2].state === false)
-        //     setSensor(2)
+        setX(parseFloat((bx*scale).toFixed(3)));
+        setY(parseFloat((by*scale).toFixed(3)));
 
         if (takeControl != true && !manual){
             setOpenOne(true)
@@ -265,11 +260,12 @@ const Map = (props) => {
         { nr: "3",  id: 3 },
         { nr: "10",  id: 10 },
       ]);
+    console.log(props.sensors)
     const handleDropSensor = () => {
         return (
             <div>
-                {stuff && stuff.map((stff) => {
-                    if(stff.id < 9 && stff.id !== 2){
+                {props.allSensors && props.allSensors.map((sens) => {
+                    if(sens.is_placed !== true){
                         return (
                             <div>
                                 <FormControlLabel
@@ -279,27 +275,55 @@ const Map = (props) => {
                                             disabled={!(command==="sensor-drop")} 
                                             onClick={() => {
                                                 console.log("Click button");
-                                                setSensor(stff.id)
+                                                setSensor(sens.id)
                                                 setCommand("sensor-drop")
                                                 setColor("blue")
                                             }} 
-                                            name={stff.id}
+                                            name={sens.id}
                                         >
                                         </Checkbox>
                                         
                                     }
-                                    label={stff.id}
+                                    label={sens.id}
                                 />
                             </div>
                         )
                     }
                     else
-                        return(<div>Sensor: {stff.id} is not Available</div>)
+                        return(<div>Sensor: {sens.id} is not Available</div>)
                 })}
             </div>
         )
     }
+    const [scaleW, setScaleW] = useState(767.00/1100.00);
+    const [scaleH, setScaleH] = useState(432.00/700.00);
+    var [pixSizeX, setPixSizeX] = useState(null);
+    var [pixSizeY, setPixSizeY] = useState(null);
+    var mat = mapSizeX / pixSizeX;
 
+    const onImgLoad = ({ target: img }) => {
+        const { offsetHeight, offsetWidth } = img;
+        console.log({offsetHeight, offsetWidth});
+        console.log(typeof(mapSizeX))
+
+        var msxf = parseFloat(mapSizeX).toFixed(3);
+        var msyf = parseFloat(mapSizeY).toFixed(3);
+        var owf = parseFloat(offsetWidth).toFixed(3);
+        var ohf = parseFloat(offsetHeight).toFixed(3);
+        var scx = 767.00/offsetWidth;
+        var scy = msyf/ohf;
+        console.log({scx, scy});
+        // setMapSizeX(offsetWidth);
+        // setMapSizeY(offsetHeight);
+        if(pixSizeX === null && pixSizeY === null){
+            setPixSizeX(offsetWidth);
+            setPixSizeY(offsetHeight)
+        }
+        // setScaleH(scy);
+        // setScaleW(scx);
+      };
+    console.log({scaleH, scaleW})
+    console.log({pixSizeX, pixSizeY, mat})
     const classes = useStyles()
     return ( 
         <div>
@@ -355,9 +379,11 @@ const Map = (props) => {
                             <div>
                             <div ref={ref} onClick={handleClickOpen}>
                                 <TransformComponent className="react-transform-component">
-                                    {/* <img src={`mapImage:image/jpeg;base64,${mapImage}`} alt="test" onDrag={(offset) => {console.log(offset)}}/> */}
                                     <Paper>
-                                    <img src={map} alt="test" />
+                                        {/* <img src={`data:image/jpeg;base64,${data}`} alt="test" onLoad={onImgLoad} style={pixSizeX ? {width: mapSizeX, height: mapSizeY} : {width: undefined, height: undefined}}/>                                  */}
+                                        <img src={`data:image/jpeg;base64,${data}`} alt="test" onLoad={onImgLoad} style={{}}/>                                 
+
+                                    {/* <img src={map} alt="test" /> */}
 
                                     {getRobot()}
 
@@ -382,20 +408,23 @@ const Map = (props) => {
                                     })}
 
                                     {props.sensors && props.sensors.map((sensor) => {
-                                        return (
-                                            <div key={sensor.id}
-                                                style={{
-                                                    position: "absolute",
-                                                    left: `${sensor.position.x / 0.133 - 19}px`,
-                                                    top: `${-30 + mapSizeY - sensor.position.y / 0.133}px`,
-                                                }}
-                                            >
-                                                <IconButton>
-
-                                                    <SensorsSharpIcon style={{ color: "red" }} />
-                                                </IconButton>
-                                            </div>
-                                        )
+                                        if(sensor.is_placed === true){
+                                            return (
+                                                <div key={sensor.id}
+                                                    style={{
+                                                        position: "absolute",
+                                                        // left: `${((sensor.position.x /  scale))*scaleW - 19}px`,
+                                                        // top: `${( -30 + pixSizeY - sensor.position.y / scale)*scaleH }px`,
+                                                        left: `${(sensor.position.x /  scale) - 19}px`,
+                                                        top: `${-30 + mapSizeY - sensor.position.y / scale}px`,
+                                                    }}
+                                                >
+                                                    <IconButton>
+                                                        <SensorsSharpIcon style={{ color: "red" }} />
+                                                    </IconButton>
+                                                </div>
+                                            )
+                                        }
                                     })}
 
                                     {points && points.map((point) => {
@@ -404,10 +433,8 @@ const Map = (props) => {
                                                 style=
                                                 {{
                                                     position: "absolute",
-                                                    left: `${point.x / 0.133 - 19}px`,
-                                                    top: `${-30 + mapSizeY - point.y / 0.133}px`,
-
-
+                                                    left: `${point.x / scale - 19}px`,
+                                                    top: `${-30 + mapSizeY - point.y / scale}px`,
                                                 }}
                                             >
                                                 <IconButton aria-owns={openppp[point.id - 1] ? 'mouse-over-popover' : undefined}

@@ -5,6 +5,7 @@
     "InventoryStatus": "Empty"
   },
   "points": [],
+  "fire": [],
   "sensors": [
     {
       "sensor": 0,
