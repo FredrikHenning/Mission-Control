@@ -16,6 +16,7 @@
         public string? Rotation { get; set; }
         public string? Velocity { get; set; }
         public string? Position { get; set; }
+        public string? Lidar { get; set; }
 
 
 

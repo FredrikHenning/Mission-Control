@@ -104,6 +104,22 @@ namespace MissionControllAPI.Controllers
             return mess;
         }
 
+        [HttpGet("scale")]
+        public ActionResult<string> GetScale()
+        {
+
+            string mess = "";
+            try
+            {
+                StreamReader sr = new StreamReader("scale.txt");
+                mess = sr.ReadToEnd();
+                sr.Close();
+            }
+            catch { };
+
+            return mess;
+        }
+
         [HttpGet("Update")]
         public ActionResult<Todoitem> GetUpdate()
         {
@@ -158,6 +174,15 @@ namespace MissionControllAPI.Controllers
                 mess = sr.ReadToEnd();
                 sr.Close();
                 data.Plans = mess;
+            }
+            catch { };
+
+            try
+            {
+                StreamReader sr = new StreamReader("lidar.txt");
+                mess = sr.ReadToEnd();
+                sr.Close();
+                data.Lidar = mess;
             }
             catch { };
 
