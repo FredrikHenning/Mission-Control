@@ -11,20 +11,25 @@ import DirectionsRunIcon from '@mui/icons-material/DirectionsRun';
 function convertToPlans(losPlans){
     var PlansList = [];
     var oldPlans = losPlans;
-    if(losPlans == null){console.log("Plan är nulli"); oldPlans={};}
+    var pro = 0;
+    if(losPlans == null){oldPlans={};}
     for(var i = 0; i<oldPlans.length; i++){
         var titleN = oldPlans[i].command;
         if(titleN == "goto" || titleN == "capture"){
-        var bodyN = "x =" + oldPlans[i].x + ", y=" + oldPlans[i].y; 
+        var bodyN = "x=" + oldPlans[i].x + ", y=" + oldPlans[i].y; 
         }
         else{
             var bodyN = "Sensor " + oldPlans[i].id;
         }
         var keyN = oldPlans[i].id;
-        var plan = {title:titleN, body: bodyN, progress:0, key: keyN, visible:true}
+        if(i == 0){
+            pro = 100; 
+        }
+        else{pro = 0;}
+        var plan = {title:titleN, body: bodyN, progress:pro, key: keyN, visible:true}
         PlansList[i] = plan;
     }
-    console.log(PlansList);
+    //console.log(PlansList);
     return PlansList;
 }
 
@@ -33,17 +38,18 @@ export default function PlanningComponent(props) {
    var PlansObjListFirst = [
        {title:"Goto", body:"x=12, y=9",progress:100, key:"100", visible:true},
         {title:"Pick-up", body:"Sensor 5",progress:0, key:"3", visible:true},
-        //{title:"Goto", body:"x=19, y=9",progress:0, key:"4", visible:true },
+        {title:"Goto", body:"x=19, y=9",progress:0, key:"4", visible:true },
         //{title:"Put", body:"Sensor 7",progress:0, key:"5", visible:true},
         //{title:"Goto", body:"x=44, y=12",progress:0, key:"6",visible:true}, 
         //{title:"Take picture", body:"Stone",progress:0, key:"7",visible:true}, 
         //{title:"Goto", body:"x=100, y=213",progress:0, key:"8", visible:true},
 ]
 
-
+console.log(props.plans)
 var planen = convertToPlans(props.plans);
+console.log("detta är planen");
 console.log(planen);
-const [PlansObjList, setPlansObjList] = React.useState(PlansObjListFirst);//convertToPlans(props.plans)
+const [PlansObjList, setPlansObjList] = React.useState(planen);//convertToPlans(props.plans)
 const [checked, setChecked] = React.useState(true);
 const [direction, setDirection] = React.useState("right");
 const [planscounter, setPlanscounter] = React.useState(0);

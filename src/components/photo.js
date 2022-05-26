@@ -11,7 +11,7 @@ import { PortraitSharp } from '@mui/icons-material';
 import pin from "./pin.png";
 
 export default function Photo(props) {
-  var data = props.landscape.data;
+  var data = props.landscape;
   return (
     <Box sx={{ width: '400px', textAlign: 'center' }}>
       <Paper elevation={2} sx={{ padding: '20px' }}>
@@ -20,7 +20,7 @@ export default function Photo(props) {
           Last image taken
         </Typography>
         <Box>
-        <img style={{padding: "10px"}} src={`data:image/jpeg;base64,${data}`} alt="pin" width="300px"/>
+        <img style={{padding: "10px"}} src={`data:image/jpeg;base64,${data}`} alt="Image broken check console" width="300px"/>
         </Box>
         </Box>
         <Button color="primary" variant="contained" startIcon={<PhotoCamera />}>

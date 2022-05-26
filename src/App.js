@@ -9,7 +9,7 @@ import Control from './components/Control.js';
 import Map from './Map';
 import SendPoints from './components/SendPoints';
 import Console from './components/console';
-import Console2 from './components/Console2';
+import Console2 from './components/console2';
 import MapImage from './components/MapImage';
 import PlanningComponent from './components/Planning';
 import './app.css';
@@ -18,8 +18,8 @@ import SensorList from './components/SensorList';
 import { parseJSON } from 'date-fns';
 import Photo from './components/photo';
 import { Grid } from '@mui/material';
-import GridList from '@material-ui/core/GridList';
-import GridListTile from '@material-ui/core/GridListTile';
+//import GridList from '@material-ui/core/GridList';
+//import GridListTile from '@material-ui/core/GridListTile';
 
 
 const theme = createTheme({
@@ -37,13 +37,27 @@ function App() {
 
 
   const [manualcontrol, setManualcontrol] = useState(0);
-
-
+  const [cmessage, setCmessage] = useState("");
+  //const [pos, setPos] = useState(startPos);
   const [imageEncoded, setImage] = useState("");
   const [landscapeEncoded, setLandscape] = useState("");
 
   const [update, setUpdate] = useState({Plans: [], Status: {}, Rotation: "", Battery:"", Velocity:{}, Routen:[], Message: "", Sensors: [], Position: startPos});
   var count1;
+
+
+//MQTTT
+
+
+
+
+//MQTTSLUT
+
+
+
+
+
+
 
 useEffect(() => {
   fetch('https://localhost:7071/todo/satellite')
@@ -59,11 +73,47 @@ fetch('https://localhost:7071/todo/landscape')
   return res.json();
 })
 .then(data => {
-  setLandscape(data)
   console.log(data)
+  if(data.imageBroken == 0){
+  setLandscape(data.image)
+  if(data.sensorinimage == 1){
+    setCmessage("Sensor in image!")
+    if(data.sensorbroken == 1){
+      setCmessage("Sensor broken!")
+    }
+  }
+  else{setCmessage("Sensor not in image!")}
+  }
+  else
+  {
+    setCmessage("Image broken! Type of damage: " + data.typeOfNoise)
+  }
+  
 })
 
 }, [count1]);
+
+useEffect (()=> {
+  var startPos ={"position": {
+    "x": 0,
+    "y": 0
+                    }};
+    let countX = 0;
+    let countY = 0;
+  const interval = setInterval(()=> {
+    countX = countX +0.05;
+    countY = countX + 0.05;
+    //console.log(countX);
+    /**setPos({"position": {
+      "x": countX,
+      "y": countY
+                      }
+                    
+                    })**/
+
+  }, 1);
+    return () => clearInterval(interval);
+  }, [])
 
 
   useEffect(() => {
@@ -103,7 +153,16 @@ fetch('https://localhost:7071/todo/landscape')
         
         //setSensors(sensorList); 
         let plans = JSON.parse(data.plans).plan;
+
         let status = JSON.parse(data.status)
+        if(status.status != "OK"){
+          setCmessage("Error from task planning: " + status.comment)
+        }
+        else{
+          setCmessage("Task " + status.id + " is finished" )
+        }
+
+  
 
         let rotation;
         if(data.rotation == null){
@@ -120,6 +179,8 @@ fetch('https://localhost:7071/todo/landscape')
         let message = data.message;
         var alldata = {Plans: plans, Status: status, Rotation: rotation, Battery:battery, Velocity:velocity, Routen:routen, Message: message, Sensors: sensorListPlaced, Position: position}
         setUpdate(alldata)
+        if(cmessage != message){
+        setCmessage(message)}
       
     })}, 1000);
     return () => clearInterval(interval);
@@ -142,7 +203,7 @@ fetch('https://localhost:7071/todo/landscape')
             <PlanningComponent plans={update.Plans} status={update.pStatus}/>
           </Grid>
           <Grid item md={6}>
-            <Console2 message={update.Message}/>
+            <Console2 message={cmessage}/>
           </Grid>
         </Grid>
     </ThemeProvider>

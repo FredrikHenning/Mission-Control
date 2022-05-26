@@ -56,7 +56,10 @@ namespace MissionControllAPI.Services
                 var topicRotation = new TopicFilterBuilder().WithTopic("simulation/robot/rotation").Build();
                 var topicVelocity = new TopicFilterBuilder().WithTopic("simulation/robot/velocity").Build();
                 var topicSatellite = new TopicFilterBuilder().WithTopic("simulation/images/satellite").Build();
-                var topicLandscape = new TopicFilterBuilder().WithTopic("simulation/images/landscape").Build();
+                var topicLandscape = new TopicFilterBuilder().WithTopic("mc/landscape").Build();
+                var topicInstruction = new TopicFilterBuilder().WithTopic("tp/instruction").Build();
+                var topicScale = new TopicFilterBuilder().WithTopic("simulation/map_scale").Build();
+                var topicLidar = new TopicFilterBuilder().WithTopic("simulation/lidar").Build();
 
                 await client.SubscribeAsync(topicPosition,topicPlans,topicSensors,topicStatus, topicRoute, topicBattery, topicRotation, topicVelocity, topicSatellite, topicLandscape);
 
@@ -85,7 +88,7 @@ namespace MissionControllAPI.Services
                     //sw.Close();
                     if (topic == "mcpos" || topic == "simulation/robot/position")
                     {
-                        //Console.WriteLine($"Recived new message: {message}");
+                        Console.WriteLine($"Recived new message: {message}");
                         try { File.WriteAllText("position.txt", message); }
                         catch { };
                     }
@@ -120,10 +123,23 @@ namespace MissionControllAPI.Services
                         Console.WriteLine($"Recived new message: {message}");
                         try { File.WriteAllText("status.txt", message); }
                         catch { };
+                        
+                    }
 
-                        try { File.WriteAllText("consoleMessage.txt", "A task is finished"); }
+                    if (topic == "simulation/map_scale")
+                    {
+                        Console.WriteLine($"Recived new message: {message}");
+                        try { File.WriteAllText("scale.txt", message); }
                         catch { };
                     }
+
+                    if (topic == "simulation/lidar")
+                    {
+                        Console.WriteLine($"Recived new message: {message}");
+                        try { File.WriteAllText("lidar.txt", message); }
+                        catch { };
+                    }
+
 
                     if (topic == "simulation/current_path")
                     {
@@ -148,7 +164,7 @@ namespace MissionControllAPI.Services
 
                     if (topic == "simulation/robot/velocity")
                     {
-                        Console.WriteLine($"Recived new message: {message}");
+                        //Console.WriteLine($"Recived new message: {message}");
                         try { File.WriteAllText("velocity.txt", message); }
                         catch { };
                     }
@@ -160,10 +176,17 @@ namespace MissionControllAPI.Services
                         catch { };
                     }
 
-                    if (topic == "simulation/images/landscape")
+                    if (topic == "mc/landscape")
                     {
                         Console.WriteLine($"Recived new message: {message}");
                         try { File.WriteAllText("landscape.txt", message); }
+                        catch { };
+                    }
+
+                    if (topic == "tp/instruction")
+                    {
+                        Console.WriteLine($"Recived new message: {message}");
+                        try { File.WriteAllText("instruction.txt", message); }
                         catch { };
                     }
 

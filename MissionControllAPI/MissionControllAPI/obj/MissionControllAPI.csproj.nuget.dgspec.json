@@ -1,7 +1,6 @@
 {
   "format": 1,
   "restore": {
-<<<<<<< HEAD
     "C:\\Users\\wgurr\\Desktop\\MCnya\\Mission-Control\\MissionControllAPI\\MissionControllAPI\\MissionControllAPI.csproj": {}
   },
   "projects": {
@@ -13,22 +12,9 @@
         "projectPath": "C:\\Users\\wgurr\\Desktop\\MCnya\\Mission-Control\\MissionControllAPI\\MissionControllAPI\\MissionControllAPI.csproj",
         "packagesPath": "C:\\Users\\wgurr\\.nuget\\packages\\",
         "outputPath": "C:\\Users\\wgurr\\Desktop\\MCnya\\Mission-Control\\MissionControllAPI\\MissionControllAPI\\obj\\",
-=======
-    "C:\\Users\\GTSA - Infinity\\Desktop\\filer\\react\\mission-control\\Mission-Control2\\MissionControllAPI\\MissionControllAPI\\MissionControllAPI.csproj": {}
-  },
-  "projects": {
-    "C:\\Users\\GTSA - Infinity\\Desktop\\filer\\react\\mission-control\\Mission-Control2\\MissionControllAPI\\MissionControllAPI\\MissionControllAPI.csproj": {
-      "version": "1.0.0",
-      "restore": {
-        "projectUniqueName": "C:\\Users\\GTSA - Infinity\\Desktop\\filer\\react\\mission-control\\Mission-Control2\\MissionControllAPI\\MissionControllAPI\\MissionControllAPI.csproj",
-        "projectName": "MissionControllAPI",
-        "projectPath": "C:\\Users\\GTSA - Infinity\\Desktop\\filer\\react\\mission-control\\Mission-Control2\\MissionControllAPI\\MissionControllAPI\\MissionControllAPI.csproj",
-        "packagesPath": "C:\\Users\\GTSA - Infinity\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\GTSA - Infinity\\Desktop\\filer\\react\\mission-control\\Mission-Control2\\MissionControllAPI\\MissionControllAPI\\obj\\",
->>>>>>> 7eec6c76311384f82593922d3b7e6430377c5371
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\GTSA - Infinity\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\wgurr\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -36,7 +22,7 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "https://api.nuget.org/w3/index.json": {}
+          "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net6.0": {
@@ -81,7 +67,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.100\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.201\\RuntimeIdentifierGraph.json"
         }
       }
     }
