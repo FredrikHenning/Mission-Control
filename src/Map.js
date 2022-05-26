@@ -139,10 +139,19 @@ const Map = (props) => {
         var by =(mapSizeY - mouse.y)/offsetScale + (offsetY)
         setX(parseFloat((bx*0.133).toFixed(3)));
         setY(parseFloat((by*0.133).toFixed(3)));
-        setSensor(sensor + 1)
-        if (takeControl != true && !manual)(
+        //Tanken är att kolla igenom vilka sensorer som är lediga/uppplockade
+        //och sen används dess index för att sätta vilken sensor som ska 
+        //dropas
+        if(sensors[0].state === false)
+            setSensor(0)
+        else if(sensors[1].state === false)
+            setSensor(1)
+        else if(sensors[2].state === false)
+            setSensor(2)
+
+        if (takeControl != true && !manual){
             setOpenOne(true)
-        )
+        }
         else if (manual == true){
             sendManual(x, y)
         }
@@ -293,6 +302,12 @@ const Map = (props) => {
        )
         
     }
+
+    const handleDropSensor = () => {
+        for (var i = 0; i<2; i++){
+            <MenuItem value={i}>i</MenuItem>
+        }
+    }
     
     const openPoint = Boolean(anchorElP);
     const openppp = [Boolean(anchorElP), Boolean(anchorElP)];
@@ -389,9 +404,9 @@ const Map = (props) => {
 
                                 <div ref={ref} onClick={handleClickOpen}>
                                     <TransformComponent>
-                                         <img src={`data:image/jpeg;base64,${data}`} alt="test" onDrag={(offset) => {console.log(offset)}}/>
+                                         {/* <img src={`data:image/jpeg;base64,${data}`} alt="test" onDrag={(offset) => {console.log(offset)}}/> */}
                                         
-                                        {/*<img src={map} alt="test" onDrag={(offset) => {console.log(offset)}}/>*/}
+                                        <img src={map} alt="test" />
                                         
                                         {getRobot()}
 
@@ -573,6 +588,38 @@ const Map = (props) => {
                                             </Select>
                                         </FormControl>
                                     </Box>
+
+                                    <Box
+                                        noValidate
+                                        component="form"
+                                        sx={{
+                                        display: 'flex',
+                                        flexDirection: 'column',
+                                        m: 'auto',
+                                        width: 'fit-content',
+                                        }}
+                                    >
+                                        
+                                        <FormControl sx={{ mt: 2, minWidth: 120 }}>
+                                            <InputLabel htmlFor="max-width">Sensor</InputLabel>
+                                            <Select
+                                                autoFocus
+                                                value={command}
+                                                
+                                                onChange={handleMaxWidthChange}
+                                                label="Sensor"
+                                                inputProps={{
+                                                //name: 'intell',
+                                                //id: 'Misson',
+                                                }}
+                                            >
+                                                {handleDropSensor()}
+                                                
+                                            </Select>
+                                        </FormControl>
+                                    </Box>
+                                    
+
                                 </DialogContent>
                             <DialogActions>
                                 <Button onClick={handleClose}>Disagree</Button>
