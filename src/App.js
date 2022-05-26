@@ -154,12 +154,16 @@ useEffect (()=> {
         let plans = JSON.parse(data.plans).plan;
 
         let status = JSON.parse(data.status)
-        if(status.status != "OK"){
+      if (status.id == update.Status.id) {
+        if (status.status != "OK") {
           setCmessage("Error from task planning: " + status.comment)
+          
         }
-        else{
-          setCmessage("Task " + status.id + " is finished" )
+        else {
+          setCmessage("Task " + status.id + " is finished")
+          console.log("I if satsen---------------------------------------")
         }
+      }
 
   
 

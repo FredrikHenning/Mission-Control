@@ -28,7 +28,7 @@ const Map = (props) => {
     const [mapSizeX, setMapSizeX] = useState(767.00);
     const [mapSizeY, setMapSizeY] = useState(432.00);
             //Scale from pixel to meter
-    const [scale, setScale] = useState(0.133);
+    const [scale, setScale] = useState(0.08);
 
     var data = props.satellite.data;
     const [manual, setManual] = useState(false);
@@ -103,7 +103,7 @@ const Map = (props) => {
         // setX(mouse.x )
         // setY((mapSizeY - mouse.y))
         var bx = mouse.x/offsetScale + (offsetX)
-        var by =(mapSizeY - mouse.y)/offsetScale + (offsetY)
+        var by =(pixSizeY - mouse.y)/offsetScale + (offsetY)
         setX(parseFloat((bx*scale).toFixed(3)));
         setY(parseFloat((by*scale).toFixed(3)));
 
@@ -175,7 +175,7 @@ const Map = (props) => {
         setOpenOne(false);
     }
 
-    const [map, setMap] = useState("/mars1.png")
+    const [map, setMap] = useState("/final_demo2.png")
     const [mapTwo, setMapTwo] = useState("/mars2.png")
     // Function for toggling the maps
     const handleClick=() =>{
@@ -238,7 +238,8 @@ const Map = (props) => {
         x: props.position.position.x,
         y: props.position.position.y,
         map_size_x: mapSizeX,
-        map_size_y: mapSizeY
+        map_size_y: mapSizeY,
+        robotScale: scale
         }
 
     const getRobot = () => {
@@ -299,7 +300,8 @@ const Map = (props) => {
     const [scaleH, setScaleH] = useState(432.00/700.00);
     var [pixSizeX, setPixSizeX] = useState(null);
     var [pixSizeY, setPixSizeY] = useState(null);
-    var mat = mapSizeX / pixSizeX;
+    var mxs = mapSizeX / pixSizeX;
+    var mys = mapSizeY / pixSizeY;
 
     const onImgLoad = ({ target: img }) => {
         const { offsetHeight, offsetWidth } = img;
@@ -313,8 +315,8 @@ const Map = (props) => {
         var scx = 767.00/offsetWidth;
         var scy = msyf/ohf;
         console.log({scx, scy});
-        // setMapSizeX(offsetWidth);
-        // setMapSizeY(offsetHeight);
+        setMapSizeX(offsetWidth);
+        setMapSizeY(offsetHeight);
         if(pixSizeX === null && pixSizeY === null){
             setPixSizeX(offsetWidth);
             setPixSizeY(offsetHeight)
@@ -323,7 +325,7 @@ const Map = (props) => {
         // setScaleW(scx);
       };
     console.log({scaleH, scaleW})
-    console.log({pixSizeX, pixSizeY, mat})
+    console.log({pixSizeX, pixSizeY, mxs, mys})
     const classes = useStyles()
     return ( 
         <div>
@@ -382,8 +384,11 @@ const Map = (props) => {
                                     <Paper>
                                         {/* <img src={`data:image/jpeg;base64,${data}`} alt="test" onLoad={onImgLoad} style={pixSizeX ? {width: mapSizeX, height: mapSizeY} : {width: undefined, height: undefined}}/>                                  */}
                                         <img src={`data:image/jpeg;base64,${data}`} alt="test" onLoad={onImgLoad} style={{}}/>                                 
+                                        
+                                        {/* <img src={map} alt="test" onLoad={onImgLoad} style={pixSizeX ? {width: mapSizeX, height: mapSizeY} : {width: undefined, height: undefined}}/>                                  */}
+                                        {/* <img src={map} alt="test" onLoad={onImgLoad} style={{}}/>                                  */}
 
-                                    {/* <img src={map} alt="test" /> */}
+                                        {/* <img src={map} alt="test" /> */}
 
                                     {getRobot()}
 
