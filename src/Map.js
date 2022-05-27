@@ -28,7 +28,7 @@ const Map = (props) => {
     const [mapSizeX, setMapSizeX] = useState(767.00);
     const [mapSizeY, setMapSizeY] = useState(432.00);
             //Scale from pixel to meter
-    const [scale, setScale] = useState(0.133);
+    const [scale, setScale] = useState(0.08);
 
     var data = props.satellite.data;
     const [manual, setManual] = useState(false);
@@ -102,8 +102,8 @@ const Map = (props) => {
     const handleClickOpen = () => {
         // setX(mouse.x )
         // setY((mapSizeY - mouse.y))
-        var bx = (mouse.x/mxs)/offsetScale + (offsetX)
-        var by =(pixSizeY - (mouse.y/mys))/offsetScale + (offsetY)
+        var bx = ((mouse.x/mxs)/offsetScale + (offsetX))
+        var by =(pixSizeY - ((mouse.y/mys)/offsetScale + offsetY*mys))
         setX(parseFloat((bx*scale).toFixed(3)));
         setY(parseFloat((by*scale).toFixed(3)));
 
@@ -361,7 +361,7 @@ const Map = (props) => {
                                             <div>
                                                 <Button variant='contained' size="small" style={{ top: 0, width: 75 }} onClick={() => { setTransform(0, 0, 2, 300, "easeOut"); handleOffset(0, mapSizeY / 2, 2) }}>2.1.2</Button>
                                                 <Button variant='contained' size="small" style={{ top: 0, width: 75 }} onClick={() => { setTransform(-mapSizeX / 2, 0, 2, 300, "easeOut"); handleOffset(mapSizeX / 4, mapSizeY / 2, 2) }}>2.1,5.2</Button>
-                                                <Button variant='contained' size="small" style={{ top: 0, width: 75 }} onClick={() => { setTransform(-mapSizeX, 0, 2, 300, "easeOut"); handleOffset(mapSizeX / 2, mapSizeY / 2, 2) }}>2.2.2</Button>
+                                                <Button variant='contained' size="small" style={{ top: 0, width: 75 }} onClick={() => { setTransform(-mapSizeX, 0, 2, 300, "easeOut"); handleOffset(pixSizeX / 2, pixSizeY / 2, 2) }}>2.2.2</Button>
                                             </div>
                                             <div>
                                                 <Button variant='contained' size="small" style={{ top: 0, width: 75 }} onClick={() => { setTransform(0, -mapSizeY / 2, 2, 300, "easeOut"); handleOffset(0, mapSizeY / 4, 2) }}>2.1.1,5</Button>
@@ -382,10 +382,10 @@ const Map = (props) => {
                             <div ref={ref} onClick={handleClickOpen}>
                                 <TransformComponent className="react-transform-component">
                                     <Paper>
-                                        <img src={`data:image/jpeg;base64,${data}`} alt="test" onLoad={onImgLoad} style={pixSizeX ? {width: mapSizeX, height: mapSizeY} : {width: undefined, height: undefined}}/>                                 
+                                        {/* <img src={`data:image/jpeg;base64,${data}`} alt="test" onLoad={onImgLoad} style={pixSizeX ? {width: mapSizeX, height: mapSizeY} : {width: undefined, height: undefined}}/>                                  */}
                                         {/* <img src={`data:image/jpeg;base64,${data}`} alt="test" onLoad={onImgLoad} style={{}}/>                                  */}
                                         
-                                        {/* <img src={map} alt="test" onLoad={onImgLoad} style={pixSizeX ? {width: mapSizeX, height: mapSizeY} : {width: undefined, height: undefined}}/>                                  */}
+                                        <img src={map} alt="test" onLoad={onImgLoad} style={pixSizeX ? {width: mapSizeX, height: mapSizeY} : {width: undefined, height: undefined}}/>                                 
                                         {/* <img src={map} alt="test" onLoad={onImgLoad} style={{}}/>                                  */}
 
                                         {/* <img src={map} alt="test" /> */}
