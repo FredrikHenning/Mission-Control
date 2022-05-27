@@ -56,7 +56,7 @@ const AlienCounter = (props) => {
     const [segment, setSegment] = useState('')
 
     const handleSegment = (event) => {
-        setAngle(event.target.value)
+        // setAngle(event.target.value)
         console.log(angle)
     }
 

@@ -74,6 +74,7 @@ fetch('https://localhost:7071/todo/landscape')
   return res.json();
 })
 .then(data => {
+  console.log("VIIIIIIIIIIIII är i lanscape")
   console.log(data)
   if(data.imageBroken == 0){
   setLandscape(data.image)

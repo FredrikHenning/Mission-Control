@@ -233,22 +233,6 @@ const Map = (props) => {
         setAchorZoom(event.currentTarget)
         setZoomOpen(!zoomOpen)
     }
-
-    let pos= {
-        x: props.position.position.x,
-        y: props.position.position.y,
-        map_size_x: mapSizeX,
-        map_size_y: mapSizeY,
-        robotScale: scale
-        }
-
-    const getRobot = () => {
-       return(
-           <div>
-            <Robot rotation={props.rotation} pos={pos}/>
-        </div>
-       )  
-    }
     
     const openPoint = Boolean(anchorElP);
     const openppp = [Boolean(anchorElP), Boolean(anchorElP)];
@@ -324,6 +308,27 @@ const Map = (props) => {
         // setScaleH(scy);
         // setScaleW(scx);
       };
+
+
+      let pos= {
+        x: props.position.position.x,
+        y: props.position.position.y,
+        map_size_x: mapSizeX,
+        map_size_y: mapSizeY,
+        pix_size_y: pixSizeY,
+        pix_scale_y: mys,
+        pix_scale_x: mxs,
+        robotScale: scale
+        }
+
+    const getRobot = () => {
+       return(
+           <div>
+            <Robot rotation={props.rotation} pos={pos}/>
+        </div>
+       )  
+    }
+    
     console.log({scaleH, scaleW})
     console.log({pixSizeX, pixSizeY, mxs, mys})
     const classes = useStyles()
@@ -382,10 +387,10 @@ const Map = (props) => {
                             <div ref={ref} onClick={handleClickOpen}>
                                 <TransformComponent className="react-transform-component">
                                     <Paper>
-                                        {/* <img src={`data:image/jpeg;base64,${data}`} alt="test" onLoad={onImgLoad} style={pixSizeX ? {width: mapSizeX, height: mapSizeY} : {width: undefined, height: undefined}}/>                                  */}
+                                        <img src={`data:image/jpeg;base64,${data}`} alt="test" onLoad={onImgLoad} style={pixSizeX ? {width: mapSizeX, height: mapSizeY} : {width: undefined, height: undefined}}/>                                 
                                         {/* <img src={`data:image/jpeg;base64,${data}`} alt="test" onLoad={onImgLoad} style={{}}/>                                  */}
                                         
-                                        <img src={map} alt="test" onLoad={onImgLoad} style={pixSizeX ? {width: mapSizeX, height: mapSizeY} : {width: undefined, height: undefined}}/>                                 
+                                        {/* <img src={map} alt="test" onLoad={onImgLoad} style={pixSizeX ? {width: mapSizeX, height: mapSizeY} : {width: undefined, height: undefined}}/>                                  */}
                                         {/* <img src={map} alt="test" onLoad={onImgLoad} style={{}}/>                                  */}
 
                                         {/* <img src={map} alt="test" /> */}
