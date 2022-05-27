@@ -28,7 +28,7 @@ const Map = (props) => {
     const [mapSizeX, setMapSizeX] = useState(767.00);
     const [mapSizeY, setMapSizeY] = useState(432.00);
             //Scale from pixel to meter
-    const [scale, setScale] = useState(0.08);
+    const [scale, setScale] = useState(0.133);
 
     var data = props.satellite.data;
     const [manual, setManual] = useState(false);
@@ -102,8 +102,8 @@ const Map = (props) => {
     const handleClickOpen = () => {
         // setX(mouse.x )
         // setY((mapSizeY - mouse.y))
-        var bx = mouse.x/offsetScale + (offsetX)
-        var by =(pixSizeY - mouse.y)/offsetScale + (offsetY)
+        var bx = (mouse.x/mxs)/offsetScale + (offsetX)
+        var by =(pixSizeY - (mouse.y/mys))/offsetScale + (offsetY)
         setX(parseFloat((bx*scale).toFixed(3)));
         setY(parseFloat((by*scale).toFixed(3)));
 
@@ -315,8 +315,8 @@ const Map = (props) => {
         var scx = 767.00/offsetWidth;
         var scy = msyf/ohf;
         console.log({scx, scy});
-        setMapSizeX(offsetWidth);
-        setMapSizeY(offsetHeight);
+        // setMapSizeX(offsetWidth);
+        // setMapSizeY(offsetHeight);
         if(pixSizeX === null && pixSizeY === null){
             setPixSizeX(offsetWidth);
             setPixSizeY(offsetHeight)
@@ -382,8 +382,8 @@ const Map = (props) => {
                             <div ref={ref} onClick={handleClickOpen}>
                                 <TransformComponent className="react-transform-component">
                                     <Paper>
-                                        {/* <img src={`data:image/jpeg;base64,${data}`} alt="test" onLoad={onImgLoad} style={pixSizeX ? {width: mapSizeX, height: mapSizeY} : {width: undefined, height: undefined}}/>                                  */}
-                                        <img src={`data:image/jpeg;base64,${data}`} alt="test" onLoad={onImgLoad} style={{}}/>                                 
+                                        <img src={`data:image/jpeg;base64,${data}`} alt="test" onLoad={onImgLoad} style={pixSizeX ? {width: mapSizeX, height: mapSizeY} : {width: undefined, height: undefined}}/>                                 
+                                        {/* <img src={`data:image/jpeg;base64,${data}`} alt="test" onLoad={onImgLoad} style={{}}/>                                  */}
                                         
                                         {/* <img src={map} alt="test" onLoad={onImgLoad} style={pixSizeX ? {width: mapSizeX, height: mapSizeY} : {width: undefined, height: undefined}}/>                                  */}
                                         {/* <img src={map} alt="test" onLoad={onImgLoad} style={{}}/>                                  */}
@@ -401,8 +401,8 @@ const Map = (props) => {
                                             <div className={current} key={index}
                                                 style={{
                                                     position: 'absolute',
-                                                    left: `${point[0]}px`,
-                                                    top: `${mapSizeY - point[1]}px`,
+                                                    left: `${point[0]*mxs}px`,
+                                                    top: `${(pixSizeY - point[1])*mys}px`,
                                                 }}
                                             >
 
@@ -418,10 +418,10 @@ const Map = (props) => {
                                                 <div key={sensor.id}
                                                     style={{
                                                         position: "absolute",
-                                                        // left: `${((sensor.position.x /  scale))*scaleW - 19}px`,
-                                                        // top: `${( -30 + pixSizeY - sensor.position.y / scale)*scaleH }px`,
-                                                        left: `${(sensor.position.x /  scale) - 19}px`,
-                                                        top: `${-30 + mapSizeY - sensor.position.y / scale}px`,
+                                                        left: `${((sensor.position.x /  scale))*mxs - 19}px`,
+                                                        top: `${( -30 + pixSizeY - sensor.position.y / scale)*mys }px`,
+                                                        // left: `${(sensor.position.x /  scale) - 19}px`,
+                                                        // top: `${-30 + mapSizeY - sensor.position.y / scale}px`,
                                                     }}
                                                 >
                                                     <IconButton>
@@ -438,8 +438,8 @@ const Map = (props) => {
                                                 style=
                                                 {{
                                                     position: "absolute",
-                                                    left: `${point.x / scale - 19}px`,
-                                                    top: `${-30 + mapSizeY - point.y / scale}px`,
+                                                    left: `${(point.x * mxs) / scale - 23}px`,
+                                                    top: `${-35 + mapSizeY - (point.y * mys) / scale}px`,
                                                 }}
                                             >
                                                 <IconButton aria-owns={openppp[point.id - 1] ? 'mouse-over-popover' : undefined}

@@ -192,7 +192,7 @@ useEffect (()=> {
   }, []);
 
   const [lidar, setLidar] = useState([
-    { "segments": [-1, -1, -1, 744, -1]},
+    { "segments": [-1, -1, -1, -1, -1]},
   ]);
 
   return (

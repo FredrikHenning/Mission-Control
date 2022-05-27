@@ -1,1 +1,0 @@
-{"battery_level":43006.40234375,"charging":true,"voltage":155.328857421875}

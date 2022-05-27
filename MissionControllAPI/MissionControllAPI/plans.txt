@@ -1,3 +1,0 @@
-{
-    "plan": [{"id":0, "command": "goto", "x": 1.0, "y": 2.0},  {"id":1, "command": "capture", "x": 1.0, "y": 2.0}, {"id":2, "command": "goto", "x": 45.0, "y": 2.0}]
-}
