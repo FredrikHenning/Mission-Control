@@ -83,7 +83,7 @@ export default function ButtonAppBar(props) {
     setOpen(true);}
 
   const hoverBattery = () => {
-    console.log(props.battery)
+    //console.log(props.battery)
     var batteryMessage = "Battery Level: " + props.battery.battery_level;
     var batteryVoltage = "Voltage: " + props.battery.voltage;
     setMessage(batteryMessage)
@@ -105,8 +105,8 @@ export default function ButtonAppBar(props) {
       fetch('https://localhost:7071/todo/sub')
       props.sub.subscribe('simulation/robot/position_and_rotation');
       //props.sub.subscribe('simulation/robot/rotation');
-      console.log("subbat");
-      console.log(props.sub)
+      //console.log("subbat");
+      //console.log(props.sub)
     };
 
   useEffect(() => {

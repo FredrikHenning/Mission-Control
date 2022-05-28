@@ -9,34 +9,31 @@ import Grid from '@mui/material/Grid';
 import { Typography } from '@mui/material';
 import { PortraitSharp } from '@mui/icons-material';
 
+
   export default function LoadingButtonsTransition(props) {
-    
+
     function sendPointPlace() {
       
       console.log("sent");
-      var data = {"control": 1}
-    
+
+      var payload = {"control": 1}
       fetch('https://localhost:7071/todo/mc/manualcontrol',
             {
                 method: 'POST',
-                body: JSON.stringify(data),
-                headers: {
-                    'Content-Type': 'application/json',
-                }
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(payload)
             })
-    
-      var data = {"position": {
+
+      var payload2 = {"position": {
         "x": props.x,
         "y": props.y
                         }}
-    
+                        
       fetch('https://localhost:7071/todo/mc/manualpoints',
             {
-                method: 'POST',
-                body: JSON.stringify(data),
-                headers: {
-                    'Content-Type': 'application/json',
-                }
+              method: 'POST',
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(payload2)
             })
     }
 

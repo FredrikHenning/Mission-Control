@@ -56,7 +56,7 @@ function App() {
 
 
   const [posrot, setPosrot] = useState(startPos);
-  console.log(posrot.position)
+  //console.log(posrot.position)
   const [manualcontrol, setManualcontrol] = useState(0);
   const [cmessage, setCmessage] = useState("");
   //const [pos, setPos] = useState(startPos);
@@ -80,7 +80,7 @@ const mqttConnect = () => {
 
 function routemessage(topic, message){
   if(topic == "simulation/robot/position_and_rotation"){
-    console.log(JSON.parse(message))
+    //console.log(JSON.parse(message))
     setPosrot(JSON.parse(message))
   }
 
@@ -96,14 +96,14 @@ useEffect(()=>{
 
 
 useEffect(() => {
-  console.log("Inne här-----------------------------------")
-  console.log(client)
+  //console.log("Inne här-----------------------------------")
+  //console.log(client)
   if (client) {
-    console.log("client funkar tror jag")
-    console.log(client)
+   // console.log("client funkar tror jag")
+    //console.log(client)
     client.on('connect', () => {
       setConnectStatus('Connected');
-      console.log("connected")
+     // console.log("connected")
     });
     client.on('error', (err) => {
       console.error('Connection error: ', err);
@@ -114,8 +114,8 @@ useEffect(() => {
     });
     client.on('message', (topic, message) => {
       const payload = { topic, message: message.toString() };
-      console.log("MEDDELANDE_________________________")
-      console.log(payload)
+      //console.log("MEDDELANDE_________________________")
+      //console.log(payload)
       routemessage(payload.topic, payload.message)
       //setPayload(payload);
     });
@@ -146,7 +146,7 @@ fetch('https://localhost:7071/todo/landscape')
   return res.json();
 })
 .then(data => {
-  console.log(data)
+  //console.log(data)
   if(data.imageBroken == 0){
   setLandscape(data.image)
   if(data.sensorinimage == 1){
@@ -198,12 +198,12 @@ useEffect (()=> {
       return res.json();
     })
     .then(data => {
-        console.log(data)
+        //console.log(data)
         //console.log(JSON.parse(data.position))
         let position;
         if(data.position == null){
           position = update.Position;
-          console.log("NULLILIIL")
+          //console.log("NULLILIIL")
         }
         else{
           position = JSON.parse(data.position)
@@ -240,7 +240,7 @@ useEffect (()=> {
         let rotation;
         if(data.rotation == null){
           rotation = update.Rotation;
-          console.log("NULLILIIL")
+         // console.log("NULLILIIL")
         }
         else{
          rotation = JSON.parse(data.rotation)
