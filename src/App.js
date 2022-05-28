@@ -18,12 +18,15 @@ import SensorList from './components/SensorList';
 import { parseJSON } from 'date-fns';
 import Photo from './components/photo';
 import { Grid } from '@mui/material';
+import AlienCounter from './components/alienCounter';
 //import GridList from '@material-ui/core/GridList';
 //import GridListTile from '@material-ui/core/GridListTile';
+import Box from '@mui/material/Box';
+import Masonry from '@mui/lab/Masonry';
 
 
 const theme = createTheme({
-
+  
 })
 
 var mqtt    = require('precompiled-mqtt');
@@ -147,6 +150,8 @@ fetch('https://localhost:7071/todo/landscape')
 })
 .then(data => {
   //console.log(data)
+  console.log("VIIIIIIIIIIIII är i lanscape")
+  console.log(data)
   if(data.imageBroken == 0){
   setLandscape(data.image)
   if(data.sensorinimage == 1){
@@ -209,7 +214,6 @@ useEffect (()=> {
           position = JSON.parse(data.position)
 
         }
-        
         const sensorList = [];
         const sensorListPlaced = [];
 
@@ -222,18 +226,21 @@ useEffect (()=> {
           }
         
         }
-           
         
         //setSensors(sensorList); 
         let plans = JSON.parse(data.plans).plan;
 
         let status = JSON.parse(data.status)
-        if(status.status != "OK"){
+      if (status.id == update.Status.id) {
+        if (status.status != "OK") {
           setCmessage("Error from task planning: " + status.comment)
+          
         }
-        else{
-          setCmessage("Task " + status.id + " is finished" )
+        else {
+          setCmessage("Task " + status.id + " is finished")
+          console.log("I if satsen---------------------------------------")
         }
+      }
 
   
 
@@ -245,12 +252,14 @@ useEffect (()=> {
         else{
          rotation = JSON.parse(data.rotation)
         }
+        console.log(data.velocity)
         let battery = JSON.parse(data.battery)
         let velocity = JSON.parse(data.velocity)
         
         let routen = JSON.parse(data.route).path
         let message = data.message;
-        var alldata = {Plans: plans, Status: status, Rotation: rotation, Battery:battery, Velocity:velocity, Routen:routen, Message: message, Sensors: sensorListPlaced, Position: position}
+
+        var alldata = {Plans: plans, Status: status, Rotation: rotation, Battery:battery, Velocity:velocity, Routen:routen, Message: message, Sensors: sensorListPlaced, Position: position, AllSensors: sensorList}
         setUpdate(alldata)
         if(cmessage != message){
         setCmessage(message)}
@@ -259,27 +268,32 @@ useEffect (()=> {
     return () => clearInterval(interval);
   }, []);
 
+  const [lidar, setLidar] = useState([
+    { "segments": [-1, -1, -1, -1, -1]},
+  ]);
+
   return (
+    
     <ThemeProvider theme={theme}>
-      <ButtonAppBar sensors={update.Sensors} battery={update.Battery} velocity={update.Velocity} sub={client}></ButtonAppBar>
-        <Grid container spacing={2}>
-          <Grid item md={6}>
-            <Map position={posrot} sensors={update.Sensors} rotation={posrot} routen={update.Routen} satellite ={imageEncoded} /> 
-          </Grid>
-          <Grid item md={3}>
-            <Photo landscape = {landscapeEncoded}/ >
-          </Grid>
-          <Grid item md={3}>
-            <SendPoints/>
-          </Grid>
-          <Grid item md={6}>
-            <PlanningComponent plans={update.Plans} status={update.pStatus}/>
-          </Grid>
-          <Grid item md={6}>
-            <Console2 message={cmessage}/>
-          </Grid>
+      <ButtonAppBar sensors={update.Sensors} battery={update.Battery} velocity={update.Velocity}></ButtonAppBar>
+      <Box sx={{p:"20px"}}>
+        <Grid container>
+          <Grid item xs={5}>
+            <Map position={update.Position} sensors={update.Sensors} rotation={update.Rotation} routen={update.Routen} satellite ={imageEncoded} allSensors={update.AllSensors}/> 
+          </Grid>   
+          <Grid item xs={7}>
+            <Masonry columns={3} spacing={2}>
+              <PlanningComponent plans={update.Plans} status={update.pStatus}/>
+                <Photo landscape = {landscapeEncoded}/>
+                <SendPoints/>
+                <AlienCounter lidar={lidar}></AlienCounter>
+                <Console2 message={cmessage}/>
+            </Masonry>
+            </Grid>
         </Grid>
+      </Box>
     </ThemeProvider>
+
   );
 }
 

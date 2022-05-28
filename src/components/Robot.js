@@ -8,7 +8,7 @@ const Robot = (props) => {
     var rot = 'rotate(' + rotationen.toString() + 'deg)'
     //console.log(rot)
     const [alerts, setAlerts] = useState([]);
-    // console.log(props)
+    console.log(props)
     useEffect(() => {
         var message = "Position of the robot: x: " + props.pos.x.toFixed(2) + " y: " + props.pos.y.toFixed(2);
 
@@ -26,8 +26,8 @@ const Robot = (props) => {
         <div key={number}
             style= {{
                 position: "absolute",
-                left: `${-12 + props.pos.x/0.133}px`,
-                top: `${props.pos.map_size_y - 18 - props.pos.y/0.133}px`
+                left: `${-12 + (props.pos.x/props.pos.robotScale)*props.pos.pix_scale_x}px`,
+                top: `${props.pos.map_size_y - 18 - (props.pos.y/props.pos.robotScale)*props.pos.pix_scale_y}px`
             }}
         >
             <img src="./robot.png" alt="robot" width={"30px"} height={"auto"} transform={rot}/>

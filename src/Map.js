@@ -1,45 +1,40 @@
-import { Box, Button, Chip, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, FormControl, FormControlLabel, getLinearProgressUtilityClass, IconButton, InputLabel, MenuItem, Popover, Select, Stack, Switch } from '@mui/material';
-// import MoreVertIcon from '@mui/icons-material/MoreVert';
-
+import { Box, Button, Checkbox, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Fade, FormControl, FormControlLabel, IconButton, InputLabel, MenuItem, Paper, Popover, Popper, Select, Stack } from '@mui/material';
 import Card from '@mui/material/Card';
-import CardHeader from '@mui/material/CardHeader';
 import CardContent from '@mui/material/CardContent';
-import { CardMedia } from "@mui/material";
 import { makeStyles } from '@mui/styles';
-// import { blue, cyan, red } from '@mui/material/colors';
-import { SettingsInputAntennaTwoTone, ThreeSixty} from '@mui/icons-material';
 import RoomSharpIcon from '@mui/icons-material/RoomTwoTone';
 import { useState } from 'react';
-import { width, height, maxHeight } from '@mui/system';
 import useMouse from '@react-hook/mouse-position';
 import * as React from 'react'
 import { useEffect } from 'react';
 import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 import './Map.css';
 import Robot from './components/Robot';
-import markerHandler from './components/MarkerHandler';
-import SensorDetails from './components/SensorDetails';
-import PointDetails from './components/PointDetails';
 import LineTo from 'react-lineto';
 import SensorsSharpIcon from '@mui/icons-material/SensorsSharp';
 import Control from './components/Control'
-import Grid from '@mui/material/Grid';
-import { red } from '@mui/material/colors';
-
+import { width } from '@mui/system';
+import ArrowLeftIcon from '@mui/icons-material/ArrowLeft';
+import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
+import CenterFocusStrongIcon from '@mui/icons-material/CenterFocusStrong';
+import { motion } from 'framer-motion';
 
 // Styles in height and width for the card/picture
 // const mapSizeX = 767;
 // const mapSizeY =432;
-
 
 var route= [[255, 188], [255.32556081765156, 170.369254745772], [252.3438199487991, 160.82413969193345], [242.02886247117783, 166.95615830205404], [234.88435114390055, 184.5617244075335], [235.19549509657335, 188.54960472679022], [235.61507678124607, 189.45732230945964], [235.15000814621132, 190.3425969361755], [234.34861656992467, 190.94073700460163], [231.53984499195587, 191.99468302921323], [229.08842300124155, 195.15546303159275], [228.1528492437047, 198.0058492763337], [228, 200]];
 
 const Map = (props) => {
 
    //console.log(props.routen)
-    const [mapSizeX, setMapSizeX] = useState(767);
-    const [mapSizeY, setMapSizeY] = useState(432);
-    const [sensors, setSensors] = useState(props.sensors);
+            //Mapsize we want to show
+    const [mapSizeX, setMapSizeX] = useState(767.00);
+    const [mapSizeY, setMapSizeY] = useState(432.00);
+            //Scale from pixel to meter
+    const [scale, setScale] = useState(0.08);
+    const [style, setStyle] = useState({visibility: 'hidden'});
+
     var data = props.satellite.data;
     const [manual, setManual] = useState(false);
 
@@ -66,7 +61,6 @@ const Map = (props) => {
         console.log(points)
     }
 
-
     // setMapSizeX(props.position.sizeX);
     // setMapSizeX(props.position.sizeY);
     const useStyles = makeStyles({
@@ -91,31 +85,12 @@ const Map = (props) => {
 
     const [openOne, setOpenOne] = useState(false);
     const [fullWidth, setFullWidth] = useState(true);
-    const [maxWidth, setMaxWidth] = useState('');
     const [takeControl, setTakeControl] = useState(false);
     const[nodes, setNodes] = useState('');
-    // const {data: points1} = useFetch('http://localhost:8000/points')
-
     const [points, setPoints] = useState(null);
     const [oldPoints, setOldPoints] = useState(null);
-    
-    const handleZoomPlus = () =>{
-        if(zomvar < 6)
-            setZomvar(zomvar + 0.5)
-        else
-            console.log("Max Zoom")
-    }
-    const handleZoomNegative = () =>{
-        if(zomvar > 1)
-            setZomvar(zomvar - 0.5)
-        else
-            console.log("Min Zoom")
-    }
 
     useEffect(() => {
-        
-        // console.log("hej");
-        
         fetch('http://localhost:8000/points')
         .then(res => {
             return res.json();
@@ -126,28 +101,16 @@ const Map = (props) => {
         .then(data => {
             setPoints(data);
         })
-        // console.log("-----------------------------")
-        // console.log(points);
-        // console.log(oldPoints);
     },[nodes]);
-
+// Skalan 123: 0.132
     //Open control window for that point and sets the coordniates
     const handleClickOpen = () => {
         // setX(mouse.x )
         // setY((mapSizeY - mouse.y))
-        var bx = mouse.x/offsetScale + (offsetX)
-        var by =(mapSizeY - mouse.y)/offsetScale + (offsetY)
-        setX(parseFloat((bx*0.133).toFixed(3)));
-        setY(parseFloat((by*0.133).toFixed(3)));
-        //Tanken är att kolla igenom vilka sensorer som är lediga/uppplockade
-        //och sen används dess index för att sätta vilken sensor som ska 
-        //dropas
-        if(sensors[0].state === false)
-            setSensor(0)
-        else if(sensors[1].state === false)
-            setSensor(1)
-        else if(sensors[2].state === false)
-            setSensor(2)
+        var bx = ((mouse.x/mxs)/offsetScale + (offsetX))
+        var by =(pixSizeY - ((mouse.y/mys)/offsetScale + offsetY*mys))
+        setX(parseFloat((bx*scale).toFixed(3)));
+        setY(parseFloat((by*scale).toFixed(3)));
 
         if (takeControl != true && !manual){
             setOpenOne(true)
@@ -171,7 +134,7 @@ const Map = (props) => {
             if(event.target.value === "goto")
                 setColor("black")
             else if(event.target.value === "sensor-drop")
-                setColor("blue")
+                setColor("blue") 
             else if (event.target.value === "sensor-pickup")
                 setColor("purple")
             else if (event.target.value === "take-picture")
@@ -217,7 +180,7 @@ const Map = (props) => {
         setOpenOne(false);
     }
 
-    const [map, setMap] = useState("/mars1.png")
+    const [map, setMap] = useState("/final_demo2.png")
     const [mapTwo, setMapTwo] = useState("/mars2.png")
     // Function for toggling the maps
     const handleClick=() =>{
@@ -234,24 +197,6 @@ const Map = (props) => {
             setMapTwo("/mars2.png")
             )
     }
-    // var ConstMap1 = props.satellite.map1
-    // var ConstMap2 = props.satellite.map2
-    // const [map, setMap] = useState(props.satellite.map1)
-    // const [mapTwo, setMapTwo] = useState(props.satellite.map2)  
-    // const handleClick=() =>{
-    //     if (map === ConstMap1)( 
-    //         setMap(ConstMap2)
-    //         )
-    //     else( 
-    //         setMap(ConstMap1)
-    //         )
-    //     if (map === ConstMap1)( 
-    //         setMapTwo(ConstMap1)
-    //         )
-    //     else( 
-    //         setMapTwo(ConstMap2)
-    //         )
-    // }
 
     const [anchorEl, setAnchorEl] = useState(null);
     const [anchorElP, setAnchorElP] = useState(null);
@@ -286,27 +231,12 @@ const Map = (props) => {
     const handlePointPopoverClose = () => {
         setAnchorElP(null);
     };
+    const [zoomOpen, setZoomOpen] = useState(false)
+    const [achorZoom, setAchorZoom] = useState(null)
 
-    let pos= {
-        x: props.position.position.x,
-        y: props.position.position.y,
-        map_size_x: mapSizeX,
-        map_size_y: mapSizeY
-        }
-
-    const getRobot = () => {
-       return(
-           <div>
-            <Robot rotation={props.rotation} pos={pos}/>
-        </div>
-       )
-        
-    }
-
-    const handleDropSensor = () => {
-        for (var i = 0; i<2; i++){
-            <MenuItem value={i}>i</MenuItem>
-        }
+    const openZoomGridHandler = (event) => {
+        setAchorZoom(event.currentTarget)
+        setZoomOpen(!zoomOpen)
     }
     
     const openPoint = Boolean(anchorElP);
@@ -314,325 +244,338 @@ const Map = (props) => {
     //console.log(openppp);
     const open = Boolean(anchorEl);
 
-    // DbConnection()
-    const handleMouse=() =>{
-        const x_cord = mouse.x
-        const y_cord = mouse.y
-        // console.log(x_cord, y_cord)
+    const [stuff, setStuff] = useState([
+        { nr: "1",  id: 1 },
+        { nr: "2",  id: 2 },
+        { nr: "3",  id: 3 },
+        { nr: "10",  id: 10 },
+      ]);
+    console.log(props.sensors)
+    const handleDropSensor = () => {
+        return (
+            <div>
+                {props.allSensors && props.allSensors.map((sens) => {
+                    if(sens.is_placed !== true){
+                        return (
+                            <div>
+                                <FormControlLabel
+                                    control={
+                                        
+                                        <Checkbox 
+                                            disabled={!(command==="sensor-drop")} 
+                                            onClick={() => {
+                                                console.log("Click button");
+                                                setSensor(sens.id)
+                                                setCommand("sensor-drop")
+                                                setColor("blue")
+                                            }} 
+                                            name={sens.id}
+                                        >
+                                        </Checkbox>
+                                        
+                                    }
+                                    label={sens.id}
+                                />
+                            </div>
+                        )
+                    }
+                    else
+                        return(<div>Sensor: {sens.id} is not Available</div>)
+                })}
+            </div>
+        )
     }
+    const [scaleW, setScaleW] = useState(767.00/1100.00);
+    const [scaleH, setScaleH] = useState(432.00/700.00);
+    var [pixSizeX, setPixSizeX] = useState(null);
+    var [pixSizeY, setPixSizeY] = useState(null);
+    var mxs = mapSizeX / pixSizeX;
+    var mys = mapSizeY / pixSizeY;
 
+    const onImgLoad = ({ target: img }) => {
+        const { offsetHeight, offsetWidth } = img;
+        console.log({offsetHeight, offsetWidth});
+        console.log(typeof(mapSizeX))
+
+        var msxf = parseFloat(mapSizeX).toFixed(3);
+        var msyf = parseFloat(mapSizeY).toFixed(3);
+        var owf = parseFloat(offsetWidth).toFixed(3);
+        var ohf = parseFloat(offsetHeight).toFixed(3);
+        var scx = 767.00/offsetWidth;
+        var scy = msyf/ohf;
+        console.log({scx, scy});
+        // setMapSizeX(offsetWidth);
+        // setMapSizeY(offsetHeight);
+        if(pixSizeX === null && pixSizeY === null){
+            setPixSizeX(offsetWidth);
+            setPixSizeY(offsetHeight)
+        }
+        // setScaleH(scy);
+        // setScaleW(scx);
+      };
+
+
+      let pos= {
+        x: props.position.position.x,
+        y: props.position.position.y,
+        map_size_x: mapSizeX,
+        map_size_y: mapSizeY,
+        pix_size_y: pixSizeY,
+        pix_scale_y: mys,
+        pix_scale_x: mxs,
+        robotScale: scale
+        }
+
+    const getRobot = () => {
+       return(
+           <div>
+            <Robot rotation={props.rotation} pos={pos}/>
+        </div>
+       )  
+    }
+    
+    console.log({scaleH, scaleW})
+    console.log({pixSizeX, pixSizeY, mxs, mys})
     const classes = useStyles()
     return ( 
-                <CardContent>
-                    <Card className={classes.root} sx={{ width: 767 }}>  
-                        <CardHeader
-                            className={classes.headerHeight}
-                            // sx={{ bgcolor: blue[700] }}
+        <div>
 
-                            // Here is where the button for toggle the maps come to play
-                            action={
-                                
-                                <IconButton aria-owns={open ? 'mouse-over-popover' : undefined} 
-                                    onMouseEnter={handlePopoverOpen}
-                                    onMouseLeave={handlePopoverClose} 
-                                    onClick = {handleClick}
-                                    
-                                    // edge = 'false' 
-                                    // size='small'
-                                    >
-                                    <Popover
-                                            id="mouse-over-popover"
-                                            sx={{
-                                            pointerEvents: 'none',
-                                            }}
-                                            open={open}
-                                            anchorEl={anchorEl}
-                                            anchorOrigin={{
-                                            vertical: 'bottom',
-                                            horizontal: 'right',
-                                            }}
-                                            transformOrigin={{
-                                            vertical: 'top',
-                                            horizontal: 'right',
-                                            }}
-                                            onClose={handlePopoverClose}
-                                            disableRestoreFocus
-                                        >
-                                            <CardMedia
-                                                onClick = {handleClick}
-                                                className={classes.popMap}
-                                                component="img"
-                                                height="40"
-                                                image={mapTwo}
-                                                alt="Mars2"
-                                            />
-                                            
-                                    </Popover>
-                                {/* <ThreeSixty sx={{ fontSize: 30}}/> */}
-                                <Chip icon={<ThreeSixty sx={{ fontSize: 30}}/>} label="Change map" />
-                                </IconButton>
-                                
-                            }   
-                        />
-                <div>
-{/* {                console.log(props.sensors) }*/}
-                    <TransformWrapper
-                        initialScale={1}
-                        initialPositionX={0}
-                        initialPositionY={0}  
-                        
-                    >
-                        {({ zoomIn, zoomOut, resetTransform, setTransform, ...rest }) => (
-                            <React.Fragment>
-                                <Stack spacing={2} direction="row">
-                                    <Box sx={{ '& button': { m: 1 } }}>
-                                        <div style={{top: -50}}>
+
+            <div>
+                <TransformWrapper
+                    initialScale={1}
+                    initialPositionX={0}
+                    initialPositionY={0}
+                    wheel={{ activationKeys: ['z'] }}
+                    panning={{ activationKeys: ['p'] }}
+                    className="react-transform-element"
+                >
+                    {({ zoomIn, zoomOut, resetTransform, setTransform, ...rest }) => (
+                        <React.Fragment class="wheelDisabled">
+                            <Stack spacing={1} direction="row">
+                                <Box sx={{ '& button': { m: 0.5 } }}>
+                            <Box sx={{padding: '10px', position: "absolute", zIndex: 2}}>
+                            <motion.div 
+                                initial={{ opacity: 0}}
+                                whileHover={{ opacity: 1}}
+                            >  
+                            <Box>
+                            <Paper>
+                                <Stack spacing={1} direction="row">
+                                    <Box>
+                                        {/* <div style={{top: -50}}>
                                             <Button variant="contained" size="small" style={{top: -50}}
                                             onClick={() => { zoomIn(); handleZoomPlus() }}>+</Button>
                                             <Button variant="contained" size="small" style={{top: -50}} onClick={() => { zoomOut(); handleZoomNegative() }}>-</Button>
                                             <Button variant="contained" size="small" style={{top: -50}} onClick={() => { resetTransform(); setZomvar(1); handleReset() }}>x</Button>
-                                        </div>
-                                        <div style={{top: -50}}> Quadrant:
-                                            <Button variant='contained' size="small" style={{top: -50}} onClick={() => { setTransform(0, -mapSizeY, 2, 300, "easeOut");    handleOffset(0, 0, 2) }}>2.1.1</Button>
-                                            <Button variant='contained' size="small" style={{top: -50}} onClick={() => { setTransform(0, 0, 2, 300, "easeOut");            handleOffset(0, mapSizeY / 2, 2) }}>2.1.2</Button>
-                                            <Button variant='contained' size="small" style={{top: -50}} onClick={() => { setTransform(-mapSizeX, -mapSizeY, 2, 300, "easeOut");    handleOffset(mapSizeX / 2, 0, 2) }}>2.2.1</Button>
-                                            <Button variant='contained' size="small" style={{top: -50}} onClick={() => { setTransform(-mapSizeX, 0, 2, 300, "easeOut");            handleOffset(mapSizeX / 2, mapSizeY / 2, 2) }}>2.2.2</Button>
+                                        </div> */}
+                                        <div>
+                                             <Box sx={{textAlign: "center"}}>
+                                            <Button variant="contained"  onClick={() => { resetTransform(); setZomvar(1); handleReset() }}>Reset</Button>
+                                            </Box>
+                                            <div>
+                                                <IconButton variant='contained'  onClick={() => { setTransform(0, 0, 2, 300, "easeOut"); handleOffset(0, mapSizeY / 2, 2) }}>
+                                                    <ArrowBackIosIcon sx={{transform: "rotate(45deg)"}} />
+                                                </IconButton>
+                                                <IconButton variant='contained'   onClick={() => { setTransform(-mapSizeX / 2, 0, 2, 300, "easeOut"); handleOffset(mapSizeX / 4, mapSizeY / 2, 2) }}>
+                                                    <ArrowBackIosIcon sx={{transform: "rotate(90deg)"}} />
+                                                </IconButton>
+                                                <IconButton variant='contained'   onClick={() => { setTransform(-mapSizeX, 0, 2, 300, "easeOut"); handleOffset(pixSizeX / 2, pixSizeY / 2, 2) }}>
+                                                    <ArrowBackIosIcon sx={{transform: "rotate(135deg)"}} />
+                                                </IconButton>
+                                            </div>
+                                            <div>
+                                                <IconButton variant='contained' onClick={() => { setTransform(0, -mapSizeY / 2, 2, 300, "easeOut"); handleOffset(0, mapSizeY / 4, 2) }}>
+                                                    <ArrowBackIosIcon  />
+                                                </IconButton>
+                                                <IconButton variant='contained' onClick={() => { setTransform(-mapSizeX / 2, -mapSizeY / 2, 2, 300, "easeOut"); handleOffset(mapSizeX / 4, mapSizeY / 4, 2) }}>
+                                                    <CenterFocusStrongIcon size='large'/>
+                                                </IconButton>
+                                                <IconButton variant='contained' onClick={() => { setTransform(-mapSizeX, -mapSizeY / 2, 2, 300, "easeOut"); handleOffset(mapSizeX / 2, mapSizeY / 4, 2) }}>
+                                                    <ArrowBackIosIcon sx={{transform: "rotate(180deg)"}} />
+                                                </IconButton>
+                                            </div>
+                                            <div>
+                                                <IconButton variant='contained' onClick={() => { setTransform(0, -mapSizeY, 2, 300, "easeOut"); handleOffset(0, 0, 2) }}>
+                                                    <ArrowBackIosIcon sx={{transform: "rotate(315deg)"}} />
+                                                </IconButton>
+                                                <IconButton variant='contained' onClick={() => { setTransform(-mapSizeX / 2, -mapSizeY, 2, 300, "easeOut"); handleOffset(mapSizeX / 4, 0, 2) }}>
+                                                    <ArrowBackIosIcon sx={{transform: "rotate(270deg)"}} />
+                                                </IconButton>
+                                                <IconButton variant='contained' onClick={() => { setTransform(-mapSizeX, -mapSizeY, 2, 300, "easeOut"); handleOffset(mapSizeX / 2, 0, 2) }}>
+                                                    <ArrowBackIosIcon sx={{transform: "rotate(225deg)"}} />
+                                                </IconButton>
+                                            </div>
+                                            
                                         </div>
                                     </Box>
                                 </Stack>
-                                {/* {console.log(zomvar)} */}
-
-                                <div ref={ref} onClick={handleClickOpen}>
-                                    <TransformComponent>
-                                         {/* <img src={`data:image/jpeg;base64,${data}`} alt="test" onDrag={(offset) => {console.log(offset)}}/> */}
+                                </Paper>
+                                </Box>
+                            </motion.div>
+                            </Box>
+                            <div>
+                            <div ref={ref} onClick={handleClickOpen}>
+                                <TransformComponent className="react-transform-component">
+                                    <Paper>
+                                        <img src={`data:image/jpeg;base64,${data}`} alt="test" onLoad={onImgLoad} style={pixSizeX ? {width: mapSizeX, height: mapSizeY} : {width: undefined, height: undefined}}/>                                 
+                                        {/* <img src={`data:image/jpeg;base64,${data}`} alt="test" onLoad={onImgLoad} style={{}}/>                                  */}
                                         
-                                        <img src={map} alt="test" />
-                                        
-                                        {getRobot()}
+                                        {/* <img src={map} alt="test" onLoad={onImgLoad} style={pixSizeX ? {width: mapSizeX, height: mapSizeY} : {width: undefined, height: undefined}}/>                                  */}
+                                        {/* <img src={map} alt="test" onLoad={onImgLoad} style={{}}/>                                  */}
 
-                                        {props.routen.map((point, index) => {
-                                            var current = "pointMarker" + index;
-                                            var nextindex = index + 1;
-                                            var next = "pointMarker" + nextindex;
+                                        {/* <img src={map} alt="test" /> */}
 
+                                    {getRobot()}
+
+                                    {props.routen && props.routen.map((point, index) => {
+                                        var current = "pointMarker" + index;
+                                        var nextindex = index + 1;
+                                        var next = "pointMarker" + nextindex;
+
+                                        return (
+                                            <div className={current} key={index}
+                                                style={{
+                                                    position: 'absolute',
+                                                    left: `${point[0]*mxs}px`,
+                                                    top: `${(pixSizeY - point[1])*mys}px`,
+                                                }}
+                                            >
+
+                                                <LineTo from={current} to={next} borderColor="black" borderStyle="dotted" borderWidth="3px" />
+
+                                            </div>
+                                        )
+                                    })}
+
+                                    {props.sensors && props.sensors.map((sensor) => {
+                                        if(sensor.is_placed === true){
                                             return (
-                                                <><div className={current} key={index}
-                                                    style={{
-                                                        position: "absolute",
-                                                        left: `${point[0]}px`,
-                                                        top: `${mapSizeY - point[1]}px`,
-                                                    }}
-                                                >
-                                                </div>
-                                                <LineTo from={current} to={next} borderColor="black" borderStyle="dotted" borderWidth="3px"></LineTo></>
-                                                    )
-                                                })
-                                                }
-                                                
-                                                
-                                        
-                                        {props.sensors && props.sensors.map((sensor) => {
-                                            return(
                                                 <div key={sensor.id}
                                                     style={{
                                                         position: "absolute",
-                                                        left: `${sensor.position.x/0.133 - 19}px`,
-                                                        top: `${-30 + mapSizeY - sensor.position.y/0.133}px`,
+                                                        left: `${((sensor.position.x /  scale))*mxs - 19}px`,
+                                                        top: `${( -30 + pixSizeY - sensor.position.y / scale)*mys }px`,
+                                                        // left: `${(sensor.position.x /  scale) - 19}px`,
+                                                        // top: `${-30 + mapSizeY - sensor.position.y / scale}px`,
                                                     }}
                                                 >
                                                     <IconButton>
-                                                
-                                                        <SensorsSharpIcon style={{color: "red"}}/>
+                                                        <SensorsSharpIcon style={{ color: "red" }} />
                                                     </IconButton>
-
                                                 </div>
                                             )
-                                        })}
+                                        }
+                                    })}
 
-                                        {points && points.map((point) => {
-                                            //  console.log(oldPoints.filter(point => point.id.includes(point.id)))
+                                    {points && points.map((point) => {
+                                        return (
+                                            <div className="point-marker" key={point.id}
+                                                style=
+                                                {{
+                                                    position: "absolute",
+                                                    left: `${(point.x * mxs) / scale - 23}px`,
+                                                    top: `${-35 + mapSizeY - (point.y * mys) / scale}px`,
+                                                }}
+                                            >
+                                                <IconButton aria-owns={openppp[point.id - 1] ? 'mouse-over-popover' : undefined}
+                                                    onMouseEnter={handlePointPopoverOpen}
+                                                    onMouseLeave={handlePointPopoverClose}
 
-                                            return (
-                                                // <div className="point-marker" key = {point.id}>
-                                                //     {oldPoints && oldPoints.map((oldpoint) => {
-                                                //         <div className="oldPoit-markers" key = {oldpoint.id}>
-                                                //             {/* {console.log(point.id)}{ console.log(oldpoint.id) } */}
-                                                //             {console.log(point.id===oldpoint.id)}
-                                                //             {console.log(oldPoints[1])}
-
-
-                                                //         </div>
-                                                //     })}
-                                                //     </div>
-                                                //console.log(oldPoints && oldPoints.map.filter(p => p.includes(point.id))),
-                                                
-                                                        <div className="point-marker" key={point.id}
-                                                            style=
-                                                            {{
-                                                                position: "absolute",
-                                                                left: `${point.x/0.133 - 19}px`,
-                                                                top: `${-30 + mapSizeY - point.y/0.133}px`,
-                                                                
-
-                                                            }}
-                                                        >
-                                                            <IconButton aria-owns={openppp[point.id-1] ? 'mouse-over-popover' : undefined}
-                                                                onMouseEnter={handlePointPopoverOpen}
-                                                                onMouseLeave={handlePointPopoverClose}
-
-                                                            >
-                                                                {/* <Popover
-                                                                    id="mouse-over-popover"
-                                                                    sx={{
-                                                                        pointerEvents: 'none',
-                                                                    }}
-                                                                    open={openppp[point.id-1]}
-                                                                    anchorEl={anchorElP}
-                                                                    anchorOrigin={{
-                                                                        vertical: 'bottom',
-                                                                        horizontal: 'center',
-                                                                    }}
-                                                                    transformOrigin={{
-                                                                        vertical: 'top',
-                                                                        horizontal: 'center',
-                                                                    }}
-                                                                    onClose={handlePointPopoverClose}
-                                                                    disableRestoreFocus
-
-                                                                >
-                                                                    <div>
-                                                                        <PointDetails spot={point}/>
-                                                                        
-
-                                                                    </div>
-                                                                </Popover> */}
-                                                                <RoomSharpIcon style={{ color: point.color }} />
-                                                            </IconButton>
-                                                            {/* {console.log(points)} */}
-
-                                                        </div>
-                                                    )
-                                                })}
-                                            </TransformComponent>
-                                        </div>
-                                    </React.Fragment>     
-                                )}      
-                            </TransformWrapper>
+                                                >
+                                                    <RoomSharpIcon style={{ color: point.color }} />
+                                                </IconButton>
+                                            </div>
+                                        )
+                                    })}
+                                    </Paper>
+                                </TransformComponent>
                             </div>
-                            
-                            {/* <CardMedia
-                                className={classes.media}
-                                scale = {100}
-                                component="img"
-                                height="194"
-                                image={map}
-                                alt="Mars1"     
+                            </div> 
+                            </Box>
+                            </Stack>
+                        </React.Fragment>
+                    )}
+                </TransformWrapper>
+            </div>
+
+            {/* Dialog field for choosing points and sensors */}
+            <Dialog
+                // fullWidth={fullWidth}
+                // maxWidth={'sm'}
+                open={openOne}
+                onClose={handleClose}
+
+            >
+
+                <DialogTitle>Point</DialogTitle>
+                <DialogContent>
+                    <DialogContentText >
+                        {"Do you want to use this point: (" + x + ", " + y + ")"}
+                    </DialogContentText>
+
+                    <Box
+                        noValidate
+                        component="form"
+                        sx={{
+                            display: 'flex',
+                            flexDirection: 'column',
+                            m: 'auto',
+                            width: 'fit-content',
+                        }}
+                    >
+
+                        <FormControl sx={{ mt: 2, minWidth: 120 }}>
+                            <InputLabel htmlFor="max-width">Misson</InputLabel>
+                            <Select
+                                autoFocus
+                                value={command}
+                                onChange={handleMaxWidthChange}
+                                label="Misson"
+                                inputProps={{
+                                    //name: 'intell',
+                                    //id: 'Misson',
+                                }}
                             >
-                                </CardMedia> 
-                                
-                            {/* <ImageMarker
-                                className={classes.media}
-                                src={map}
-                                scale = {100}
-                                
-                                markers={markers}
-                                onAddMarker={(marker) => setMarkers((prev) => [...prev, marker])}
-                                markerComponent={CustomMarker}    
-                                    
-                            /> */}
-                                
-                        
-                        <Dialog
-                            fullWidth={fullWidth}
-                            maxWidth={'sm'}
-                            open={openOne}
-                            onClose={handleClose}
-                        >
-                            
-                            <DialogTitle>Point</DialogTitle>
-                                <DialogContent>
-                                    <DialogContentText >
-                                        {"Do you want to use this point: (" + x + ", " + y + ")"}
-                                        
-                                    </DialogContentText>
-                                
-                                    <Box
-                                        noValidate
-                                        component="form"
-                                        sx={{
-                                        display: 'flex',
-                                        flexDirection: 'column',
-                                        m: 'auto',
-                                        width: 'fit-content',
-                                        }}
-                                    >
-                                        
-                                        <FormControl sx={{ mt: 2, minWidth: 120 }}>
-                                            <InputLabel htmlFor="max-width">Misson</InputLabel>
-                                            <Select
-                                                autoFocus
-                                                value={command}
-                                                
-                                                onChange={handleMaxWidthChange}
-                                                label="Misson"
-                                                inputProps={{
-                                                //name: 'intell',
-                                                //id: 'Misson',
-                                                }}
-                                            >
-                                                <MenuItem value="sensor-drop">sensor-drop</MenuItem>
-                                                <MenuItem value="goto">goto</MenuItem>
-                                                <MenuItem value="sensor-pickup">sensor-pickup</MenuItem>
-                                                <MenuItem value="take-picture">take-picture</MenuItem>
-                                                
-                                            </Select>
-                                        </FormControl>
-                                    </Box>
+                                <MenuItem value="sensor-drop">sensor-drop</MenuItem>
+                                <MenuItem value="goto">goto</MenuItem>
+                                <MenuItem value="sensor-pickup">sensor-pickup</MenuItem>
+                                <MenuItem value="take-picture">take-picture</MenuItem>
+                            </Select>
+                        </FormControl>
+                    </Box>
 
-                                    <Box
-                                        noValidate
-                                        component="form"
-                                        sx={{
-                                        display: 'flex',
-                                        flexDirection: 'column',
-                                        m: 'auto',
-                                        width: 'fit-content',
-                                        }}
-                                    >
-                                        
-                                        <FormControl sx={{ mt: 2, minWidth: 120 }}>
-                                            <InputLabel htmlFor="max-width">Sensor</InputLabel>
-                                            <Select
-                                                autoFocus
-                                                value={command}
-                                                
-                                                onChange={handleMaxWidthChange}
-                                                label="Sensor"
-                                                inputProps={{
-                                                //name: 'intell',
-                                                //id: 'Misson',
-                                                }}
-                                            >
-                                                {handleDropSensor()}
-                                                
-                                            </Select>
-                                        </FormControl>
-                                    </Box>
-                                    
+                    <Box
+                        noValidate
+                        component="form"
+                        sx={{
+                            display: 'flex',
+                            flexDirection: 'column',
+                            m: 'auto',
+                            width: 'fit-content',
+                        }}
+                    >
 
-                                </DialogContent>
-                            <DialogActions>
-                                <Button onClick={handleClose}>Disagree</Button>
-                                <Button onClick={createPoint} autoFocus>
-                                    Agree
-                                </Button>
-                            </DialogActions>
-                        </Dialog>                         
-                    </Card>
-                    <Control x={x} y={y} manual={manual} setManual={setManual}/>       
-            </CardContent>
-      
-      
+                        <FormControl sx={{ mt: 2, minWidth: 120 }}>
+                            Sensors Available
+                            {handleDropSensor()}
+                        </FormControl>
+                    </Box>
+
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleClose}>Disagree</Button>
+                    <Button onClick={createPoint} autoFocus>
+                        Agree
+                    </Button>
+                </DialogActions>
+            </Dialog>
+
+
+
+            <Control x={x} y={y} manual={manual} setManual={setManual} />
+
+        </div>
      );
 }
  

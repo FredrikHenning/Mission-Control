@@ -18,6 +18,7 @@ import Typography from '@mui/material/Typography';
 import FolderIcon from '@mui/icons-material/Folder';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { Paper } from "@mui/material";
+import PointInfo from "./pointInfo";
 
 const SendPoints = () => {
     const [openOne, setOpenOne] = useState(false);
@@ -112,17 +113,11 @@ const SendPoints = () => {
                 <Button onClick={handlePointList}> See Point List</Button>
                     <List>
                         {points && points.map((point) => (
-                            <ListItem 
-                                onClick={handleDelete(point.id)}
-                                secondaryAction={<IconButton edge="end" aria-label="delete">
-                                    <DeleteIcon />
-                                </IconButton>}
-                            >
-                            
-                                <ListItemText
-                                    primary={<p>Command: {point.command}, Pos: ({parseFloat(point.x).toFixed(2)}, {parseFloat(point.y).toFixed(2)})</p>}
-                                />
+                            <div className="point-list" key={point.id}>
+                            <ListItem >
+                                <PointInfo point={point} handleDelete={handleDelete}/>
                             </ListItem>
+                            </div>
                             ))} 
                     </List>
                     </Paper>

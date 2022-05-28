@@ -1,1 +1,0 @@
-{"is_placed":true,"position":{"x":40.0,"y":32.0}}
