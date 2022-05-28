@@ -13,7 +13,7 @@ import pin from "./pin.png";
 export default function Photo(props) {
   var data = props.landscape;
   return (
-    <Box sx={{ width: '400px', textAlign: 'center' }}>
+    <Box sx={{textAlign: 'center' }}>
       <Paper elevation={2} sx={{ padding: '20px' }}>
         <Box>
         <Typography variant="h6">

@@ -9,8 +9,37 @@ import Grid from '@mui/material/Grid';
 import { Typography } from '@mui/material';
 import { PortraitSharp } from '@mui/icons-material';
 
-
   export default function LoadingButtonsTransition(props) {
+    
+    function sendPointPlace() {
+      
+      console.log("sent");
+      var data = {"control": 1}
+    
+      fetch('https://localhost:7071/todo/mc/manualcontrol',
+            {
+                method: 'POST',
+                body: JSON.stringify(data),
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            })
+    
+      var data = {"position": {
+        "x": props.x,
+        "y": props.y
+                        }}
+    
+      fetch('https://localhost:7071/todo/mc/manualpoints',
+            {
+                method: 'POST',
+                body: JSON.stringify(data),
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            })
+    }
+
     const [flag, setFlag] = React.useState(true);
   
     const handleClick1 = () => {
@@ -65,7 +94,7 @@ import { PortraitSharp } from '@mui/icons-material';
           </Button>
           </Grid>
           <Grid item xs={6}>
-          <Button color="primary" variant="contained">
+          <Button color="primary" variant="contained" onClick={sendPointPlace()}>
             Place sensor
           </Button>
           </Grid>
