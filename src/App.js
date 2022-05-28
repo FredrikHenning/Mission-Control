@@ -150,8 +150,8 @@ fetch('https://localhost:7071/todo/landscape')
 })
 .then(data => {
   //console.log(data)
-  console.log("VIIIIIIIIIIIII är i lanscape")
-  console.log(data)
+  //console.log("VIIIIIIIIIIIII är i lanscape")
+  //console.log(data)
   if(data.imageBroken == 0){
   setLandscape(data.image)
   if(data.sensorinimage == 1){
