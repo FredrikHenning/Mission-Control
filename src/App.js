@@ -26,16 +26,37 @@ const theme = createTheme({
 
 })
 
+var mqtt    = require('precompiled-mqtt');
+var options = {
+  clean: true,
+  connectTimeout: 4000,
+  //protocol: "ws",
+  // Auth
+  clientId: 'mission-control',
+	// clientId uniquely identifies client
+	// choose any string you wish
+	
+  username: "mission-control",
+  password: "upon map citadel overstep" 	
+};
+
+
+
+
+// preciouschicken.com is the MQTT topic
+
 function App() {
   var startPos ={"position": {
     "x": 0,
     "y": 0
-                    }};
+    },
+  "rotation": 0};
 
   //const [position, setPosition] = useState(startPos);
 
 
-
+  const [posrot, setPosrot] = useState(startPos);
+  console.log(posrot.position)
   const [manualcontrol, setManualcontrol] = useState(0);
   const [cmessage, setCmessage] = useState("");
   //const [pos, setPos] = useState(startPos);
@@ -48,6 +69,58 @@ function App() {
 
 //MQTTT
 
+
+const [client, setClient] = useState(null);
+const [connectStatus, setConnectStatus] = useState("");
+const [payload, setPayload] = useState("");
+const mqttConnect = () => {
+  setConnectStatus('Connecting');
+  //setClient(mqtt.connect('wss://tharsis.oru.se:8884', options));
+};
+
+function routemessage(topic, message){
+  if(topic == "simulation/robot/position_and_rotation"){
+    console.log(JSON.parse(message))
+    setPosrot(JSON.parse(message))
+  }
+
+}
+
+
+
+
+
+useEffect(()=>{
+  setClient(mqtt.connect('wss://tharsis.oru.se:8884', options));
+},[])
+
+
+useEffect(() => {
+  console.log("Inne här-----------------------------------")
+  console.log(client)
+  if (client) {
+    console.log("client funkar tror jag")
+    console.log(client)
+    client.on('connect', () => {
+      setConnectStatus('Connected');
+      console.log("connected")
+    });
+    client.on('error', (err) => {
+      console.error('Connection error: ', err);
+      client.end();
+    });
+    client.on('reconnect', () => {
+      setConnectStatus('Reconnecting');
+    });
+    client.on('message', (topic, message) => {
+      const payload = { topic, message: message.toString() };
+      console.log("MEDDELANDE_________________________")
+      console.log(payload)
+      routemessage(payload.topic, payload.message)
+      //setPayload(payload);
+    });
+  }
+}, [client]);
 
 
 
@@ -188,10 +261,10 @@ useEffect (()=> {
 
   return (
     <ThemeProvider theme={theme}>
-      <ButtonAppBar sensors={update.Sensors} battery={update.Battery} velocity={update.Velocity}></ButtonAppBar>
+      <ButtonAppBar sensors={update.Sensors} battery={update.Battery} velocity={update.Velocity} sub={client}></ButtonAppBar>
         <Grid container spacing={2}>
           <Grid item md={6}>
-            <Map position={update.Position} sensors={update.Sensors} rotation={update.Rotation} routen={update.Routen} satellite ={imageEncoded} /> 
+            <Map position={posrot} sensors={update.Sensors} rotation={posrot} routen={update.Routen} satellite ={imageEncoded} /> 
           </Grid>
           <Grid item md={3}>
             <Photo landscape = {landscapeEncoded}/ >

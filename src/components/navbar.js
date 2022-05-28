@@ -103,6 +103,10 @@ export default function ButtonAppBar(props) {
 
     const handleSub = (event) => {
       fetch('https://localhost:7071/todo/sub')
+      props.sub.subscribe('simulation/robot/position_and_rotation');
+      //props.sub.subscribe('simulation/robot/rotation');
+      console.log("subbat");
+      console.log(props.sub)
     };
 
   useEffect(() => {

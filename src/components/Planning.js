@@ -45,10 +45,10 @@ export default function PlanningComponent(props) {
         //{title:"Goto", body:"x=100, y=213",progress:0, key:"8", visible:true},
 ]
 
-console.log(props.plans)
+//console.log(props.plans)
 var planen = convertToPlans(props.plans);
-console.log("detta är planen");
-console.log(planen);
+//console.log("detta är planen");
+//console.log(planen);
 const [PlansObjList, setPlansObjList] = React.useState(planen);//convertToPlans(props.plans)
 const [checked, setChecked] = React.useState(true);
 const [direction, setDirection] = React.useState("right");

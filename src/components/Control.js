@@ -94,7 +94,7 @@ import { PortraitSharp } from '@mui/icons-material';
           </Button>
           </Grid>
           <Grid item xs={6}>
-          <Button color="primary" variant="contained" onClick={sendPointPlace()}>
+          <Button color="primary" variant="contained" onClick={sendPointPlace}>
             Place sensor
           </Button>
           </Grid>
