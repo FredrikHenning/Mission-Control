@@ -17,7 +17,7 @@ import { width } from '@mui/system';
 import ArrowLeftIcon from '@mui/icons-material/ArrowLeft';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import CenterFocusStrongIcon from '@mui/icons-material/CenterFocusStrong';
-
+import { motion } from 'framer-motion';
 
 // Styles in height and width for the card/picture
 // const mapSizeX = 767;
@@ -354,17 +354,15 @@ const Map = (props) => {
                         <React.Fragment class="wheelDisabled">
                             <Stack spacing={1} direction="row">
                                 <Box sx={{ '& button': { m: 0.5 } }}>
-
-                            <div>  
-                            <Box sx={{position: "absolute", zIndex: 2}} onMouseEnter={e => {
-                                    setStyle({visibility: 'visible'});
-                                }}
-                                onMouseLeave={e => {
-                                    setStyle({visibility: 'hidden'})
-                                }}>
-                            <Paper style={style}>
+                            <Box sx={{padding: '10px', position: "absolute", zIndex: 2}}>
+                            <motion.div 
+                                initial={{ opacity: 0}}
+                                whileHover={{ opacity: 1}}
+                            >  
+                            <Box>
+                            <Paper>
                                 <Stack spacing={1} direction="row">
-                                    <Box sx={{ '& button': { m: 0.5 } }}>
+                                    <Box>
                                         {/* <div style={{top: -50}}>
                                             <Button variant="contained" size="small" style={{top: -50}}
                                             onClick={() => { zoomIn(); handleZoomPlus() }}>+</Button>
@@ -377,7 +375,7 @@ const Map = (props) => {
                                             </Box>
                                             <div>
                                                 <IconButton variant='contained'  onClick={() => { setTransform(0, 0, 2, 300, "easeOut"); handleOffset(0, mapSizeY / 2, 2) }}>
-                                                    <ArrowBackIosIcon color='primary' sx={{transform: "rotate(45deg)"}} />
+                                                    <ArrowBackIosIcon sx={{transform: "rotate(45deg)"}} />
                                                 </IconButton>
                                                 <IconButton variant='contained'   onClick={() => { setTransform(-mapSizeX / 2, 0, 2, 300, "easeOut"); handleOffset(mapSizeX / 4, mapSizeY / 2, 2) }}>
                                                     <ArrowBackIosIcon sx={{transform: "rotate(90deg)"}} />
@@ -391,7 +389,7 @@ const Map = (props) => {
                                                     <ArrowBackIosIcon  />
                                                 </IconButton>
                                                 <IconButton variant='contained' onClick={() => { setTransform(-mapSizeX / 2, -mapSizeY / 2, 2, 300, "easeOut"); handleOffset(mapSizeX / 4, mapSizeY / 4, 2) }}>
-                                                    <CenterFocusStrongIcon />
+                                                    <CenterFocusStrongIcon size='large'/>
                                                 </IconButton>
                                                 <IconButton variant='contained' onClick={() => { setTransform(-mapSizeX, -mapSizeY / 2, 2, 300, "easeOut"); handleOffset(mapSizeX / 2, mapSizeY / 4, 2) }}>
                                                     <ArrowBackIosIcon sx={{transform: "rotate(180deg)"}} />
@@ -414,7 +412,8 @@ const Map = (props) => {
                                 </Stack>
                                 </Paper>
                                 </Box>
-                            </div>
+                            </motion.div>
+                            </Box>
                             <div>
                             <div ref={ref} onClick={handleClickOpen}>
                                 <TransformComponent className="react-transform-component">
