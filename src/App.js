@@ -21,10 +21,12 @@ import { Grid } from '@mui/material';
 import AlienCounter from './components/alienCounter';
 //import GridList from '@material-ui/core/GridList';
 //import GridListTile from '@material-ui/core/GridListTile';
+import Box from '@mui/material/Box';
+import Masonry from '@mui/lab/Masonry';
 
 
 const theme = createTheme({
-
+  
 })
 
 function App() {
@@ -197,29 +199,27 @@ useEffect (()=> {
   ]);
 
   return (
+    
     <ThemeProvider theme={theme}>
       <ButtonAppBar sensors={update.Sensors} battery={update.Battery} velocity={update.Velocity}></ButtonAppBar>
-        <Grid container spacing={2}>
-          <Grid item md={"auto"}>
+      <Box sx={{p:"20px"}}>
+        <Grid container>
+          <Grid item xs={5}>
             <Map position={update.Position} sensors={update.Sensors} rotation={update.Rotation} routen={update.Routen} satellite ={imageEncoded} allSensors={update.AllSensors}/> 
-          </Grid>
-          <Grid item md={"auto"}>
-            <Photo landscape = {landscapeEncoded}/>
-          </Grid>
-          <Grid item md={"auto"}>
-            <SendPoints/>
-          </Grid>
-          <Grid item md={"auto"}>
-            <PlanningComponent plans={update.Plans} status={update.pStatus}/>
-          </Grid>
-          <Grid item md={6}>
-            <Console2 message={cmessage}/>
-          </Grid>
-          <Grid item md={"auto"}>
-            <AlienCounter lidar={lidar}></AlienCounter>
-          </Grid>
+          </Grid>   
+          <Grid item xs={7}>
+            <Masonry columns={3} spacing={2}>
+              <PlanningComponent plans={update.Plans} status={update.pStatus}/>
+                <Photo landscape = {landscapeEncoded}/>
+                <SendPoints/>
+                <AlienCounter lidar={lidar}></AlienCounter>
+                <Console2 message={cmessage}/>
+            </Masonry>
+            </Grid>
         </Grid>
+      </Box>
     </ThemeProvider>
+
   );
 }
 

@@ -14,6 +14,10 @@ import LineTo from 'react-lineto';
 import SensorsSharpIcon from '@mui/icons-material/SensorsSharp';
 import Control from './components/Control'
 import { width } from '@mui/system';
+import ArrowLeftIcon from '@mui/icons-material/ArrowLeft';
+import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
+import CenterFocusStrongIcon from '@mui/icons-material/CenterFocusStrong';
+
 
 // Styles in height and width for the card/picture
 // const mapSizeX = 767;
@@ -29,6 +33,7 @@ const Map = (props) => {
     const [mapSizeY, setMapSizeY] = useState(432.00);
             //Scale from pixel to meter
     const [scale, setScale] = useState(0.08);
+    const [style, setStyle] = useState({visibility: 'hidden'});
 
     var data = props.satellite.data;
     const [manual, setManual] = useState(false);
@@ -351,8 +356,13 @@ const Map = (props) => {
                                 <Box sx={{ '& button': { m: 0.5 } }}>
 
                             <div>  
-                            <Button type="Button" onClick={openZoomGridHandler}>Zoom Grid</Button>
-                            <Popper open={zoomOpen} anchorEl={achorZoom}>
+                            <Box sx={{position: "absolute", zIndex: 2}} onMouseEnter={e => {
+                                    setStyle({visibility: 'visible'});
+                                }}
+                                onMouseLeave={e => {
+                                    setStyle({visibility: 'hidden'})
+                                }}>
+                            <Paper style={style}>
                                 <Stack spacing={1} direction="row">
                                     <Box sx={{ '& button': { m: 0.5 } }}>
                                         {/* <div style={{top: -50}}>
@@ -361,27 +371,49 @@ const Map = (props) => {
                                             <Button variant="contained" size="small" style={{top: -50}} onClick={() => { zoomOut(); handleZoomNegative() }}>-</Button>
                                             <Button variant="contained" size="small" style={{top: -50}} onClick={() => { resetTransform(); setZomvar(1); handleReset() }}>x</Button>
                                         </div> */}
-                                        <div style={{ top: 0 }}> Quadrant:
-                                            <Button variant="contained" size="small" style={{ top: 0 }} onClick={() => { resetTransform(); setZomvar(1); handleReset() }}>Reset</Button>
+                                        <div>
+                                             <Box sx={{textAlign: "center"}}>
+                                            <Button variant="contained"  onClick={() => { resetTransform(); setZomvar(1); handleReset() }}>Reset</Button>
+                                            </Box>
                                             <div>
-                                                <Button variant='contained' size="small" style={{ top: 0, width: 75 }} onClick={() => { setTransform(0, 0, 2, 300, "easeOut"); handleOffset(0, mapSizeY / 2, 2) }}>2.1.2</Button>
-                                                <Button variant='contained' size="small" style={{ top: 0, width: 75 }} onClick={() => { setTransform(-mapSizeX / 2, 0, 2, 300, "easeOut"); handleOffset(mapSizeX / 4, mapSizeY / 2, 2) }}>2.1,5.2</Button>
-                                                <Button variant='contained' size="small" style={{ top: 0, width: 75 }} onClick={() => { setTransform(-mapSizeX, 0, 2, 300, "easeOut"); handleOffset(pixSizeX / 2, pixSizeY / 2, 2) }}>2.2.2</Button>
+                                                <IconButton variant='contained'  onClick={() => { setTransform(0, 0, 2, 300, "easeOut"); handleOffset(0, mapSizeY / 2, 2) }}>
+                                                    <ArrowBackIosIcon color='primary' sx={{transform: "rotate(45deg)"}} />
+                                                </IconButton>
+                                                <IconButton variant='contained'   onClick={() => { setTransform(-mapSizeX / 2, 0, 2, 300, "easeOut"); handleOffset(mapSizeX / 4, mapSizeY / 2, 2) }}>
+                                                    <ArrowBackIosIcon sx={{transform: "rotate(90deg)"}} />
+                                                </IconButton>
+                                                <IconButton variant='contained'   onClick={() => { setTransform(-mapSizeX, 0, 2, 300, "easeOut"); handleOffset(pixSizeX / 2, pixSizeY / 2, 2) }}>
+                                                    <ArrowBackIosIcon sx={{transform: "rotate(135deg)"}} />
+                                                </IconButton>
                                             </div>
                                             <div>
-                                                <Button variant='contained' size="small" style={{ top: 0, width: 75 }} onClick={() => { setTransform(0, -mapSizeY / 2, 2, 300, "easeOut"); handleOffset(0, mapSizeY / 4, 2) }}>2.1.1,5</Button>
-                                                <Button variant='contained' size="small" style={{ top: 0, width: 75 }} onClick={() => { setTransform(-mapSizeX / 2, -mapSizeY / 2, 2, 300, "easeOut"); handleOffset(mapSizeX / 4, mapSizeY / 4, 2) }}>2.1,5.1,5</Button>
-                                                <Button variant='contained' size="small" style={{ top: 0, width: 75 }} onClick={() => { setTransform(-mapSizeX, -mapSizeY / 2, 2, 300, "easeOut"); handleOffset(mapSizeX / 2, mapSizeY / 4, 2) }}>2.2.1,5</Button>
+                                                <IconButton variant='contained' onClick={() => { setTransform(0, -mapSizeY / 2, 2, 300, "easeOut"); handleOffset(0, mapSizeY / 4, 2) }}>
+                                                    <ArrowBackIosIcon  />
+                                                </IconButton>
+                                                <IconButton variant='contained' onClick={() => { setTransform(-mapSizeX / 2, -mapSizeY / 2, 2, 300, "easeOut"); handleOffset(mapSizeX / 4, mapSizeY / 4, 2) }}>
+                                                    <CenterFocusStrongIcon />
+                                                </IconButton>
+                                                <IconButton variant='contained' onClick={() => { setTransform(-mapSizeX, -mapSizeY / 2, 2, 300, "easeOut"); handleOffset(mapSizeX / 2, mapSizeY / 4, 2) }}>
+                                                    <ArrowBackIosIcon sx={{transform: "rotate(180deg)"}} />
+                                                </IconButton>
                                             </div>
                                             <div>
-                                                <Button variant='contained' size="small" style={{ top: 0, width: 75 }} onClick={() => { setTransform(0, -mapSizeY, 2, 300, "easeOut"); handleOffset(0, 0, 2) }}>2.1.1</Button>
-                                                <Button variant='contained' size="small" style={{ top: 0, width: 75 }} onClick={() => { setTransform(-mapSizeX / 2, -mapSizeY, 2, 300, "easeOut"); handleOffset(mapSizeX / 4, 0, 2) }}>2.1,5.0</Button>
-                                                <Button variant='contained' size="small" style={{ top: 0, width: 75 }} onClick={() => { setTransform(-mapSizeX, -mapSizeY, 2, 300, "easeOut"); handleOffset(mapSizeX / 2, 0, 2) }}>2.2.1</Button>
+                                                <IconButton variant='contained' onClick={() => { setTransform(0, -mapSizeY, 2, 300, "easeOut"); handleOffset(0, 0, 2) }}>
+                                                    <ArrowBackIosIcon sx={{transform: "rotate(315deg)"}} />
+                                                </IconButton>
+                                                <IconButton variant='contained' onClick={() => { setTransform(-mapSizeX / 2, -mapSizeY, 2, 300, "easeOut"); handleOffset(mapSizeX / 4, 0, 2) }}>
+                                                    <ArrowBackIosIcon sx={{transform: "rotate(270deg)"}} />
+                                                </IconButton>
+                                                <IconButton variant='contained' onClick={() => { setTransform(-mapSizeX, -mapSizeY, 2, 300, "easeOut"); handleOffset(mapSizeX / 2, 0, 2) }}>
+                                                    <ArrowBackIosIcon sx={{transform: "rotate(225deg)"}} />
+                                                </IconButton>
                                             </div>
+                                            
                                         </div>
                                     </Box>
                                 </Stack>
-                            </Popper>
+                                </Paper>
+                                </Box>
                             </div>
                             <div>
                             <div ref={ref} onClick={handleClickOpen}>

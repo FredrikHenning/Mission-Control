@@ -78,19 +78,19 @@ const [ProgressbarValue, setProgressbarValue] = React.useState(25);
     }
     
     const Plans = PlansObj.map((Plan) =>
-        <div key={Plan.key} style={{ display: "inline-block", padding: 2}}>
+        <div key={Plan.key} style={{ display: "inline-block", width: "100%"}}>
         <PlanningCard title={Plan.title} body={Plan.body} color={Plan.color} progress={Plan.progress} callback={handleProgressBar} checked={Plan.visible} direction={direction}/>   
         </div>
         );
 
     return(
-        <Box mr={10} ml={2} pt={3}> 
+        <Box > 
         <TransitionGroup>
-            <div key={"2"} style={{ display: "inline-block", padding: 2}}>
+            <div key={"2"} style={{ display: "inline-block", width: "100%"}}>
                 <PlanningStartCard progress={ProgressbarValue} callback={handleProgressBar} planscounter={planscounter} totalnrplans ={PlansObjList.length} name={"finished"} list={PlansObjList}/>   
             </div>
             {Plans}
-            <div key={"1"} style={{ display: "inline-block", padding: 2}}>
+            <div key={"1"} style={{ display: "inline-block", width: "100%"}}>
                 <PlanningStartCard progress={ProgressbarValue} callback={handleProgressBar} planscounter={planscounter} totalnrplans ={PlansObjList.length} name={"more"} list={PlansObjList}/>   
             </div>
         </TransitionGroup>  
@@ -107,7 +107,7 @@ function PlanningCard(props){
     }
     return(
         <Slide direction={props.direction}  in={props.checked} mountOnEnter unmountOnExit> 
-        <Card sx={{ width: 150, height: 80 }} onClick={handleClick}>
+        <Card sx={{ height: 80 }} onClick={handleClick}>
         <CardActionArea>
         <CardContent style={{backgroundColor: props.color}}>
         <LinearProgress variant="determinate" value={props.progress} />
@@ -169,7 +169,7 @@ function PlanningStartCard(props){
     );
     return(
         <div>
-        <Card sx={{ width: 150, height: 80 }} onClick={handleClick}>
+        <Card sx={{ height: 80 }} onClick={handleClick}>
         <CardActionArea>
         <CardContent style={{backgroundColor: "white"}}>
         <Typography gutterTop variant="h6" component="div">
@@ -188,7 +188,7 @@ function PlanningStartCard(props){
           horizontal: 'left',
         }}
       >
-        <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
+        <List sx={{bgcolor: 'background.paper' }}>
         {Plans}
         </List>
       </Popover>

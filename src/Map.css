@@ -20,3 +20,11 @@
     width: 100% !important;
     height: 100% !important;
 }
+
+.zoomGrid {
+    visibility: visible;
+  }
+  
+.zoomGrid:hover {
+    visibility: visible;
+  }
