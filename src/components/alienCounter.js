@@ -14,10 +14,10 @@ const AlienCounter = (props) => {
     const [disp, setDisp] = useState('hidden')
     const CounterMeasure = () => {
         // 'https://localhost:8000/fire'
-        console.log(angle)
+        //console.log(angle)
         var rad = angle * 3 * (Math.PI / 180)
         var mission = { rad };
-        console.log(mission)
+        //console.log(mission)
 
         fetch('https://localhost:7071/todo/mc/fire',
             {
@@ -27,7 +27,7 @@ const AlienCounter = (props) => {
 
             })
     }
-    console.log(props)
+    //console.log(props)
 
     const blink = keyframes`
     from { opacity: 0.3; }
@@ -44,7 +44,7 @@ const AlienCounter = (props) => {
     }));
 
     const enemy = (e) => {
-        console.log("Alien detected at segment: " + e)
+        //console.log("Alien detected at segment: " + e)
         setDanger(true)
         setDisp('')
     }
@@ -57,7 +57,7 @@ const AlienCounter = (props) => {
 
     const handleSegment = (event) => {
         // setAngle(event.target.value)
-        console.log(angle)
+        //console.log(angle)
     }
 
     return (
@@ -89,7 +89,6 @@ const AlienCounter = (props) => {
                     }
                     return (
                         <div>
-                            {console.log("No Aliens detected")}
                             {"No enemy detected"}
                         </div>
                     )

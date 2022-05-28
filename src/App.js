@@ -252,7 +252,7 @@ useEffect (()=> {
         else{
          rotation = JSON.parse(data.rotation)
         }
-        console.log(data.velocity)
+        //console.log(data.velocity)
         let battery = JSON.parse(data.battery)
         let velocity = JSON.parse(data.velocity)
         
@@ -275,11 +275,11 @@ useEffect (()=> {
   return (
     
     <ThemeProvider theme={theme}>
-      <ButtonAppBar sensors={update.Sensors} battery={update.Battery} velocity={update.Velocity}></ButtonAppBar>
+      <ButtonAppBar sensors={update.Sensors} battery={update.Battery} velocity={update.Velocity} sub={client}></ButtonAppBar>
       <Box sx={{p:"20px"}}>
         <Grid container>
           <Grid item xs={5}>
-            <Map position={update.Position} sensors={update.Sensors} rotation={update.Rotation} routen={update.Routen} satellite ={imageEncoded} allSensors={update.AllSensors}/> 
+            <Map position={posrot} sensors={update.Sensors} rotation={posrot} routen={update.Routen} satellite ={imageEncoded} allSensors={update.AllSensors}/> 
           </Grid>   
           <Grid item xs={7}>
             <Masonry columns={3} spacing={2}>

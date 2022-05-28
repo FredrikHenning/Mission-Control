@@ -250,7 +250,7 @@ const Map = (props) => {
         { nr: "3",  id: 3 },
         { nr: "10",  id: 10 },
       ]);
-    console.log(props.sensors)
+    //console.log(props.sensors)
     const handleDropSensor = () => {
         return (
             <div>
@@ -294,8 +294,8 @@ const Map = (props) => {
 
     const onImgLoad = ({ target: img }) => {
         const { offsetHeight, offsetWidth } = img;
-        console.log({offsetHeight, offsetWidth});
-        console.log(typeof(mapSizeX))
+        //console.log({offsetHeight, offsetWidth});
+        //console.log(typeof(mapSizeX))
 
         var msxf = parseFloat(mapSizeX).toFixed(3);
         var msyf = parseFloat(mapSizeY).toFixed(3);
@@ -303,7 +303,7 @@ const Map = (props) => {
         var ohf = parseFloat(offsetHeight).toFixed(3);
         var scx = 767.00/offsetWidth;
         var scy = msyf/ohf;
-        console.log({scx, scy});
+        //console.log({scx, scy});
         // setMapSizeX(offsetWidth);
         // setMapSizeY(offsetHeight);
         if(pixSizeX === null && pixSizeY === null){
@@ -334,8 +334,8 @@ const Map = (props) => {
        )  
     }
     
-    console.log({scaleH, scaleW})
-    console.log({pixSizeX, pixSizeY, mxs, mys})
+    //console.log({scaleH, scaleW})
+    //console.log({pixSizeX, pixSizeY, mxs, mys})
     const classes = useStyles()
     return ( 
         <div>
@@ -351,7 +351,7 @@ const Map = (props) => {
                     className="react-transform-element"
                 >
                     {({ zoomIn, zoomOut, resetTransform, setTransform, ...rest }) => (
-                        <React.Fragment class="wheelDisabled">
+                        <React.Fragment key="wheelDisabled">
                             <Stack spacing={1} direction="row">
                                 <Box sx={{ '& button': { m: 0.5 } }}>
                             <Box sx={{padding: '10px', position: "absolute", zIndex: 2}}>

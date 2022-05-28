@@ -8,7 +8,7 @@ const Robot = (props) => {
     var rot = 'rotate(' + rotationen.toString() + 'deg)'
     //console.log(rot)
     const [alerts, setAlerts] = useState([]);
-    console.log(props)
+    //console.log(props)
     useEffect(() => {
         var message = "Position of the robot: x: " + props.pos.x.toFixed(2) + " y: " + props.pos.y.toFixed(2);
 
