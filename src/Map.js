@@ -1,4 +1,4 @@
-import { Box, Button, Checkbox, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Fade, FormControl, FormControlLabel, IconButton, InputLabel, MenuItem, Paper, Popover, Popper, Select, Stack } from '@mui/material';
+import { Box, Button, Checkbox, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Fade, FormControl, FormControlLabel, IconButton, InputLabel, MenuItem, Paper, Popover, Popper, Select, Stack, Typography } from '@mui/material';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import { makeStyles } from '@mui/styles';
@@ -342,6 +342,7 @@ const Map = (props) => {
 
 
             <div>
+            
                 <TransformWrapper
                     initialScale={1}
                     initialPositionX={0}
@@ -350,16 +351,23 @@ const Map = (props) => {
                     panning={{ activationKeys: ['p'] }}
                     className="react-transform-element"
                 >
+                
                     {({ zoomIn, zoomOut, resetTransform, setTransform, ...rest }) => (
                         <React.Fragment key="wheelDisabled">
+                            
                             <Stack spacing={1} direction="row">
+                            
                                 <Box sx={{ '& button': { m: 0.5 } }}>
+                                
                             <Box sx={{padding: '10px', position: "absolute", zIndex: 2}}>
+                            
                             <motion.div 
                                 initial={{ opacity: 0}}
                                 whileHover={{ opacity: 1}}
                             >  
+                            
                             <Box>
+                            
                             <Paper>
                                 <Stack spacing={1} direction="row">
                                     <Box>
@@ -442,7 +450,7 @@ const Map = (props) => {
                                                 }}
                                             >
 
-                                                <LineTo from={current} to={next} borderColor="black" borderStyle="dotted" borderWidth="3px" />
+                                                <LineTo from={current} to={next} borderColor="black" borderStyle="dotted" borderWidth="3" />
 
                                             </div>
                                         )
@@ -489,10 +497,21 @@ const Map = (props) => {
                                         )
                                     })}
                                     </Paper>
+                                    <Box sx={{position: "absolute", right: 0, bottom: 0, zIndex: 3, opacity: 0.7, padding: "10px" }}>
+                                        <Paper sx={{padding: "3px"}}>
+                                            <Typography variant="caption">
+                                                x: {props.position.position.x}, y: {props.position.position.y}
+                                            </Typography>
+                                        </Paper>
+                                    </Box>
                                 </TransformComponent>
+                                
                             </div>
+                            
                             </div> 
+                            
                             </Box>
+                            
                             </Stack>
                         </React.Fragment>
                     )}

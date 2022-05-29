@@ -2,13 +2,10 @@ import * as React from 'react';
 import LoadingButton from '@mui/lab/LoadingButton';
 import Box from '@mui/material/Box';
 import { Paper } from '@mui/material';
-import IconButton from '@mui/material/IconButton';
 import PhotoCamera from '@mui/icons-material/PhotoCamera';
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
 import { Typography } from '@mui/material';
-import { PortraitSharp } from '@mui/icons-material';
-
 
   export default function LoadingButtonsTransition(props) {
 

@@ -29,7 +29,7 @@ const PointDetails = (props) => {
     return ( 
         <div>
             {console.log(props.spot)}
-            <Stack>
+            <Stack >
                 <p>Position: [{props.spot.x}, {props.spot.y}]</p>
                 <Button onClick={handlePickUp}> Pick-up Sensor </Button>
                 

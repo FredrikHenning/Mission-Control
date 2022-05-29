@@ -238,7 +238,7 @@ useEffect (()=> {
         }
         else {
           setCmessage("Task " + status.id + " is finished")
-          console.log("I if satsen---------------------------------------")
+          //console.log("I if satsen---------------------------------------")
         }
       }
 

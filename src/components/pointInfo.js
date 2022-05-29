@@ -1,19 +1,24 @@
-import { Button, IconButton, Paper } from "@mui/material";
+import { Button, IconButton, Paper, Typography } from "@mui/material";
 import DeleteIcon from '@mui/icons-material/Delete';
+import { Box } from "@mui/material";
 
 
 export default function PointInfo({point, handleDelete}){
     return ( 
-        <div>
+        <Box sx={{width: "100%", textAlign: "center"}}>
             <Paper>
-                <p>
-                    Command: {point.command}, Pos: ({parseFloat(point.x).toFixed(2)}, {parseFloat(point.y).toFixed(2)})
+                <Box>
+                    <Typography variant="body2">
+                        Command: {point.command},  
+                        Pos: ({parseFloat(point.x).toFixed(2)}, {parseFloat(point.y).toFixed(2)}) 
+                    
                     <IconButton onClick={() => handleDelete(point.id)}>
                         <DeleteIcon/>
                     </IconButton>
-                </p>
+                    </Typography>
+                </Box>
             </Paper>
-        </div>
+        </Box>
      );
 }
  

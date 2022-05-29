@@ -172,7 +172,7 @@ function PlanningStartCard(props){
         <Card sx={{ height: 80 }} onClick={handleClick}>
         <CardActionArea>
         <CardContent style={{backgroundColor: "white"}}>
-        <Typography gutterTop variant="h6" component="div">
+        <Typography variant="h6" component="div">
              {handlePlansCount()}{" "}{props.name}{" tasks planned"}
         </Typography>
         </CardContent>

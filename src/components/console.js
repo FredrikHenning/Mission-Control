@@ -8,10 +8,11 @@ import SmartToySharpIcon from '@mui/icons-material/SmartToySharp';
 import './console.css'
 import Collapse from '@mui/material/Collapse';
 import { TransitionGroup } from 'react-transition-group';
+import { Paper } from '@mui/material';
+import { Box } from '@mui/system';
 
 
 class Console extends React.Component {
-
     constructor(props) {
         super(props);
         this.state = { alerts:  ["Waiting for first message"],
@@ -54,16 +55,18 @@ const listItems2 = this.state.alerts.map((number) =>
         
     
     return(
-      <div className='console-root'>
-      
-      {listItems}
-      <TransitionGroup>
-      <Stack sx={{ width: '100%' }} spacing={2}>
-      {listItems2}
-      </Stack>
-      </TransitionGroup>
-      </div>
-      
+      <Box>
+        <Paper>
+          <div className='console-root'>
+            {listItems}
+            <TransitionGroup>
+            <Stack sx={{ width: '100%' }} spacing={2}>
+            {listItems2}
+            </Stack>
+            </TransitionGroup>
+          </div>
+        </Paper>
+      </Box>
     );
 }
 componentDidMount(props){

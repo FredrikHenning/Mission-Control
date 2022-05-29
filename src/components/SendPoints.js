@@ -98,8 +98,8 @@ const SendPoints = () => {
     }
 
     return (
-        <><Box sx={{width: "400px"}}>
-            <Paper elevation={2} >
+        <><Box sx={{ textAlign: 'center'}}>
+            <Paper elevation={2} sx= {{padding: "20px"}} >
             <Button onClick={() => {
                     if (sent === 'Use Points') {
                         setSent('New points waiting to be sent');
@@ -114,8 +114,8 @@ const SendPoints = () => {
                     <List>
                         {points && points.map((point) => (
                             <div className="point-list" key={point.id}>
-                            <ListItem >
-                                <PointInfo point={point} handleDelete={handleDelete}/>
+                            <ListItem sx={{width: "100%"}}>
+                                <PointInfo sx={{width: "100%"}} point={point} handleDelete={handleDelete}/>
                             </ListItem>
                             </div>
                             ))} 

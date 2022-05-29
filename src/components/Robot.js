@@ -1,11 +1,9 @@
 import React,{ useEffect, useState } from "react";
-import NavigationSharpIcon from '@mui/icons-material/NavigationSharp';
-
-
+import robotImage from "./robot.png";
 
 const Robot = (props) => {
-    var rotationen = Math.round(((props.rotation.rotation)*(180/Math.PI)+90)*-1)
-    var rot = 'rotate(' + rotationen.toString() + 'deg)'
+    
+    var rot = 'rotate(' + (props.rotation.rotation).toString() + 'rad)'
     //console.log(rot)
     const [alerts, setAlerts] = useState([]);
     //console.log(props)
@@ -30,7 +28,12 @@ const Robot = (props) => {
                 top: `${props.pos.map_size_y - 18 - (props.pos.y/props.pos.robotScale)*props.pos.pix_scale_y}px`
             }}
         >
-            <img src="./robot.png" alt="robot" width={"30px"} height={"auto"} transform={rot}/>
+            <img
+                width="30px"
+                height="auto"
+                style={{transform: rot}}   
+                src={robotImage}
+             />
         </div>
     );
     return ( 

@@ -1,4 +1,4 @@
-import { Box, Button, Checkbox, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Fade, FormControl, FormControlLabel, IconButton, InputLabel, MenuItem, Paper, Popover, Popper, Select, Stack, TextField } from '@mui/material';
+import { Box, Button, Checkbox, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Fade, FormControl, FormControlLabel, IconButton, InputLabel, MenuItem, Paper, Popover, Popper, Select, Stack, TextField, Typography } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import { useState } from 'react';
 import { keyframes } from '@mui/system';
@@ -61,21 +61,13 @@ const AlienCounter = (props) => {
     }
 
     return (
-        <div>
-            <Paper>
-                <p>Laser</p>
-                <TextField
-                    id="filled-number"
-                    label="Segment"
-                    type="number"
-                    InputLabelProps={{
-                        shrink: true,
-                    }}
-                    variant="filled"
-                    value={segment}
-                    onChange={handleSegment}
-                />
-
+        <Box sx={{textAlign: 'center' }}>
+            <Paper elevation={2} sx={{ padding: '20px' }}>
+            <Box >
+                <Typography variant="h6">Laser</Typography>
+                
+            </Box>
+            <Box sx={{ padding: '10px' }}>
                 {props.lidar.map((lid) => {
                     for (let i = 0; i < lid.segments.length; i++) {
                         if (lid.segments[i] !== -1) {
@@ -88,14 +80,29 @@ const AlienCounter = (props) => {
                         }
                     }
                     return (
-                        <div>
-                            {"No enemy detected"}
-                        </div>
+                        <Typography>
+                            No enemy detected
+                        </Typography>
                     )
+                    
                 })}
+                <Box sx={{ padding: '10px' }}>
+                    <TextField
+                        id="filled-number"
+                        label="Segment"
+                        type="number"
+                        InputLabelProps={{
+                            shrink: true,
+                        }}
+                        variant="filled"
+                        value={segment}
+                        onChange={handleSegment}
+                    />
+                </Box>
+            </Box>
                 <ColorButton variant='contained' onClick={CounterMeasure}>Fire</ColorButton>
             </Paper>
-        </div>
+        </Box>
     );
 }
 
