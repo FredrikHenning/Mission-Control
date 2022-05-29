@@ -23,7 +23,7 @@ var route= [[255, 188], [255.32556081765156, 170.369254745772], [252.34381994879
 
 const Map = (props) => {
 
-   //console.log(props.routen)
+//    console.log(props)
             //Mapsize we want to show
     const [mapSizeX, setMapSizeX] = useState(767.00);
     const [mapSizeY, setMapSizeY] = useState(432.00);
@@ -102,8 +102,8 @@ const Map = (props) => {
     const handleClickOpen = () => {
         // setX(mouse.x )
         // setY((mapSizeY - mouse.y))
-        var bx = ((mouse.x/mxs)/offsetScale + (offsetX))
-        var by =(pixSizeY - ((mouse.y/mys)/offsetScale + offsetY*mys))
+        var bx = ((mouse.x)/offsetScale + (offsetX))/mxs
+        var by =((mapSizeY - mouse.y)/offsetScale + offsetY)/mys
         setX(parseFloat((bx*scale).toFixed(3)));
         setY(parseFloat((by*scale).toFixed(3)));
 
@@ -328,7 +328,7 @@ const Map = (props) => {
         </div>
        )  
     }
-    
+
     console.log({scaleH, scaleW})
     console.log({pixSizeX, pixSizeY, mxs, mys})
     const classes = useStyles()
@@ -366,7 +366,7 @@ const Map = (props) => {
                                             <div>
                                                 <Button variant='contained' size="small" style={{ top: 0, width: 75 }} onClick={() => { setTransform(0, 0, 2, 300, "easeOut"); handleOffset(0, mapSizeY / 2, 2) }}>2.1.2</Button>
                                                 <Button variant='contained' size="small" style={{ top: 0, width: 75 }} onClick={() => { setTransform(-mapSizeX / 2, 0, 2, 300, "easeOut"); handleOffset(mapSizeX / 4, mapSizeY / 2, 2) }}>2.1,5.2</Button>
-                                                <Button variant='contained' size="small" style={{ top: 0, width: 75 }} onClick={() => { setTransform(-mapSizeX, 0, 2, 300, "easeOut"); handleOffset(pixSizeX / 2, pixSizeY / 2, 2) }}>2.2.2</Button>
+                                                <Button variant='contained' size="small" style={{ top: 0, width: 75 }} onClick={() => { setTransform(-mapSizeX, 0, 2, 300, "easeOut"); handleOffset(mapSizeX / 2, mapSizeY / 2, 2) }}>2.2.2</Button>
                                             </div>
                                             <div>
                                                 <Button variant='contained' size="small" style={{ top: 0, width: 75 }} onClick={() => { setTransform(0, -mapSizeY / 2, 2, 300, "easeOut"); handleOffset(0, mapSizeY / 4, 2) }}>2.1.1,5</Button>

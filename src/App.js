@@ -43,7 +43,7 @@ function App() {
   const [imageEncoded, setImage] = useState("");
   const [landscapeEncoded, setLandscape] = useState("");
 
-  const [update, setUpdate] = useState({Plans: [], Status: {}, Rotation: "", Battery:"", Velocity:{}, Routen:[], Message: "", Sensors: [], Position: startPos});
+  const [update, setUpdate] = useState({Plans: [], Status: {}, Rotation: "", Battery:"", Velocity:{}, Routen:[], Message: "", Sensors: [], Position: startPos, Lidar: {}});
   var count1;
 
 
@@ -150,6 +150,15 @@ useEffect (()=> {
           }
         
         }
+
+        const lidarList = [];
+        // // const sensorListPlaced = [];
+        
+        // for (let i = 0; i < data.lidar.length; i++) {
+        //   //console.log(data.sensors[i])
+        //    lidarList[i] = JSON.parse(data.lidar[i]);
+        
+        // }
         
         //setSensors(sensorList); 
         let plans = JSON.parse(data.plans).plan;
@@ -179,11 +188,14 @@ useEffect (()=> {
         console.log(data.velocity)
         let battery = JSON.parse(data.battery)
         let velocity = JSON.parse(data.velocity)
+
+       
         
         let routen = JSON.parse(data.route).path
         let message = data.message;
+        
 
-        var alldata = {Plans: plans, Status: status, Rotation: rotation, Battery:battery, Velocity:velocity, Routen:routen, Message: message, Sensors: sensorListPlaced, Position: position, AllSensors: sensorList}
+        var alldata = {Plans: plans, Status: status, Rotation: rotation, Battery:battery, Velocity:velocity, Routen:routen, Message: message, Sensors: sensorListPlaced, Position: position, AllSensors: sensorList, Lidar: lidarList}
         setUpdate(alldata)
         if(cmessage != message){
         setCmessage(message)}
@@ -192,9 +204,9 @@ useEffect (()=> {
     return () => clearInterval(interval);
   }, []);
 
-  const [lidar, setLidar] = useState([
-    { "segments": [-1, -1, -1, -1, -1]},
-  ]);
+  // const [lidar, setLidar] = useState([
+  //   { "segments": [-1, -1, -1, -1, -1]},
+  // ]);
 
   return (
     <ThemeProvider theme={theme}>
@@ -216,7 +228,7 @@ useEffect (()=> {
             <Console2 message={cmessage}/>
           </Grid>
           <Grid item md={"auto"}>
-            <AlienCounter lidar={lidar}></AlienCounter>
+            <AlienCounter lidar={update.Lidar}></AlienCounter>
           </Grid>
         </Grid>
     </ThemeProvider>
