@@ -26,6 +26,14 @@ var route= [[255, 188], [255.32556081765156, 170.369254745772], [252.34381994879
 
 const Map = (props) => {
 
+    // const [realX, setRealX] = useState(props.position.position.x)
+    // const [realY, setRealY] = useState(props.position.position.y)
+
+    // useEffect(()=>{
+    //     setRealX(props.position.position.x);
+    //     setRealY(props.position.position.y);
+
+    // }, [props.position.position.x,props.position.position.x])
    //console.log(props.routen)
             //Mapsize we want to show
     const [mapSizeX, setMapSizeX] = useState(767.00);

@@ -11,6 +11,14 @@ import Battery30Icon from '@mui/icons-material/Battery30';
 import Battery50Icon from '@mui/icons-material/Battery50';
 import Battery60Icon from '@mui/icons-material/Battery60';
 import Battery80Icon from '@mui/icons-material/Battery80';
+import BatteryFullIcon from '@mui/icons-material/BatteryFull'
+import BatteryCharging20Icon from '@mui/icons-material/BatteryCharging20';
+import BatteryCharging30Icon from '@mui/icons-material/BatteryCharging30';
+import BatteryCharging50Icon from '@mui/icons-material/BatteryCharging50';
+import BatteryCharging60Icon from '@mui/icons-material/BatteryCharging60';
+import BatteryCharging80Icon from '@mui/icons-material/BatteryCharging80';
+import BatteryCharging90Icon from '@mui/icons-material/BatteryCharging90';
+
 import BatteryAlertIcon from '@mui/icons-material/BatteryAlert';
 import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
@@ -25,8 +33,9 @@ import { Popover, Popper } from '@mui/material';
 
 //import MenuIcon from '@mui/icons-material/Menu';
 function ShowBattery(props){
+    if(props.Charging == "false"){
         if(props.Battery >= 90)
-            return(<Battery90Icon fontSize="large"/>);
+            return(<BatteryFullIcon fontSize="large"/>);
         else if(props.Battery >= 80)
             return(<Battery80Icon fontSize="large"/>);
         else if(props.Battery >= 60)
@@ -38,11 +47,27 @@ function ShowBattery(props){
         else if(props.Battery >= 10)
             return(<Battery20Icon fontSize="large"/>);
         else
-            return(<BatteryAlertIcon fontSize='large'/>);
+            return(<BatteryAlertIcon fontSize='large'/>);}
+    else{
+      if(props.Battery >= 90)
+            return(<BatteryCharging90Icon fontSize="large"/>);
+        else if(props.Battery >= 80)
+            return(<BatteryCharging80Icon fontSize="large"/>);
+        else if(props.Battery >= 60)
+            return(<BatteryCharging60Icon fontSize="large"/>);
+        else if(props.Battery >= 50)
+            return(<BatteryCharging50Icon fontSize="large"/>);
+        else if(props.Battery >= 30)
+            return(<BatteryCharging30Icon fontSize="large"/>);
+        else
+            return(<BatteryCharging20Icon fontSize="large"/>);
+        }
+
+    }
         
     //if(this.state.battery > 80)   
     // else       // return <DirectionsRunIcon/>;
-}
+
 
 
 
@@ -50,6 +75,15 @@ function ShowBattery(props){
 
 export default function ButtonAppBar(props) {
     const [RunColor, setRunColor] = React.useState("default");
+    useEffect(()=>{
+      if(props.velocity.left != 0 || props.velocity.right != 0){
+        setRunColor("inherit")
+      }
+      else{
+        setRunColor("default")
+      }
+    },[props.velocity])
+
     const handleRunClick = () => {
         if(RunColor === "default"){
             setRunColor("inherit")
@@ -84,16 +118,18 @@ export default function ButtonAppBar(props) {
 
   const hoverBattery = () => {
     //console.log(props.battery)
-    var batteryMessage = "Battery Level: " + props.battery.battery_level;
+    var batteryMessage = "Battery Level: " + (props.battery.battery_level/43000).toFixed(2)*100 + "%";
     var batteryVoltage = "Voltage: " + props.battery.voltage;
     setMessage(batteryMessage)
     setMessage2(batteryVoltage)
-    setIcon(<ShowBattery Battery={Battery}/>)
+    setIcon(<ShowBattery Battery={(props.battery.battery_level/43000).toFixed(2)*100} Charging={props.battery.charging}/>)
     setOpen(true);}
    
   const hoverRun = () => {
-    var mobilityMessage = "Mobility status: " + mobilityStatus
+    var mobilityMessage = "Left: " + props.velocity.left;
+    var mobilityMessage2 = "Right: " + props.velocity.right;
     setMessage(mobilityMessage)
+    setMessage2(mobilityMessage2)
     setIcon(<DirectionsRunIcon fontSize="large"/>)
     setOpen(true);}
 
@@ -104,22 +140,36 @@ export default function ButtonAppBar(props) {
     const handleSub = (event) => {
       fetch('https://localhost:7071/todo/sub')
       props.sub.subscribe('simulation/robot/position_and_rotation');
-      //props.sub.subscribe('simulation/robot/rotation');
+      props.sub.subscribe('mc/landscape');
+      props.sub.subscribe('tp/status');
+      props.sub.subscribe('simulation/lidar');
+      props.sub.subscribe('simulation/sensor/status/#');
+      props.sub.subscribe('tp/plan');
+      props.sub.subscribe('simulation/current_path');
+      props.sub.subscribe('simulation/robot/battery');
+      props.sub.subscribe('simulation/images/satellite');
+      props.sub.subscribe('tp/instruction');
+      props.sub.subscribe('simulation/map_scale');
+      props.sub.subscribe('simulation/robot/velocity');
+      props.sub.subscribe('simulation/current_path');
+
+      
+
       //console.log("subbat");
       //console.log(props.sub)
     };
 
-  useEffect(() => {
-    fetch('http://localhost:8000/navbardata')
-      .then(res => {
-        return res.json();
-      })
-      .then(data => {
-        setBattery(data.Battery);
-        setMobilityStatus(data.MobilityStatus);
+  // useEffect(() => {
+  //   fetch('http://localhost:8000/navbardata')
+  //     .then(res => {
+  //       return res.json();
+  //     })
+  //     .then(data => {
+  //       setBattery(data.Battery);
+  //       setMobilityStatus(data.MobilityStatus);
         
-      })
-    }, [])
+  //     })
+  //   }, [])
 
 
 
@@ -152,7 +202,7 @@ export default function ButtonAppBar(props) {
           </IconButton>
           
           <IconButton color="inherit" onClick={handleBattery} onMouseEnter={hoverBattery} onMouseLeave={handleClose}>
-            <ShowBattery Battery={Battery}/>
+            <ShowBattery Battery={(props.battery.battery_level/43000).toFixed(2)*100} Charging={props.battery.charging}/>
           </IconButton>
           <div>
             <IconButton color="inherit" onClick={handleClick}>

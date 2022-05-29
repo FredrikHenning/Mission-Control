@@ -49,24 +49,37 @@ var options = {
 // preciouschicken.com is the MQTT topic
 
 function App() {
+
+  //Start variables --------------------------------------------------------
   var startPos ={"position": {
-    "x": 0,
-    "y": 0
+    "x": 5,
+    "y": 5
     },
   "rotation": 0};
 
-  //const [position, setPosition] = useState(startPos);
+  let startBattery = {"battery_level":0, "charging":"false", "voltage": 0}
+  let startVelocity = {"left":0, "right":0}
+  let startLidar = {"segments":[-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0]}
+  let startPlan = {"plan": [] }
+  let startPath = {"path":[] }  
 
 
-  const [posrot, setPosrot] = useState(startPos);
-  //console.log(posrot.position)
-  const [manualcontrol, setManualcontrol] = useState(0);
+//Global variables----------------------------------------------------------------
+ const [posrot, setPosrot] = useState(startPos);
+ const [battery, setBattery] = useState(startBattery);
+ const [velocity, setVelocity] = useState(startVelocity);
+ const [planStatus, setPlanStatus] = useState();
+ const [lidar, setLidar] = useState(startLidar);
+ const [plan, setPlan] = useState(startPlan);
+ const [path, setPath] = useState(startPath);
+ const [placedSensors, setPlacedSensors] = useState([])
+ const [allSensors, setAllSensors] = useState([])
+  
   const [cmessage, setCmessage] = useState("");
-  //const [pos, setPos] = useState(startPos);
   const [imageEncoded, setImage] = useState("");
   const [landscapeEncoded, setLandscape] = useState("");
 
-  const [update, setUpdate] = useState({Plans: [], Status: {}, Rotation: "", Battery:"", Velocity:{}, Routen:[], Message: "", Sensors: [], Position: startPos});
+  const [update, setUpdate] = useState({Message: "", Sensors: []});
   var count1;
 
 
@@ -83,8 +96,87 @@ const mqttConnect = () => {
 
 function routemessage(topic, message){
   if(topic == "simulation/robot/position_and_rotation"){
-    //console.log(JSON.parse(message))
+    console.log(JSON.parse(message))
+    let dat = JSON.parse(message)
+    if(dat.position.x.toFixed(4) != posrot.position.x.toFixed(4) || dat.position.y.toFixed(4) != posrot.position.y.toFixed(4)|| dat.rotation.toFixed(2) != posrot.rotation.toFixed(2) ){
     setPosrot(JSON.parse(message))
+    console.log("uppdaterar")
+  }
+    
+  }
+  else if(topic == "mc/landscape"){
+    let data = JSON.parse(message);
+      if(data.imageBroken == 0){
+      setLandscape(data.image)
+      if(data.sensorinimage == 1){
+        setCmessage("Sensor in image!")
+        if(data.sensorbroken == 1){
+          setCmessage("Sensor broken!")
+        }
+      }
+      else{setCmessage("Sensor not in image!")}
+      }
+      else
+      {
+        setCmessage("Image broken! Type of damage: " + data.typeOfNoise)
+      }
+      
+  }
+  else if(topic == "tp/status"){
+    let status = JSON.parse(message);
+    setPlanStatus(status);
+      if (status.status != "OK") {
+        setCmessage("Error from task planning: " + status.comment)
+      }
+      else {
+        setCmessage("Task " + status.id + " is finished")
+      }
+  }
+  else if(topic == "simulation/lidar"){
+    setLidar(JSON.parse(message));
+  }
+
+  else if(topic == "simulation/images/satellite"){
+   setImage(JSON.parse(message));
+  }
+  else if(topic == "simulation/robot/battery"){
+    setBattery(JSON.parse(message))
+  }
+  else if(topic == "simulation/robot/velocity"){
+    setVelocity(JSON.parse(message))
+  }
+  else if(topic == "tp/plan"){
+    setPlan(JSON.parse(message))
+  }
+  else if(topic == "simulation/current_path"){
+    setPath(JSON.parse(message))
+  }
+  else if(topic.slice(0, -1) == "simulation/sensor/status/"){
+    var id = parseInt(topic.substr(topic.length - 1));
+    let dat = JSON.parse(message);
+
+    const newJSON = {...{"id":id}, ...dat}
+    console.log(newJSON)
+    var fakeList = allSensors;
+    for(var i = 0; i<fakeList.length; i++){
+      if(fakeList[i].id == newJSON.id){
+        fakeList.splice(i,1)
+      }  
+    }
+    fakeList.push(newJSON)
+    setAllSensors(fakeList)
+
+    var fakeList2 = placedSensors;
+    for(var i = 0; i<fakeList2.length; i++){
+      if(fakeList2[i].id == newJSON.id){
+        fakeList2.splice(i,1)
+      }  
+    }
+    if(newJSON.is_placed == "true")
+    {fakeList2.push(newJSON)}
+    setAllSensors(fakeList2)
+
+
   }
 
 }
@@ -99,11 +191,9 @@ useEffect(()=>{
 
 
 useEffect(() => {
-  //console.log("Inne här-----------------------------------")
-  //console.log(client)
+  
   if (client) {
-   // console.log("client funkar tror jag")
-    //console.log(client)
+   
     client.on('connect', () => {
       setConnectStatus('Connected');
      // console.log("connected")
@@ -117,17 +207,17 @@ useEffect(() => {
     });
     client.on('message', (topic, message) => {
       const payload = { topic, message: message.toString() };
-      //console.log("MEDDELANDE_________________________")
-      //console.log(payload)
+      console.log("MEDDELANDE_________________________")
+      //console.log(payload.topic)
+      console.log(placedSensors)
       routemessage(payload.topic, payload.message)
-      //setPayload(payload);
     });
   }
 }, [client]);
 
 
 
-//MQTTSLUT
+//MQTTSLUT-------------------------------------------------------------
 
 
 
@@ -141,7 +231,7 @@ useEffect(() => {
   return res.json();
 })
 .then(data => {
-  setImage(data)
+  //setImage(data)
   //console.log(data)
 })
 fetch('https://localhost:7071/todo/landscape')
@@ -149,9 +239,6 @@ fetch('https://localhost:7071/todo/landscape')
   return res.json();
 })
 .then(data => {
-  //console.log(data)
-  //console.log("VIIIIIIIIIIIII är i lanscape")
-  //console.log(data)
   if(data.imageBroken == 0){
   setLandscape(data.image)
   if(data.sensorinimage == 1){
@@ -205,61 +292,16 @@ useEffect (()=> {
     .then(data => {
         //console.log(data)
         //console.log(JSON.parse(data.position))
-        let position;
-        if(data.position == null){
-          position = update.Position;
-          //console.log("NULLILIIL")
-        }
-        else{
-          position = JSON.parse(data.position)
-
-        }
-        const sensorList = [];
-        const sensorListPlaced = [];
-
-        for (let i = 0; i < data.sensors.length; i++) {
-          //console.log(data.sensors[i])
-           sensorList[i] = JSON.parse(data.sensors[i]);
-          if(sensorList[i].is_placed == true){
-            sensorListPlaced.push(sensorList[i]) 
-            
-          }
         
-        }
         
         //setSensors(sensorList); 
-        let plans = JSON.parse(data.plans).plan;
-
-        let status = JSON.parse(data.status)
-      if (status.id == update.Status.id) {
-        if (status.status != "OK") {
-          setCmessage("Error from task planning: " + status.comment)
-          
-        }
-        else {
-          setCmessage("Task " + status.id + " is finished")
-          //console.log("I if satsen---------------------------------------")
-        }
-      }
-
-  
-
-        let rotation;
-        if(data.rotation == null){
-          rotation = update.Rotation;
-         // console.log("NULLILIIL")
-        }
-        else{
-         rotation = JSON.parse(data.rotation)
-        }
-        //console.log(data.velocity)
-        let battery = JSON.parse(data.battery)
-        let velocity = JSON.parse(data.velocity)
         
-        let routen = JSON.parse(data.route).path
+        
+        
+        
         let message = data.message;
 
-        var alldata = {Plans: plans, Status: status, Rotation: rotation, Battery:battery, Velocity:velocity, Routen:routen, Message: message, Sensors: sensorListPlaced, Position: position, AllSensors: sensorList}
+        var alldata = {Message: message, }
         setUpdate(alldata)
         if(cmessage != message){
         setCmessage(message)}
@@ -268,22 +310,19 @@ useEffect (()=> {
     return () => clearInterval(interval);
   }, []);
 
-  const [lidar, setLidar] = useState([
-    { "segments": [-1, -1, -1, -1, -1]},
-  ]);
 
   return (
     
     <ThemeProvider theme={theme}>
-      <ButtonAppBar sensors={update.Sensors} battery={update.Battery} velocity={update.Velocity} sub={client}></ButtonAppBar>
+      <ButtonAppBar sensors={update.Sensors} battery={battery} velocity={velocity} sub={client}></ButtonAppBar>
       <Box sx={{p:"20px"}}>
         <Grid container>
           <Grid item xs={5}>
-            <Map position={posrot} sensors={update.Sensors} rotation={posrot} routen={update.Routen} satellite ={imageEncoded} allSensors={update.AllSensors}/> 
+            <Map position={posrot} sensors={placedSensors} rotation={posrot} routen={path.path} satellite ={imageEncoded} allSensors={allSensors}/> 
           </Grid>   
           <Grid item xs={7}>
             <Masonry columns={3} spacing={2}>
-                <PlanningComponent plans={update.Plans} status={update.pStatus}/>
+                <PlanningComponent plans={plan} status={planStatus}/>
                 <Photo landscape = {landscapeEncoded}/>
                 <SendPoints/>
                 <AlienCounter lidar={lidar}></AlienCounter>

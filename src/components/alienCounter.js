@@ -68,7 +68,7 @@ const AlienCounter = (props) => {
                 
             </Box>
             <Box sx={{ padding: '10px' }}>
-                {props.lidar.map((lid) => {
+                {/* {props.lidar.map((lid) => {
                     for (let i = 0; i < lid.segments.length; i++) {
                         if (lid.segments[i] !== -1) {
                             return (
@@ -85,7 +85,7 @@ const AlienCounter = (props) => {
                         </Typography>
                     )
                     
-                })}
+                })} */}
                 <Box sx={{ padding: '10px' }}>
                     <TextField
                         id="filled-number"
