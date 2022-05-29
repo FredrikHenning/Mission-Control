@@ -283,11 +283,12 @@ useEffect (()=> {
           </Grid>   
           <Grid item xs={7}>
             <Masonry columns={3} spacing={2}>
-              <PlanningComponent plans={update.Plans} status={update.pStatus}/>
+                <PlanningComponent plans={update.Plans} status={update.pStatus}/>
                 <Photo landscape = {landscapeEncoded}/>
                 <SendPoints/>
                 <AlienCounter lidar={lidar}></AlienCounter>
                 <Console2 message={cmessage}/>
+                <Control/>
             </Masonry>
             </Grid>
         </Grid>

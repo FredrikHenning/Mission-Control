@@ -85,7 +85,7 @@ const [ProgressbarValue, setProgressbarValue] = React.useState(25);
 
     return(
         <Box > 
-        <TransitionGroup>
+        <TransitionGroup >
             <div key={"2"} style={{ display: "inline-block", width: "100%"}}>
                 <PlanningStartCard progress={ProgressbarValue} callback={handleProgressBar} planscounter={planscounter} totalnrplans ={PlansObjList.length} name={"finished"} list={PlansObjList}/>   
             </div>
@@ -169,7 +169,7 @@ function PlanningStartCard(props){
     );
     return(
         <div>
-        <Card sx={{ height: 80 }} onClick={handleClick}>
+        <Card sx={{ height: 80, padding: "5px"}} onClick={handleClick}>
         <CardActionArea>
         <CardContent style={{backgroundColor: "white"}}>
         <Typography variant="h6" component="div">

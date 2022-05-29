@@ -12,7 +12,6 @@ import './Map.css';
 import Robot from './components/Robot';
 import LineTo from 'react-lineto';
 import SensorsSharpIcon from '@mui/icons-material/SensorsSharp';
-import Control from './components/Control'
 import { width } from '@mui/system';
 import ArrowLeftIcon from '@mui/icons-material/ArrowLeft';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
@@ -589,11 +588,6 @@ const Map = (props) => {
                     </Button>
                 </DialogActions>
             </Dialog>
-
-
-
-            <Control x={x} y={y} manual={manual} setManual={setManual} />
-
         </div>
      );
 }
