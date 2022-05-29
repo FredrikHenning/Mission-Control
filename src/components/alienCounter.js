@@ -76,7 +76,7 @@ const AlienCounter = (props) => {
                     onChange={handleSegment}
                 />
 
-                {props.lidar.map((lid) => {
+                {/* {props.lidar.segment.map((lid) => {
                     for (let i = 0; i < lid.segments.length; i++) {
                         if (lid.segments[i] !== -1) {
                             return (
@@ -92,7 +92,7 @@ const AlienCounter = (props) => {
                             {"No enemy detected"}
                         </div>
                     )
-                })}
+                })} */}
                 <ColorButton variant='contained' onClick={CounterMeasure}>Fire</ColorButton>
             </Paper>
         </div>
