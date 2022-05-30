@@ -4,32 +4,7 @@
     "MobilityStatus": "Moving",
     "InventoryStatus": "Empty"
   },
-  "points": [
-    {
-      "command": "goto",
-      "x": 34.522,
-      "y": 0.89,
-      "color": "black",
-      "sensor": 0,
-      "id": 8
-    },
-    {
-      "command": "goto",
-      "x": 27.604,
-      "y": 1.879,
-      "color": "black",
-      "sensor": 0,
-      "id": 9
-    },
-    {
-      "command": "goto",
-      "x": 32.076,
-      "y": 16.416,
-      "color": "black",
-      "sensor": 0,
-      "id": 10
-    }
-  ],
+  "points": [],
   "fire": [],
   "sensors": [
     {

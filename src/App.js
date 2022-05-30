@@ -40,7 +40,7 @@ var options = {
 	// choose any string you wish
 	
   username: "mission-control",
-  password: "upon map citadel overstep" 	
+  password: "upon map citadel overstep", 
 };
 
 
@@ -96,11 +96,11 @@ const mqttConnect = () => {
 
 function routemessage(topic, message){
   if(topic == "simulation/robot/position_and_rotation"){
-    console.log(JSON.parse(message))
+    //console.log(JSON.parse(message))
     let dat = JSON.parse(message)
     if(dat.position.x.toFixed(4) != posrot.position.x.toFixed(4) || dat.position.y.toFixed(4) != posrot.position.y.toFixed(4)|| dat.rotation.toFixed(2) != posrot.rotation.toFixed(2) ){
     setPosrot(JSON.parse(message))
-    console.log("uppdaterar")
+    //console.log("uppdaterar")
   }
     
   }
@@ -156,7 +156,7 @@ function routemessage(topic, message){
     let dat = JSON.parse(message);
 
     const newJSON = {...{"id":id}, ...dat}
-    console.log(newJSON)
+    //console.log(newJSON)
     var fakeList = allSensors;
     for(var i = 0; i<fakeList.length; i++){
       if(fakeList[i].id == newJSON.id){
@@ -207,7 +207,7 @@ useEffect(() => {
     });
     client.on('message', (topic, message) => {
       const payload = { topic, message: message.toString() };
-      console.log("MEDDELANDE_________________________")
+      //console.log("MEDDELANDE_________________________")
       //console.log(payload.topic)
       
       routemessage(payload.topic, payload.message)
