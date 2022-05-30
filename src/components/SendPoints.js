@@ -20,7 +20,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { Paper } from "@mui/material";
 import PointInfo from "./pointInfo";
 
-const SendPoints = () => {
+const SendPoints = (props) => {
     const [openOne, setOpenOne] = useState(false);
     const [points, setPoints] = useState(null);
     const [sent, setSent] = useState('Use Points');
@@ -64,7 +64,9 @@ const SendPoints = () => {
         // console.log(points)
         var pointsObj = { "points": points }
         var data = JSON.stringify(pointsObj);
-        var payload2 = JSON.stringify(payload);
+        
+       // props.sub.publish("mcpoints", data)
+
         setSent('Use Points')
         fetch('https://localhost:7071/todo/mcpoints',
             {
