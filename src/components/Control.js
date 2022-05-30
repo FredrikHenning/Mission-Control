@@ -51,13 +51,17 @@ import { useState } from 'react';
     const [x, setX] = useState(null);
     const [y, setY] = useState(null);
 
-    function saveX(value){
-      setX(value)
-    }
+    const sendX = (event) => {
+      setX(event.target.value)
+  }
 
-    function saveY(value){
-      setY(value)
-    }
+    const sendY = (event) => {
+      setY(event.target.value)
+  }
+
+  function printXY() {
+      console.log(x, y)
+  }
   
     function handleClick2() {
       setLoading(true)
@@ -88,13 +92,13 @@ import { useState } from 'react';
           Input coordinates:
         </Typography>
         <Box sx={{ display: 'flex', justifyContent: "space-evenly" }}>
-          <TextField id="outlined-basic" label="x" variant="outlined" disabled={!flag} sx={{padding: "5px"}}/>
-          <TextField id="outlined-basic" label="y" variant="outlined" disabled={!flag } sx={{padding: "5px"}}/>
+          <TextField onChange={(sendX)} id="outlined-basic" label="x" variant="outlined" disabled={!flag} sx={{padding: "5px"}}/>
+          <TextField onChange={(sendY)} id="outlined-basic" label="y" variant="outlined" disabled={!flag } sx={{padding: "5px"}}/>
         </Box>
         </Box>
         <Grid sx={{ mt: 1 }}container spacing={1}>
           <Grid item xs={6}>
-          <Button disabled={!flag} color="primary" variant="contained" startIcon={<PhotoCamera />}>
+          <Button onClick={printXY} disabled={!flag} color="primary" variant="contained" startIcon={<PhotoCamera />}>
             Take photo
           </Button>
           </Grid>

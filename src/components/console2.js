@@ -60,7 +60,7 @@ const listItems2 = alerts.map( (number) =>
 
     return(
       <Box>
-        <Paper sx={{padding: "10px", height: "300px"}}>
+        <Paper elevation={2} sx={{padding: "10px", height: "300px"}}>
           <Typography variant="h6" sx= {{padding: "10px"}}>
                 Console
           </Typography>

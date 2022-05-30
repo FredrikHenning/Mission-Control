@@ -148,7 +148,7 @@ export default function ButtonAppBar(props) {
       props.sub.subscribe('tp/plan');
       props.sub.subscribe('simulation/current_path');
       //props.sub.subscribe('simulation/robot/battery');
-      props.sub.subscribe('simulation/images/satellite');
+      //props.sub.subscribe('simulation/images/satellite');
       //props.sub.subscribe('tp/instruction');
       props.sub.subscribe('simulation/map_scale');
       //props.sub.subscribe('simulation/robot/velocity');

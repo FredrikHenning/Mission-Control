@@ -56,7 +56,7 @@ const listItems2 = this.state.alerts.map((number) =>
     
     return(
       <Box>
-        <Paper>
+        <Paper elevation={3}>
           <div className='console-root'>
             {listItems}
             <TransitionGroup>

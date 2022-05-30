@@ -147,7 +147,8 @@ function routemessage(topic, message){
 
   else if(topic == "simulation/images/satellite"){
    setImage(JSON.parse(message));
-   client.unsubscribe("simulation/images/satellite")
+   console.log("bilden är här")
+   //client.unsubscribe("simulation/images/satellite")
    
   }
   else if(topic == "simulation/robot/battery"){
@@ -167,6 +168,7 @@ function routemessage(topic, message){
   }
   else if(topic == "simulation/current_path"){
     setPath(JSON.parse(message))
+    //console.log(message)
   }
   else if(topic.slice(0, -1) == "simulation/sensor/status/"){
     var id = parseInt(topic.substr(topic.length - 1));
@@ -244,15 +246,18 @@ useEffect(() => {
 
 
 
-// useEffect(() => {
-//   fetch('https://localhost:7071/todo/satellite')
-//   .then(res => {
-//   return res.json();
-// })
-// .then(data => {
-//   //setImage(data)
-//   //console.log(data)
-// })
+useEffect(() => {
+  fetch('https://localhost:7071/todo/satellite')
+  .then(res => {
+  return res.json();
+})
+.then(data => {
+  setImage(data)
+  //console.log(data)
+})}, [])
+
+
+
 // fetch('https://localhost:7071/todo/landscape')
 //   .then(res => {
 //   return res.json();
@@ -315,7 +320,7 @@ useEffect(() => {
         
         //setSensors(sensorList); 
         let position1 = JSON.parse(data.position)
-        if(position1 == null){position1 = startPos1}
+        if(position1 == null){position1 = startPos}
         let rotation1 = JSON.parse(data.rotation)
         if(rotation1 == null){rotation1 = startrotation1}
 
@@ -328,8 +333,13 @@ useEffect(() => {
         
 
         var alldata = {Battery: battery1, Rotation: rotation1, Position:position1, Velocity:velocity1, Lidar: lidar1}
-        console.log(alldata)
+        //console.log(alldata)
         setUpdate(alldata)
+        startPos = JSON.parse(data.position)
+        startrotation1 = JSON.parse(data.rotation)
+        startVelocity = JSON.parse(data.velocity)
+        startLidar = JSON.parse(data.lidar)
+        startBattery = JSON.parse(data.battery)
       
     })}, 250);
     return () => clearInterval(interval);
@@ -342,11 +352,11 @@ useEffect(() => {
       <ButtonAppBar sx={{zIndex:"3"}} sensors={placedSensors} battery={update.Battery} velocity={update.Velocity} sub={client}></ButtonAppBar>
       <Box sx={{p:"20px"}}>
         <Grid container>
-          <Grid item xs={5}>
+          <Grid item xs={"auto"}>
             <Map position={update.Position} sensors={placedSensors} rotation={update.Rotation} routen={path.path} satellite ={imageEncoded} allSensors={allSensors}/>
             <Console2 message={cmessage}/> 
           </Grid>   
-          <Grid item xs={7} sx={{zIndex:"3", bgcolor: "white"}}>
+          <Grid item xs={"7"} sx={{bgcolor: "white", pl:"20px"}}>
             <Masonry columns={3} spacing={2}>
                 <PlanningComponent plans={plan} status={planStatus}/>
                 <Photo landscape = {landscapeEncoded}/>
