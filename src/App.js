@@ -362,7 +362,7 @@ useEffect(() => {
         <Grid container>
           <Grid item xs={"auto"}>
             <Map position={update.Position} sensors={placedSensors} rotation={update.Rotation} routen={path.path} satellite ={imageEncoded} allSensors={allSensors}/>
-            <Console2 message={cmessage}/> 
+            {/* <Console2 message={cmessage}/>  */}
           </Grid>   
           <Grid item xs={"7"} sx={{bgcolor: "white", pl:"20px"}}>
             <Masonry columns={3} spacing={2}>
