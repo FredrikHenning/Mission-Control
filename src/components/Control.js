@@ -13,27 +13,7 @@ import { useState } from 'react';
 
     function sendPointPlace() {
       
-      // console.log("sent");
-
-      // var payload = {"control": 1}
-      // fetch('https://localhost:7071/todo/mc/manualcontrol',
-      //       {
-      //           method: 'POST',
-      //           headers: { "Content-Type": "application/json" },
-      //           body: JSON.stringify(payload)
-      //       })
-
-      // var payload2 = {"position": {
-      //   "x": props.x,
-      //   "y": props.y
-      //                   }}
-                        
-      // fetch('https://localhost:7071/todo/mc/manualpoints',
-      //       {
-      //         method: 'POST',
-      //         headers: { "Content-Type": "application/json" },
-      //         body: JSON.stringify(payload2)
-      //       })
+      
     }
 
     const handleClick1 = () => {
@@ -51,16 +31,36 @@ import { useState } from 'react';
     const [x, setX] = useState(null);
     const [y, setY] = useState(null);
 
-    const sendX = (event) => {
+    const updateX = (event) => {
       setX(event.target.value)
   }
 
-    const sendY = (event) => {
+    const updateY = (event) => {
       setY(event.target.value)
   }
 
-  function printXY() {
-      console.log(x, y)
+  function sendXY() {
+      console.log("sent");
+
+      var payload = {"control": 1}
+      fetch('https://localhost:7071/todo/mc/manualcontrol',
+            {
+                method: 'POST',
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(payload)
+            })
+
+      var payload2 = {"position": {
+        "x": x,
+        "y": y
+                        }}
+                        
+      fetch('https://localhost:7071/todo/mc/manualpoints',
+            {
+              method: 'POST',
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(payload2)
+            })
   }
   
     function handleClick2() {
@@ -92,18 +92,18 @@ import { useState } from 'react';
           Input coordinates:
         </Typography>
         <Box sx={{ display: 'flex', justifyContent: "space-evenly" }}>
-          <TextField onChange={(sendX)} id="outlined-basic" label="x" variant="outlined" disabled={!flag} sx={{padding: "5px"}}/>
-          <TextField onChange={(sendY)} id="outlined-basic" label="y" variant="outlined" disabled={!flag } sx={{padding: "5px"}}/>
+          <TextField onChange={(updateX)} id="outlined-basic" label="x" variant="outlined" disabled={!flag} sx={{padding: "5px"}}/>
+          <TextField onChange={(updateY)} id="outlined-basic" label="y" variant="outlined" disabled={!flag } sx={{padding: "5px"}}/>
         </Box>
         </Box>
         <Grid sx={{ mt: 1 }}container spacing={1}>
           <Grid item xs={6}>
-          <Button onClick={printXY} disabled={!flag} color="primary" variant="contained" startIcon={<PhotoCamera />}>
+          <Button disabled={!flag} color="primary" variant="contained" startIcon={<PhotoCamera />}>
             Take photo
           </Button>
           </Grid>
           <Grid item xs={6}>
-          <Button disabled={!flag} color="primary" variant="contained" onClick={sendPointPlace}>
+          <Button onClick={sendXY} disabled={!flag} color="primary" variant="contained">
             Place sensor
           </Button>
           </Grid>
