@@ -172,9 +172,9 @@ function routemessage(topic, message){
         fakeList2.splice(i,1)
       }  
     }
-    if(newJSON.is_placed == "true")
+    if(newJSON.is_placed == true)
     {fakeList2.push(newJSON)}
-    setAllSensors(fakeList2)
+    setPlacedSensors(fakeList2)
 
 
   }
@@ -209,7 +209,7 @@ useEffect(() => {
       const payload = { topic, message: message.toString() };
       console.log("MEDDELANDE_________________________")
       //console.log(payload.topic)
-      console.log(placedSensors)
+      
       routemessage(payload.topic, payload.message)
     });
   }
@@ -314,7 +314,7 @@ useEffect (()=> {
   return (
     
     <ThemeProvider theme={theme}>
-      <ButtonAppBar sensors={update.Sensors} battery={battery} velocity={velocity} sub={client}></ButtonAppBar>
+      <ButtonAppBar sensors={placedSensors} battery={battery} velocity={velocity} sub={client}></ButtonAppBar>
       <Box sx={{p:"20px"}}>
         <Grid container>
           <Grid item xs={5}>
