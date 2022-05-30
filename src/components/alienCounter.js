@@ -32,9 +32,9 @@ const AlienCounter = (props) => {
     }
 
     const Fire = () => {
-        var laser = ("fire")
+        var laser = ("fire now")
         var data = JSON.stringify(laser)
-        fetch('https://localhost:7071/todo/simulation/laser',
+        fetch('https://localhost:7071/todo/simulationlaser',
         {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
