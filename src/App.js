@@ -332,13 +332,13 @@ useEffect(() => {
         var alldata = {Battery: battery1, Rotation: rotation1, Position:position1, Velocity:velocity1, Lidar: lidar1}
         //console.log(alldata)
         setUpdate(alldata)
-        startPos = JSON.parse(data.position)
-        startrotation1 = JSON.parse(data.rotation)
-        startVelocity = JSON.parse(data.velocity)
-        startLidar = JSON.parse(data.lidar)
-        startBattery = JSON.parse(data.battery)
+        startPos = position1
+        startrotation1 = rotation1
+        startVelocity = velocity1
+        startLidar = lidar1
+        startBattery = battery1
       
-    })}, 250);
+    })}, 100);
     return () => clearInterval(interval);
   }, []);
 
