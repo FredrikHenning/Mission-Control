@@ -24,24 +24,24 @@ import AlienCounter from './components/alienCounter';
 import Box from '@mui/material/Box';
 import Masonry from '@mui/lab/Masonry';
 
-
 const theme = createTheme({
   
 })
 
-var mqtt    = require('precompiled-mqtt');
-var options = {
+const mqtt    = require('precompiled-mqtt');
+const options = {
   clean: true,
-  connectTimeout: 4000,
   //protocol: "ws",
   // Auth
-  clientId: 'mission-control',
+  clientId: 'mission-control2',
 	// clientId uniquely identifies client
 	// choose any string you wish
-	
+	retain: true,
   username: "mission-control",
-  password: "upon map citadel overstep", 
+  password: "upon map citadel overstep",
 };
+
+
 
 
 
@@ -96,10 +96,7 @@ function App() {
 const [client, setClient] = useState(null);
 const [connectStatus, setConnectStatus] = useState("");
 const [payload, setPayload] = useState("");
-const mqttConnect = () => {
-  setConnectStatus('Connecting');
-  //setClient(mqtt.connect('wss://tharsis.oru.se:8884', options));
-};
+
 
 function handlemessage(message, severity){
   var obj = {"message":message, "severity":severity}
@@ -199,8 +196,10 @@ function routemessage(topic, message){
     }
     if(newJSON.is_placed == true)
     {fakeList2.push(newJSON)
-    handlemessage("Sensor " + newJSON.id + " has been placed", "info")}
-    else{handlemessage("Sensor " + newJSON.id + " is in inventory", "info")}
+      handlemessage("Sensor " + newJSON.id + " has been placed", "info")
+     } 
+    else
+      {handlemessage("Sensor " + newJSON.id + " is in inventory", "info")}
     setPlacedSensors(fakeList2)
 
 
@@ -217,13 +216,13 @@ useEffect(()=>{
 },[])
 
 
-useEffect(() => {
+ useEffect(() => {
   
   if (client) {
    
     client.on('connect', () => {
       setConnectStatus('Connected');
-     // console.log("connected")
+      console.log("connected")
     });
     client.on('error', (err) => {
       console.error('Connection error: ', err);
@@ -231,6 +230,8 @@ useEffect(() => {
     });
     client.on('reconnect', () => {
       setConnectStatus('Reconnecting');
+      console.log("reconnecting")
+
     });
     client.on('message', (topic, message) => {
       const payload = { topic, message: message.toString() };
@@ -242,6 +243,8 @@ useEffect(() => {
     });
   }
 }, [client]);
+
+
 
 
 
@@ -349,7 +352,7 @@ useEffect(() => {
         startLidar = lidar1
         startBattery = battery1
       
-    })}, 50);
+    })}, 200);
     return () => clearInterval(interval);
   }, []);
 
@@ -362,7 +365,7 @@ useEffect(() => {
         <Grid container>
           <Grid item xs={"auto"}>
             <Map position={update.Position} sensors={placedSensors} rotation={update.Rotation} routen={path.path} satellite ={imageEncoded} allSensors={allSensors}/>
-            {/* <Console2 message={cmessage}/>  */}
+            <Console2 message={cmessage}/> 
           </Grid>   
           <Grid item xs={"7"} sx={{bgcolor: "white", pl:"20px"}}>
             <Masonry columns={3} spacing={2}>

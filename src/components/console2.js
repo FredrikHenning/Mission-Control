@@ -27,8 +27,8 @@ export default function Console2(props) {
       return () => clearInterval(secTimer);
   }, []);
 
-const listItems2 = props.message.map( (number) => 
-  <div key={number}>
+const listItems2 = props.message.map( (number, index) => 
+  <div key={index}>
     <Collapse in={true}>
     <ListItem>
       <Alert severity={number.severity}>
