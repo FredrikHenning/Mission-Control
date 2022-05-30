@@ -16,14 +16,27 @@ import { Paper } from '@mui/material';
 import { Typography } from '@mui/material';
 
 export default function Console2(props) {
-   
+
+  const [dt, setDt] = useState(new Date().toLocaleTimeString());
+
+  useEffect(() => {
+      let secTimer = setInterval( () => {
+        setDt(new Date().toLocaleTimeString())
+      }, 1000)
+
+      return () => clearInterval(secTimer);
+  }, []);
+
 const listItems2 = props.message.map( (number) => 
   <div key={number}>
     <Collapse in={true}>
     <ListItem>
       <Alert severity={number.severity}>
-          {number.message} 
+          {number.message}
       </Alert>
+      {/* <Typography sx={{pl:"10px"}} variant="overline">
+        {dt} 
+      </Typography> */}
     </ListItem>
     </Collapse>        
   </div>);
@@ -38,7 +51,7 @@ const listItems2 = props.message.map( (number) =>
           <List className='console-root' sx={{maxHeight:'225px', overflow: 'auto'}}>
             {/* {listItems} */}
             <TransitionGroup>
-              <Stack spacing={2}>
+              <Stack>
                 {listItems2}
               </Stack>
             </TransitionGroup>
