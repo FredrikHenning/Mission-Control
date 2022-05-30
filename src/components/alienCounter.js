@@ -1,4 +1,4 @@
-import { Box, Button, Checkbox, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Fade, FormControl, FormControlLabel, FormHelperText, IconButton, Input, InputAdornment, InputLabel, listClasses, MenuItem, OutlinedInput, Paper, Popover, Popper, Select, Stack, TextField } from '@mui/material';
+import { Box, Button, Checkbox, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Fade, FormControl, FormControlLabel, FormHelperText, Grid, IconButton, Input, InputAdornment, InputLabel, listClasses, MenuItem, OutlinedInput, Paper, Popover, Popper, Select, Stack, TextField, Typography } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import { useState } from 'react';
 import { keyframes } from '@mui/system';
@@ -16,25 +16,29 @@ const AlienCounter = (props) => {
     const CounterMeasure = () => {
         // 'https://localhost:8000/fire'
         console.log(segment)
-        var rad = angle * 3 * (Math.PI / 180)
-        var mission = { rad };
-        console.log(mission)
+        var radianer = (segment * 3 + 1.5)* (Math.PI / 180)
+        console.log(rad)
+        var rad = radianer;
+        var pointsObj = { rad }
+        var data = JSON.stringify(pointsObj);
 
-        fetch('https://localhost:7071/todo/mc/fire',
+        fetch('https://localhost:7071/todo/mcfire',
             {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(mission)
+                body: JSON.stringify(data)
 
             })
     }
 
     const Fire = () => {
+        var laser = ("fire")
+        var data = JSON.stringify(laser)
         fetch('https://localhost:7071/todo/simulation/laser',
         {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify("fire")
+                body: JSON.stringify(data)
         })
     }
     // console.log(props.lidar)
@@ -84,9 +88,10 @@ const AlienCounter = (props) => {
             <Paper
                 sx={{width: 200}}
             >
-
-                <p>Laser</p>
-
+                <Typography variant="h6" sx= {{padding: "10px"}}>
+                    Laser
+                </Typography>
+                
                 <FormControl fullWidth sx={{ m: 1 }} variant="standard">
                     <InputLabel htmlFor="standard-adornment-amount">Segment</InputLabel>
                     <Input
@@ -98,10 +103,19 @@ const AlienCounter = (props) => {
                     />
 
                 </FormControl>
+                
+                
                 {getLidar()}
-
-                <ColorButton variant='contained' onClick={CounterMeasure}>Rotate</ColorButton>
-                <Button onClick={Fire} >Fire</Button>
+                <Box sx={{p: "10px"}}>
+                    <Grid spacing={5}>
+                        <Grid item xs={"auto"}>
+                            <Button variant='contained' onClick={CounterMeasure} sx={{padding: "10px"}}>Rotate</Button>
+                        </Grid>
+                        <Grid>
+                            <ColorButton variant='contained' onClick={Fire} sx={{padding: "10px"}}>Fire</ColorButton>
+                        </Grid>
+                    </Grid>
+                </Box>
             </Paper>
         </div>
     );

@@ -379,9 +379,15 @@ const Map = (props) => {
                                             <Button variant="contained"  onClick={() => { resetTransform(); setZomvar(1); handleReset() }}>Reset</Button>
                                             </Box>
                                             <div>
-                                                <Button variant='contained' size="small" style={{ top: 0, width: 75 }} onClick={() => { setTransform(0, 0, 2, 300, "easeOut"); handleOffset(0, mapSizeY / 2, 2) }}>2.1.2</Button>
-                                                <Button variant='contained' size="small" style={{ top: 0, width: 75 }} onClick={() => { setTransform(-mapSizeX / 2, 0, 2, 300, "easeOut"); handleOffset(mapSizeX / 4, mapSizeY / 2, 2) }}>2.1,5.2</Button>
-                                                <Button variant='contained' size="small" style={{ top: 0, width: 75 }} onClick={() => { setTransform(-mapSizeX, 0, 2, 300, "easeOut"); handleOffset(mapSizeX / 2, mapSizeY / 2, 2) }}>2.2.2</Button>
+                                                <IconButton variant='contained' onClick={() => { setTransform(0, 0, 2, 300, "easeOut"); handleOffset(0, mapSizeY / 2, 2) }}>
+                                                    <ArrowBackIosIcon  sx={{transform: "rotate(45deg)"}}/>
+                                                </IconButton>
+                                                <IconButton variant='contained' onClick={() => { setTransform(-mapSizeX / 2, 0, 2, 300, "easeOut"); handleOffset(mapSizeX / 4, mapSizeY / 2, 2) }}>
+                                                    <ArrowBackIosIcon  sx={{transform: "rotate(90deg)"}}/>
+                                                </IconButton>
+                                                <IconButton variant='contained' onClick={() => { setTransform(-mapSizeX, 0, 2, 300, "easeOut"); handleOffset(mapSizeX / 2, mapSizeY / 2, 2) }}>
+                                                    <ArrowBackIosIcon sx={{transform: "rotate(135deg)"}} />
+                                                </IconButton>
                                             </div>
                                             <div>
                                                 <IconButton variant='contained' onClick={() => { setTransform(0, -mapSizeY / 2, 2, 300, "easeOut"); handleOffset(0, mapSizeY / 4, 2) }}>

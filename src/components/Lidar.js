@@ -6,7 +6,7 @@ const Lidar = (props) => {
         
         for(let i = 0; i < props.lid.length; i++){
             if(props.lid[i] != -1){
-                return(<div>{"Aliens detected at segment: " + i}</div>)
+                return(<div>{"Aliens detected at segment: " + i + " position: " + parseFloat(props.lid[i].toFixed(3)) }</div>)
             }
             else if(i === 119){
                 return( <div>{"No threat detected"}</div>)
