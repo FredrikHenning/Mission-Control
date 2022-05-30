@@ -30,6 +30,7 @@ const Map = (props) => {
     const [mapSizeX, setMapSizeX] = useState(767.00);
     const [mapSizeY, setMapSizeY] = useState(432.00);
             //Scale from pixel to meter
+    console.log(props.satellite.scale)
     const [scale, setScale] = useState(0.08);
     const [style, setStyle] = useState({visibility: 'hidden'});
 

@@ -182,9 +182,6 @@ function routemessage(topic, message){
 }
 
 
-
-
-
 useEffect(()=>{
   setClient(mqtt.connect('wss://tharsis.oru.se:8884', options));
 },[])

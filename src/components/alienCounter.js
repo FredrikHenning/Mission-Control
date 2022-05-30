@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { keyframes } from '@mui/system';
 import { styled } from '@mui/material/styles';
 import { purple, red } from '@mui/material/colors';
+import Lidar from './Lidar';
 
 
 
@@ -17,7 +18,7 @@ const AlienCounter = (props) => {
         console.log(segment)
         var rad = angle * 3 * (Math.PI / 180)
         var mission = { rad };
-        //console.log(mission)
+        console.log(mission)
 
         fetch('https://localhost:7071/todo/mc/fire',
             {
@@ -27,7 +28,6 @@ const AlienCounter = (props) => {
 
             })
     }
-    //console.log(props)
     // console.log(props.lidar)
 
     const blink = keyframes`
@@ -45,7 +45,7 @@ const AlienCounter = (props) => {
     }));
 
     const enemy = (e) => {
-        //console.log("Alien detected at segment: " + e)
+        console.log("Alien detected at segment: " + e)
         setDanger(true)
         setDisp('')
     }
@@ -58,52 +58,42 @@ const AlienCounter = (props) => {
 
     const handleSegment = (event) => {
         // setAngle(event.target.value)
-        //console.log(angle)
+        console.log(angle)
     }
+    console.log(props.lidar.segments[1])
 
+    const getLidar = () =>{
+        return (
+            <div>
+             <Lidar lid={props.lidar.segments} />
+         </div>
+        ) 
+    }
     return (
-        <Box sx={{textAlign: 'center' }}>
-            <Paper elevation={2} sx={{ padding: '20px' }}>
-            <Box >
-                <Typography variant="h6">Laser</Typography>
-                
-            </Box>
-            <Box sx={{ padding: '10px' }}>
-                {/* {props.lidar.map((lid) => {
-                    for (let i = 0; i < lid.segments.length; i++) {
-                        if (lid.segments[i] !== -1) {
-                            return (
-                                <div className="lidar" key={lid.id}>
-                                    {console.log(lid.segments[i])}
-                                    {"Alien detected at segment: " + i}
-                                </div>
-                            )
-                        }
-                    else if(listClasses.id == 119)
-                    return (
-                        <Typography>
-                            No enemy detected
-                        </Typography>
-                    )
-                    
-                })} */}
-                <Box sx={{ padding: '10px' }}>
-                    <TextField
-                        id="filled-number"
-                        label="Segment"
+        <div>
+
+            <Paper
+                sx={{width: 200}}
+            >
+
+                <p>Laser</p>
+
+                <FormControl fullWidth sx={{ m: 1 }} variant="standard">
+                    <InputLabel htmlFor="standard-adornment-amount">Segment</InputLabel>
+                    <Input
                         type="number"
-                        InputLabelProps={{
-                            shrink: true,
-                        }}
-                        variant="filled"
+                        required
                         value={segment}
-                        onChange={handleSegment}
+                        onChange={(e) => {setSegment(e.target.value%120)}}
+                        sx={{width: 50}}
                     />
-                </Box>
-            </Box>
+
+                </FormControl>
+                {getLidar()}
+
                 <ColorButton variant='contained' onClick={CounterMeasure}>Fire</ColorButton>
             </Paper>
-        </Box>
+        </div>
     );
 }
 
