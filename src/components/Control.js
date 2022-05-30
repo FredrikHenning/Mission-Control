@@ -43,23 +43,24 @@ import { useState } from 'react';
       console.log("sent");
 
       var payload = {"control": 1}
-      fetch('https://localhost:7071/todo/mc/manualcontrol',
+      var data = JSON.stringify(payload)
+      fetch('https://localhost:7071/todo/mcmanualcontrol',
             {
                 method: 'POST',
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(payload)
+                body: JSON.stringify(data)
             })
 
       var payload2 = {"position": {
         "x": x,
         "y": y
                         }}
-                        
-      fetch('https://localhost:7071/todo/mc/manualpoints',
+      var data = JSON.stringify(payload2)
+      fetch('https://localhost:7071/todo/mcmanualpoints',
             {
               method: 'POST',
               headers: { "Content-Type": "application/json" },
-              body: JSON.stringify(payload2)
+              body: JSON.stringify(data)
             })
   }
   
@@ -91,23 +92,14 @@ import { useState } from 'react';
         <Typography variant="body2" sx={{padding: "5px"}}>
           Input coordinates:
         </Typography>
-        <Box sx={{ display: 'flex', justifyContent: "space-evenly" }}>
+        <Box sx={{ display: 'flex', justifyContent: "space-evenly", padding:"10px" }}>
           <TextField onChange={(updateX)} id="outlined-basic" label="x" variant="outlined" disabled={!flag} sx={{padding: "5px"}}/>
           <TextField onChange={(updateY)} id="outlined-basic" label="y" variant="outlined" disabled={!flag } sx={{padding: "5px"}}/>
         </Box>
         </Box>
-        <Grid sx={{ mt: 1 }}container spacing={1}>
-          <Grid item xs={6}>
-          <Button disabled={!flag} color="primary" variant="contained" startIcon={<PhotoCamera />}>
-            Take photo
-          </Button>
-          </Grid>
-          <Grid item xs={6}>
           <Button onClick={sendXY} disabled={!flag} color="primary" variant="contained">
-            Place sensor
+            Move here
           </Button>
-          </Grid>
-        </Grid>
       </Paper>
       </Box>
     </Box>

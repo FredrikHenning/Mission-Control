@@ -341,7 +341,7 @@ useEffect(() => {
         startLidar = lidar1
         startBattery = battery1
       
-    })}, 100);
+    })}, 50);
     return () => clearInterval(interval);
   }, []);
 
