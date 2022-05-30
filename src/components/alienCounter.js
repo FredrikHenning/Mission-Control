@@ -28,6 +28,15 @@ const AlienCounter = (props) => {
 
             })
     }
+
+    const Fire = () => {
+        fetch('https://localhost:7071/todo/simulation/laser',
+        {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify("fire")
+        })
+    }
     // console.log(props.lidar)
 
     const blink = keyframes`
@@ -91,7 +100,8 @@ const AlienCounter = (props) => {
                 </FormControl>
                 {getLidar()}
 
-                <ColorButton variant='contained' onClick={CounterMeasure}>Fire</ColorButton>
+                <ColorButton variant='contained' onClick={CounterMeasure}>Rotate</ColorButton>
+                <Button onClick={Fire} >Fire</Button>
             </Paper>
         </div>
     );
