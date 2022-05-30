@@ -7,6 +7,7 @@ import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
 import { Typography } from '@mui/material';
 import TextField from '@mui/material/TextField';
+import { useState } from 'react';
 
   export default function LoadingButtonsTransition() {
 
@@ -47,6 +48,20 @@ import TextField from '@mui/material/TextField';
 
     const [loading, setLoading] = React.useState(false);
     const [flag, setFlag] = React.useState(false);
+    const [x, setX] = useState(null);
+    const [y, setY] = useState(null);
+
+    const sendX = (event) => {
+      setX(event.target.value)
+  }
+
+    const sendY = (event) => {
+      setY(event.target.value)
+  }
+
+  function printXY() {
+      console.log(x, y)
+  }
   
     function handleClick2() {
       setLoading(true)
@@ -73,15 +88,17 @@ import TextField from '@mui/material/TextField';
         </LoadingButton>
       </Box>
         <Box sx={{ '& > button': { m: 0.5 } }}>
-        <Typography variant="body2">
+        <Typography variant="body2" sx={{padding: "5px"}}>
           Input coordinates:
         </Typography>
-          <TextField id="outlined-basic" label="x" variant="outlined" disabled={!flag}/>
-          <TextField id="outlined-basic" label="y" variant="outlined" disabled={!flag}/>
+        <Box sx={{ display: 'flex', justifyContent: "space-evenly" }}>
+          <TextField onChange={(sendX)} id="outlined-basic" label="x" variant="outlined" disabled={!flag} sx={{padding: "5px"}}/>
+          <TextField onChange={(sendY)} id="outlined-basic" label="y" variant="outlined" disabled={!flag } sx={{padding: "5px"}}/>
+        </Box>
         </Box>
         <Grid sx={{ mt: 1 }}container spacing={1}>
           <Grid item xs={6}>
-          <Button disabled={!flag} color="primary" variant="contained" startIcon={<PhotoCamera />}>
+          <Button onClick={printXY} disabled={!flag} color="primary" variant="contained" startIcon={<PhotoCamera />}>
             Take photo
           </Button>
           </Grid>

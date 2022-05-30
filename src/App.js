@@ -40,7 +40,7 @@ var options = {
 	// choose any string you wish
 	
   username: "mission-control",
-  password: "upon map citadel overstep" 	
+  password: "upon map citadel overstep", 
 };
 
 
@@ -52,16 +52,23 @@ function App() {
 
   //Start variables --------------------------------------------------------
   var startPos ={"position": {
-    "x": 5,
-    "y": 5
+    "x": 0,
+    "y": 0
     },
   "rotation": 0};
+
+  var startPos1 = {"position": {
+    "x": 0,
+    "y": 0
+    }}
+    var startrotation1 = {"rotation":0}
 
   let startBattery = {"battery_level":0, "charging":"false", "voltage": 0}
   let startVelocity = {"left":0, "right":0}
   let startLidar = {"segments":[-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0,-1.0]}
   let startPlan = {"plan": [] }
   let startPath = {"path":[] }  
+  let count;
 
 
 //Global variables----------------------------------------------------------------
@@ -74,14 +81,14 @@ function App() {
  const [path, setPath] = useState(startPath);
  const [placedSensors, setPlacedSensors] = useState([])
  const [allSensors, setAllSensors] = useState([])
+ 
   
   const [cmessage, setCmessage] = useState("");
   const [imageEncoded, setImage] = useState("");
   const [landscapeEncoded, setLandscape] = useState("");
 
-  const [update, setUpdate] = useState({Message: "", Sensors: []});
-  var count1;
-
+  const [update, setUpdate] = useState({Position: startPos1, Rotation: startrotation1, Lidar: startLidar, Battery: startBattery, Velocity: startVelocity });
+  const [count1, setCount1] = useState(0);
 
 //MQTTT
 
@@ -96,11 +103,13 @@ const mqttConnect = () => {
 
 function routemessage(topic, message){
   if(topic == "simulation/robot/position_and_rotation"){
-    console.log(JSON.parse(message))
+    //console.log(JSON.parse(message))
     let dat = JSON.parse(message)
-    if(dat.position.x.toFixed(4) != posrot.position.x.toFixed(4) || dat.position.y.toFixed(4) != posrot.position.y.toFixed(4)|| dat.rotation.toFixed(2) != posrot.rotation.toFixed(2) ){
+    
+
+    if(dat.position.x.toFixed(2) != posrot.position.x.toFixed(2) || dat.position.y.toFixed(2) != posrot.position.y.toFixed(2)|| dat.rotation.toFixed(2) != posrot.rotation.toFixed(2) ){
     setPosrot(JSON.parse(message))
-    console.log("uppdaterar")
+    //console.log("uppdaterar")
   }
     
   }
@@ -133,30 +142,40 @@ function routemessage(topic, message){
       }
   }
   else if(topic == "simulation/lidar"){
-    setLidar(JSON.parse(message));
+    //setLidar(JSON.parse(message));
   }
 
   else if(topic == "simulation/images/satellite"){
    setImage(JSON.parse(message));
+   console.log("bilden är här")
+   //client.unsubscribe("simulation/images/satellite")
+   
   }
   else if(topic == "simulation/robot/battery"){
+    //client.unsubscribe("simulation/robot/battery")
+    //console.log("batteri kom")
     setBattery(JSON.parse(message))
+    
+    //setTimeout(client.subscribe("simulation/robot/battery"), 10000);
   }
   else if(topic == "simulation/robot/velocity"){
+    //client.unsubscribe("simulation/robot/velocity")
     setVelocity(JSON.parse(message))
+    //setTimeout(client.subscribe("simulation/robot/velocity"), 5000);
   }
   else if(topic == "tp/plan"){
     setPlan(JSON.parse(message))
   }
   else if(topic == "simulation/current_path"){
     setPath(JSON.parse(message))
+    //console.log(message)
   }
   else if(topic.slice(0, -1) == "simulation/sensor/status/"){
     var id = parseInt(topic.substr(topic.length - 1));
     let dat = JSON.parse(message);
 
     const newJSON = {...{"id":id}, ...dat}
-    console.log(newJSON)
+    //console.log(newJSON)
     var fakeList = allSensors;
     for(var i = 0; i<fakeList.length; i++){
       if(fakeList[i].id == newJSON.id){
@@ -204,13 +223,15 @@ useEffect(() => {
     });
     client.on('message', (topic, message) => {
       const payload = { topic, message: message.toString() };
-      console.log("MEDDELANDE_________________________")
+      //console.log("MEDDELANDE_________________________")
       //console.log(payload.topic)
       
       routemessage(payload.topic, payload.message)
     });
   }
 }, [client]);
+
+
 
 
 
@@ -228,61 +249,64 @@ useEffect(() => {
   return res.json();
 })
 .then(data => {
-  //setImage(data)
+  setImage(data)
   //console.log(data)
-})
-fetch('https://localhost:7071/todo/landscape')
-  .then(res => {
-  return res.json();
-})
-.then(data => {
-  if(data.imageBroken == 0){
-  setLandscape(data.image)
-  if(data.sensorinimage == 1){
-    setCmessage("Sensor in image!")
-    if(data.sensorbroken == 1){
-      setCmessage("Sensor broken!")
-    }
-  }
-  else{setCmessage("Sensor not in image!")}
-  }
-  else
-  {
-    setCmessage("Image broken! Type of damage: " + data.typeOfNoise)
-  }
+})}, [])
+
+
+
+// fetch('https://localhost:7071/todo/landscape')
+//   .then(res => {
+//   return res.json();
+// })
+// .then(data => {
+//   if(data.imageBroken == 0){
+//   setLandscape(data.image)
+//   if(data.sensorinimage == 1){
+//     setCmessage("Sensor in image!")
+//     if(data.sensorbroken == 1){
+//       setCmessage("Sensor broken!")
+//     }
+//   }
+//   else{setCmessage("Sensor not in image!")}
+//   }
+//   else
+//   {
+//     setCmessage("Image broken! Type of damage: " + data.typeOfNoise)
+//   }
   
-})
+// })
 
-}, [count1]);
+// }, [count1]);
 
-useEffect (()=> {
-  var startPos ={"position": {
-    "x": 0,
-    "y": 0
-                    }};
-    let countX = 0;
-    let countY = 0;
-  const interval = setInterval(()=> {
-    countX = countX +0.05;
-    countY = countX + 0.05;
-    //console.log(countX);
-    /**setPos({"position": {
-      "x": countX,
-      "y": countY
-                      }
+// useEffect (()=> {
+//   var startPos ={"position": {
+//     "x": 0,
+//     "y": 0
+//                     }};
+//     let countX = 0;
+//     let countY = 0;
+//   const interval = setInterval(()=> {
+//     countX = countX +0.05;
+//     countY = countX + 0.05;
+//     //console.log(countX);
+//     /**setPos({"position": {
+//       "x": countX,
+//       "y": countY
+//                       }
                     
-                    })**/
+//                     })**/
 
-  }, 1);
-    return () => clearInterval(interval);
-  }, [])
+//   }, 1);
+//     return () => clearInterval(interval);
+//   }, [])
 
 
   useEffect(() => {
    
 
     const interval = setInterval(() => {
-      fetch('https://localhost:7071/todo/update')
+      fetch('https://localhost:7071/todo/update2')
       .then(res => {
       return res.json();
     })
@@ -292,19 +316,29 @@ useEffect (()=> {
         
         
         //setSensors(sensorList); 
-        
-        
-        
-        
-        let message = data.message;
+        let position1 = JSON.parse(data.position)
+        if(position1 == null){position1 = startPos}
+        let rotation1 = JSON.parse(data.rotation)
+        if(rotation1 == null){rotation1 = startrotation1}
+
+        let velocity1 = JSON.parse(data.velocity)
+        if(velocity1 == null){velocity1 = startVelocity}
+        let lidar1 = JSON.parse(data.lidar)
+        if(lidar1 == null){lidar1 = startLidar}
+        let battery1 = JSON.parse(data.battery)
+        if(battery1 == null){battery1 = startBattery}
         
 
-        var alldata = {Message: message, }
+        var alldata = {Battery: battery1, Rotation: rotation1, Position:position1, Velocity:velocity1, Lidar: lidar1}
+        //console.log(alldata)
         setUpdate(alldata)
-        if(cmessage != message){
-        setCmessage(message)}
+        startPos = JSON.parse(data.position)
+        startrotation1 = JSON.parse(data.rotation)
+        startVelocity = JSON.parse(data.velocity)
+        startLidar = JSON.parse(data.lidar)
+        startBattery = JSON.parse(data.battery)
       
-    })}, 1000);
+    })}, 250);
     return () => clearInterval(interval);
   }, []);
 
@@ -315,22 +349,20 @@ useEffect (()=> {
   return (
     
     <ThemeProvider theme={theme}>
-      <ButtonAppBar sx={{zIndex:"3"}} sensors={placedSensors} battery={battery} velocity={velocity} sub={client}></ButtonAppBar>
+      <ButtonAppBar sx={{zIndex:"3"}} sensors={placedSensors} battery={update.Battery} velocity={update.Velocity} sub={client}></ButtonAppBar>
       <Box sx={{p:"20px"}}>
         <Grid container>
-          <Grid item xs={5}>
-            <Masonry columns={1} spacing={2}>
-              <Map position={posrot} sensors={placedSensors} rotation={posrot} routen={path.path} satellite ={imageEncoded} allSensors={allSensors}/> 
-              <Console2 message={cmessage}/>
-            </Masonry>
+          <Grid item xs={"auto"}>
+            <Map position={update.Position} sensors={placedSensors} rotation={update.Rotation} routen={path.path} satellite ={imageEncoded} allSensors={allSensors}/>
+            <Console2 message={cmessage}/> 
           </Grid>   
-          <Grid item xs={7} sx={{zIndex:"3", bgcolor: "white"}}>
+          <Grid item xs={"7"} sx={{bgcolor: "white", pl:"20px"}}>
             <Masonry columns={3} spacing={2}>
                 <PlanningComponent plans={plan} status={planStatus}/>
                 <Photo landscape = {landscapeEncoded}/>
-                <SendPoints/>
-                <AlienCounter lidar={lidar}></AlienCounter>
-                <Control/>
+                <SendPoints sub={client}/>
+                <AlienCounter lidar={update.Lidar}></AlienCounter>
+                <Control />
             </Masonry>
             </Grid>
         </Grid>

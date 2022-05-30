@@ -3,7 +3,7 @@ import robotImage from "./robot.png";
 
 const Robot = (props) => {
     
-    var rot = 'rotate(' + (props.rotation.rotation).toString() + 'rad)'
+    var rot = 'rotate(' + Math.round((props.rotation.rotation)*(180/Math.PI)*-1).toString() + 'deg)'
     //console.log(rot)
     const [alerts, setAlerts] = useState([]);
     //console.log(props)

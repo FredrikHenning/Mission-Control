@@ -135,22 +135,23 @@ export default function ButtonAppBar(props) {
 
   const handleClose = (event) => {
       setOpen(false);
+      
     };
 
     const handleSub = (event) => {
       fetch('https://localhost:7071/todo/sub')
-      props.sub.subscribe('simulation/robot/position_and_rotation');
+      //props.sub.subscribe('simulation/robot/position_and_rotation');
       props.sub.subscribe('mc/landscape');
       props.sub.subscribe('tp/status');
-      props.sub.subscribe('simulation/lidar');
+      //props.sub.subscribe('simulation/lidar');
       props.sub.subscribe('simulation/sensor/status/#');
       props.sub.subscribe('tp/plan');
       props.sub.subscribe('simulation/current_path');
-      props.sub.subscribe('simulation/robot/battery');
-      props.sub.subscribe('simulation/images/satellite');
-      props.sub.subscribe('tp/instruction');
+      //props.sub.subscribe('simulation/robot/battery');
+      //props.sub.subscribe('simulation/images/satellite');
+      //props.sub.subscribe('tp/instruction');
       props.sub.subscribe('simulation/map_scale');
-      props.sub.subscribe('simulation/robot/velocity');
+      //props.sub.subscribe('simulation/robot/velocity');
       props.sub.subscribe('simulation/current_path');
 
       
