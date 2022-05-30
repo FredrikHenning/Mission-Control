@@ -1,4 +1,4 @@
-import { Box, Button, Checkbox, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Fade, FormControl, FormControlLabel, IconButton, InputLabel, MenuItem, Paper, Popover, Popper, Select, Stack, TextField, Typography } from '@mui/material';
+import { Box, Button, Checkbox, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Fade, FormControl, FormControlLabel, FormHelperText, IconButton, Input, InputAdornment, InputLabel, listClasses, MenuItem, OutlinedInput, Paper, Popover, Popper, Select, Stack, TextField } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import { useState } from 'react';
 import { keyframes } from '@mui/system';
@@ -14,7 +14,7 @@ const AlienCounter = (props) => {
     const [disp, setDisp] = useState('hidden')
     const CounterMeasure = () => {
         // 'https://localhost:8000/fire'
-        //console.log(angle)
+        console.log(segment)
         var rad = angle * 3 * (Math.PI / 180)
         var mission = { rad };
         //console.log(mission)
@@ -28,6 +28,7 @@ const AlienCounter = (props) => {
             })
     }
     //console.log(props)
+    // console.log(props.lidar)
 
     const blink = keyframes`
     from { opacity: 0.3; }
@@ -78,7 +79,7 @@ const AlienCounter = (props) => {
                                 </div>
                             )
                         }
-                    }
+                    else if(listClasses.id == 119)
                     return (
                         <Typography>
                             No enemy detected

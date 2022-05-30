@@ -300,6 +300,7 @@ useEffect (()=> {
         
         
         let message = data.message;
+        
 
         var alldata = {Message: message, }
         setUpdate(alldata)
@@ -310,6 +311,9 @@ useEffect (()=> {
     return () => clearInterval(interval);
   }, []);
 
+  // const [lidar, setLidar] = useState([
+  //   { "segments": [-1, -1, -1, -1, -1]},
+  // ]);
 
   return (
     
