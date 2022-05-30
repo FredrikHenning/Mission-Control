@@ -9,6 +9,11 @@ import './console.css'
 import Collapse from '@mui/material/Collapse';
 import { TransitionGroup } from 'react-transition-group';
 import React, { useState, useEffect } from 'react';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import { Box } from '@mui/system';
+import { Paper } from '@mui/material';
+import { Typography } from '@mui/material';
 
 export default function Console2(props) {
     const [alerts, setAlerts] = useState([]);
@@ -43,25 +48,31 @@ export default function Console2(props) {
     //     </Alert> */}        
     //     </div>);
 
-const listItems2 = alerts.map((number) =>
-<div key={number}>
-<Collapse in={true}>
-<Alert severity="error" >
-     {number} 
-</Alert>
-</Collapse>        
+const listItems2 = alerts.map( (number) => 
+  <div key={number}>
+    <Collapse in={true}>
+      <Alert severity="error" >
+          {number} 
+      </Alert>
+    </Collapse>        
   </div>);
 
 
     return(
-        <div className='console-root'>
-      
-      {/* {listItems} */}
-      <TransitionGroup>
-      <Stack sx={{ width: '100%' }} spacing={2}>
-      {listItems2}
-      </Stack>
-      </TransitionGroup>
-      </div>
+      <Box>
+        <Paper sx={{padding: "10px", height: "300px"}}>
+          <Typography variant="h6" sx= {{padding: "10px"}}>
+                Console
+          </Typography>
+          <List className='console-root'>
+            {/* {listItems} */}
+            <TransitionGroup>
+              <Stack spacing={2}>
+                {listItems2}
+              </Stack>
+            </TransitionGroup>
+          </List>
+        </Paper>
+      </Box>
     );
 }

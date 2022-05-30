@@ -172,9 +172,9 @@ function routemessage(topic, message){
         fakeList2.splice(i,1)
       }  
     }
-    if(newJSON.is_placed == "true")
+    if(newJSON.is_placed == true)
     {fakeList2.push(newJSON)}
-    setAllSensors(fakeList2)
+    setPlacedSensors(fakeList2)
 
 
   }
@@ -209,7 +209,7 @@ useEffect(() => {
       const payload = { topic, message: message.toString() };
       console.log("MEDDELANDE_________________________")
       //console.log(payload.topic)
-      console.log(placedSensors)
+      
       routemessage(payload.topic, payload.message)
     });
   }
@@ -314,19 +314,21 @@ useEffect (()=> {
   return (
     
     <ThemeProvider theme={theme}>
-      <ButtonAppBar sensors={update.Sensors} battery={battery} velocity={velocity} sub={client}></ButtonAppBar>
+      <ButtonAppBar sx={{zIndex:"3"}} sensors={placedSensors} battery={battery} velocity={velocity} sub={client}></ButtonAppBar>
       <Box sx={{p:"20px"}}>
         <Grid container>
           <Grid item xs={5}>
-            <Map position={posrot} sensors={placedSensors} rotation={posrot} routen={path.path} satellite ={imageEncoded} allSensors={allSensors}/> 
+            <Masonry columns={1} spacing={2}>
+              <Map position={posrot} sensors={placedSensors} rotation={posrot} routen={path.path} satellite ={imageEncoded} allSensors={allSensors}/> 
+              <Console2 message={cmessage}/>
+            </Masonry>
           </Grid>   
-          <Grid item xs={7}>
+          <Grid item xs={7} sx={{zIndex:"3", bgcolor: "white"}}>
             <Masonry columns={3} spacing={2}>
                 <PlanningComponent plans={plan} status={planStatus}/>
                 <Photo landscape = {landscapeEncoded}/>
                 <SendPoints/>
                 <AlienCounter lidar={lidar}></AlienCounter>
-                <Console2 message={cmessage}/>
                 <Control/>
             </Masonry>
             </Grid>
