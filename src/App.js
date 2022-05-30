@@ -346,6 +346,7 @@ useEffect(() => {
                 <Photo landscape = {landscapeEncoded}/>
                 <SendPoints sub={client}/>
                 <AlienCounter lidar={update.Lidar}></AlienCounter>
+                <Control />
             </Masonry>
             </Grid>
         </Grid>
