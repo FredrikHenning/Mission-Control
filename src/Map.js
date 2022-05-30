@@ -22,7 +22,6 @@ import { motion } from 'framer-motion';
 // const mapSizeX = 767;
 // const mapSizeY =432;
 
-var route= [[255, 188], [255.32556081765156, 170.369254745772], [252.3438199487991, 160.82413969193345], [242.02886247117783, 166.95615830205404], [234.88435114390055, 184.5617244075335], [235.19549509657335, 188.54960472679022], [235.61507678124607, 189.45732230945964], [235.15000814621132, 190.3425969361755], [234.34861656992467, 190.94073700460163], [231.53984499195587, 191.99468302921323], [229.08842300124155, 195.15546303159275], [228.1528492437047, 198.0058492763337], [228, 200]];
 
 const Map = (props) => {
 
@@ -78,8 +77,8 @@ const Map = (props) => {
         },
         media: {
             // scale: 50,
-            height: mapSizeY,
-            width: mapSizeX
+            //height: mapSizeY,
+            //width: mapSizeX
         },
         popMap: {
             height: 40,
@@ -346,8 +345,6 @@ const Map = (props) => {
     const classes = useStyles()
     return ( 
         <div>
-
-
             <div>
             
                 <TransformWrapper
@@ -431,8 +428,9 @@ const Map = (props) => {
                             </Box>
                             <div>
                             <div ref={ref} onClick={handleClickOpen}>
+                            
                                 <TransformComponent className="react-transform-component">
-                                    <Paper>
+                                    <Paper >
                                         <img src={`data:image/jpeg;base64,${data}`} alt="test" onLoad={onImgLoad} style={pixSizeX ? {width: mapSizeX, height: mapSizeY} : {width: undefined, height: undefined}}/>                                 
                                         {/* <img src={`data:image/jpeg;base64,${data}`} alt="test" onLoad={onImgLoad} style={{}}/>                                  */}
                                         
@@ -447,18 +445,15 @@ const Map = (props) => {
                                         var current = "pointMarker" + index;
                                         var nextindex = index + 1;
                                         var next = "pointMarker" + nextindex;
-
                                         return (
                                             <div className={current} key={index}
                                                 style={{
                                                     position: 'absolute',
-                                                    left: `${point[0]*mxs}px`,
-                                                    top: `${(pixSizeY - point[1])*mys}px`,
+                                                    left: `${point[0] * mxs}px`,
+                                                    top: `${(pixSizeY - point[1]) * mys}px`,
                                                 }}
                                             >
-
                                                 <LineTo from={current} to={next} borderColor="black" borderStyle="dotted" borderWidth="3" />
-
                                             </div>
                                         )
                                     })}

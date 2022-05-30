@@ -98,8 +98,12 @@ const SendPoints = () => {
     }
 
     return (
-        <><Box sx={{ textAlign: 'center'}}>
+        <>
+        <Box sx={{ textAlign: 'center'}}>
             <Paper elevation={2} sx= {{padding: "20px"}} >
+            <Typography variant="h6" sx= {{padding: "10px"}}>
+                List of added points
+            </Typography>
             <Button onClick={() => {
                     if (sent === 'Use Points') {
                         setSent('New points waiting to be sent');

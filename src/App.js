@@ -314,19 +314,21 @@ useEffect (()=> {
   return (
     
     <ThemeProvider theme={theme}>
-      <ButtonAppBar sensors={placedSensors} battery={battery} velocity={velocity} sub={client}></ButtonAppBar>
+      <ButtonAppBar sx={{zIndex:"3"}} sensors={placedSensors} battery={battery} velocity={velocity} sub={client}></ButtonAppBar>
       <Box sx={{p:"20px"}}>
         <Grid container>
           <Grid item xs={5}>
-            <Map position={posrot} sensors={placedSensors} rotation={posrot} routen={path.path} satellite ={imageEncoded} allSensors={allSensors}/> 
+            <Masonry columns={1} spacing={2}>
+              <Map position={posrot} sensors={placedSensors} rotation={posrot} routen={path.path} satellite ={imageEncoded} allSensors={allSensors}/> 
+              <Console2 message={cmessage}/>
+            </Masonry>
           </Grid>   
-          <Grid item xs={7}>
+          <Grid item xs={7} sx={{zIndex:"3", bgcolor: "white"}}>
             <Masonry columns={3} spacing={2}>
                 <PlanningComponent plans={plan} status={planStatus}/>
                 <Photo landscape = {landscapeEncoded}/>
                 <SendPoints/>
                 <AlienCounter lidar={lidar}></AlienCounter>
-                <Console2 message={cmessage}/>
                 <Control/>
             </Masonry>
             </Grid>

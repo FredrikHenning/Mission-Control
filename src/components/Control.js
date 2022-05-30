@@ -56,9 +56,11 @@ import TextField from '@mui/material/TextField';
 
   return (
     <Box sx={{ textAlign: 'center' }}>
-
       <Box >
       <Paper elevation={2} sx={{ padding: '20px' }} >
+      <Typography variant="h6" sx= {{padding: "10px"}}>
+                Control of robot
+            </Typography>
       <Box sx={{ '& > button': { m: 1 }}}>
         <LoadingButton
           onClick={handleClick2}
