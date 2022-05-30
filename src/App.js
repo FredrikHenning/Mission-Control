@@ -83,7 +83,7 @@ function App() {
  const [allSensors, setAllSensors] = useState([])
  
   
-  const [cmessage, setCmessage] = useState("");
+  const [cmessage, setCmessage] = useState([]);
   const [imageEncoded, setImage] = useState("");
   const [landscapeEncoded, setLandscape] = useState("");
 
@@ -100,6 +100,11 @@ const mqttConnect = () => {
   setConnectStatus('Connecting');
   //setClient(mqtt.connect('wss://tharsis.oru.se:8884', options));
 };
+
+function handlemessage(message, severity){
+  var obj = {"message":message, "severity":severity}
+  setCmessage(myArray => [obj, ...myArray] )
+}
 
 function routemessage(topic, message){
   if(topic == "simulation/robot/position_and_rotation"){
@@ -118,16 +123,16 @@ function routemessage(topic, message){
       if(data.imageBroken == 0){
       setLandscape(data.image)
       if(data.sensorinimage == 1){
-        setCmessage("Sensor in image!")
+        handlemessage("Sensor in image!", "success")
         if(data.sensorbroken == 1){
-          setCmessage("Sensor broken!")
+          handlemessage("Sensor broken!", "warning")
         }
       }
-      else{setCmessage("Sensor not in image!")}
+      else{handlemessage("Sensor not in image!", "warning")}
       }
       else
       {
-        setCmessage("Image broken! Type of damage: " + data.typeOfNoise)
+        handlemessage("Image broken! Type of damage: " + data.typeOfNoise, "warning")
       }
       
   }
@@ -135,10 +140,10 @@ function routemessage(topic, message){
     let status = JSON.parse(message);
     setPlanStatus(status);
       if (status.status != "OK") {
-        setCmessage("Error from task planning: " + status.comment)
+        handlemessage("Error from task planning: " + status.comment, "error")
       }
       else {
-        setCmessage("Task " + status.id + " is finished")
+        handlemessage("Task " + status.id + " is finished", "success")
       }
   }
   else if(topic == "simulation/lidar"){
@@ -165,10 +170,11 @@ function routemessage(topic, message){
   }
   else if(topic == "tp/plan"){
     setPlan(JSON.parse(message))
+    handlemessage("New plan!", "info")
   }
   else if(topic == "simulation/current_path"){
     setPath(JSON.parse(message))
-    //console.log(message)
+    handlemessage("New path!", "info")
   }
   else if(topic.slice(0, -1) == "simulation/sensor/status/"){
     var id = parseInt(topic.substr(topic.length - 1));
@@ -192,7 +198,9 @@ function routemessage(topic, message){
       }  
     }
     if(newJSON.is_placed == true)
-    {fakeList2.push(newJSON)}
+    {fakeList2.push(newJSON)
+    handlemessage("Sensor " + newJSON.id + " has been placed", "info")}
+    else{handlemessage("Sensor " + newJSON.id + " is in inventory", "info")}
     setPlacedSensors(fakeList2)
 
 
@@ -223,6 +231,7 @@ useEffect(() => {
     });
     client.on('message', (topic, message) => {
       const payload = { topic, message: message.toString() };
+      
       //console.log("MEDDELANDE_________________________")
       //console.log(payload.topic)
       
@@ -328,7 +337,6 @@ useEffect(() => {
         let battery1 = JSON.parse(data.battery)
         if(battery1 == null){battery1 = startBattery}
         
-
         var alldata = {Battery: battery1, Rotation: rotation1, Position:position1, Velocity:velocity1, Lidar: lidar1}
         //console.log(alldata)
         setUpdate(alldata)
@@ -338,7 +346,7 @@ useEffect(() => {
         startLidar = lidar1
         startBattery = battery1
       
-    })}, 100);
+    })}, 50);
     return () => clearInterval(interval);
   }, []);
 
@@ -354,7 +362,7 @@ useEffect(() => {
         <Grid container>
           <Grid item xs={"auto"}>
             <Map position={update.Position} sensors={placedSensors} rotation={update.Rotation} routen={path.path} satellite ={imageEncoded} allSensors={allSensors}/>
-            <Console2 message={cmessage}/> 
+            {/* <Console2 message={cmessage}/>  */}
           </Grid>   
           <Grid item xs={"7"} sx={{bgcolor: "white", pl:"20px"}}>
             <Masonry columns={3} spacing={2}>

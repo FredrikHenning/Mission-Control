@@ -495,7 +495,7 @@ const Map = (props) => {
                                     <Box sx={{position: "absolute", right: 0, bottom: 0, zIndex: 3, opacity: 0.7, padding: "10px" }}>
                                         <Paper sx={{padding: "3px"}}>
                                             <Typography variant="caption">
-                                                x: {props.position.position.x}, y: {props.position.position.y}
+                                                x: {props.position.position.x.toFixed(2)}, y: {props.position.position.y.toFixed(2)}
                                             </Typography>
                                         </Paper>
                                     </Box>
