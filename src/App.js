@@ -83,7 +83,7 @@ function App() {
  const [allSensors, setAllSensors] = useState([])
  
   
-  const [cmessage, setCmessage] = useState("");
+  const [cmessage, setCmessage] = useState([]);
   const [imageEncoded, setImage] = useState("");
   const [landscapeEncoded, setLandscape] = useState("");
 
@@ -100,6 +100,11 @@ const mqttConnect = () => {
   setConnectStatus('Connecting');
   //setClient(mqtt.connect('wss://tharsis.oru.se:8884', options));
 };
+
+function handlemessage(message, severity){
+  var obj = {"message":message, "severity":severity}
+  setCmessage(myArray => [obj, ...myArray] )
+}
 
 function routemessage(topic, message){
   if(topic == "simulation/robot/position_and_rotation"){
@@ -226,6 +231,7 @@ useEffect(() => {
     });
     client.on('message', (topic, message) => {
       const payload = { topic, message: message.toString() };
+      
       //console.log("MEDDELANDE_________________________")
       //console.log(payload.topic)
       
@@ -331,7 +337,8 @@ useEffect(() => {
         let battery1 = JSON.parse(data.battery)
         if(battery1 == null){battery1 = startBattery}
         
-
+        for(var i = 0; i<3; i++){
+        handlemessage(i,"info")}
         var alldata = {Battery: battery1, Rotation: rotation1, Position:position1, Velocity:velocity1, Lidar: lidar1}
         //console.log(alldata)
         setUpdate(alldata)
