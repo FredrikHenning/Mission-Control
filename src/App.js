@@ -81,7 +81,7 @@ function App() {
  const [path, setPath] = useState(startPath);
  const [placedSensors, setPlacedSensors] = useState([])
  const [allSensors, setAllSensors] = useState([])
- 
+ const [pictureOK, setPictureOK] = useState (false)
   
   const [cmessage, setCmessage] = useState([]);
   const [imageEncoded, setImage] = useState("");
@@ -108,30 +108,31 @@ function routemessage(topic, message){
     //console.log(JSON.parse(message))
     let dat = JSON.parse(message)
     
-
-    if(dat.position.x.toFixed(2) != posrot.position.x.toFixed(2) || dat.position.y.toFixed(2) != posrot.position.y.toFixed(2)|| dat.rotation.toFixed(2) != posrot.rotation.toFixed(2) ){
     setPosrot(JSON.parse(message))
     //console.log("uppdaterar")
-  }
+  
     
   }
   else if(topic == "mc/landscape"){
     let data = JSON.parse(message);
-      if(data.imageBroken == 0){
+
+    if(data.imageBroken == 0){
+      setPictureOK(true)
       setLandscape(data.image)
-      if(data.sensorinimage == 1){
+
+      if(data.sensorInImage == 1){
         handlemessage("Sensor in image!", "success")
-        if(data.sensorbroken == 1){
-          handlemessage("Sensor broken!", "warning")
+        if(data.sensorBroken == 1){
+          handlemessage("Sensor broken!", "warning")  
         }
       }
-      else{handlemessage("Sensor not in image!", "warning")}
-      }
-      else
-      {
-        handlemessage("Image broken! Type of damage: " + data.typeOfNoise, "warning")
-      }
-      
+      else{
+        handlemessage("Sensor not in image!", "warning")}
+    }
+    else{
+      handlemessage("Image broken! Type of damage: " + data.typeOfNoise, "warning")
+      setPictureOK(false)
+    }
   }
   else if(topic == "tp/status"){
     let status = JSON.parse(message);
@@ -364,13 +365,13 @@ useEffect(() => {
       <Box sx={{p:"20px"}}>
         <Grid container>
           <Grid item xs={"auto"}>
-            <Map position={update.Position} sensors={placedSensors} rotation={update.Rotation} routen={path.path} satellite ={imageEncoded} allSensors={allSensors}/>
+            <Map position={posrot} sensors={placedSensors} rotation={posrot} routen={path.path} satellite ={imageEncoded} allSensors={allSensors}/>
             <Console2 message={cmessage}/> 
           </Grid>   
           <Grid item xs={"7"} sx={{bgcolor: "white", pl:"20px"}}>
             <Masonry columns={3} spacing={2}>
                 <PlanningComponent plans={plan} status={planStatus}/>
-                <Photo landscape = {landscapeEncoded}/>
+                <Photo landscape = {landscapeEncoded}  image = {pictureOK}/>
                 <SendPoints sub={client}/>
                 <AlienCounter lidar={update.Lidar}></AlienCounter>
                 <Control />

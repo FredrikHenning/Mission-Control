@@ -140,7 +140,7 @@ export default function ButtonAppBar(props) {
 
     const handleSub = (event) => {
       fetch('https://localhost:7071/todo/sub')
-      //props.sub.subscribe('simulation/robot/position_and_rotation');
+      props.sub.subscribe('simulation/robot/position_and_rotation');
       props.sub.subscribe('mc/landscape');
       props.sub.subscribe('tp/status');
       //props.sub.subscribe('simulation/lidar');
@@ -152,7 +152,7 @@ export default function ButtonAppBar(props) {
       //props.sub.subscribe('tp/instruction');
       props.sub.subscribe('simulation/map_scale');
       //props.sub.subscribe('simulation/robot/velocity');
-      props.sub.subscribe('simulation/current_path');
+     
 
       
 
