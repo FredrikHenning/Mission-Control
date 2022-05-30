@@ -337,8 +337,6 @@ useEffect(() => {
         let battery1 = JSON.parse(data.battery)
         if(battery1 == null){battery1 = startBattery}
         
-        for(var i = 0; i<3; i++){
-        handlemessage(i,"info")}
         var alldata = {Battery: battery1, Rotation: rotation1, Position:position1, Velocity:velocity1, Lidar: lidar1}
         //console.log(alldata)
         setUpdate(alldata)
