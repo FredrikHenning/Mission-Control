@@ -61,7 +61,7 @@ function App() {
     "x": 0,
     "y": 0
     }}
-    var rotation1 = {"rotation":0}
+    var startrotation1 = {"rotation":0}
 
   let startBattery = {"battery_level":0, "charging":"false", "voltage": 0}
   let startVelocity = {"left":0, "right":0}
@@ -87,7 +87,7 @@ function App() {
   const [imageEncoded, setImage] = useState("");
   const [landscapeEncoded, setLandscape] = useState("");
 
-  const [update, setUpdate] = useState({Position: startPos1, Rotation: rotation1, Lidar: startLidar, Battery: startBattery, Velocity: startVelocity });
+  const [update, setUpdate] = useState({Position: startPos1, Rotation: startrotation1, Lidar: startLidar, Battery: startBattery, Velocity: startVelocity });
   const [count1, setCount1] = useState(0);
 
 //MQTTT
@@ -315,10 +315,16 @@ useEffect(() => {
         
         //setSensors(sensorList); 
         let position1 = JSON.parse(data.position)
+        if(position1 == null){position1 = startPos1}
         let rotation1 = JSON.parse(data.rotation)
+        if(rotation1 == null){rotation1 = startrotation1}
+
         let velocity1 = JSON.parse(data.velocity)
+        if(velocity1 == null){velocity1 = startVelocity}
         let lidar1 = JSON.parse(data.lidar)
+        if(lidar1 == null){lidar1 = startLidar}
         let battery1 = JSON.parse(data.battery)
+        if(battery1 == null){battery1 = startBattery}
         
 
         var alldata = {Battery: battery1, Rotation: rotation1, Position:position1, Velocity:velocity1, Lidar: lidar1}
