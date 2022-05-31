@@ -25,19 +25,12 @@ import { motion } from 'framer-motion';
 
 const Map = (props) => {
 
-    // const [realX, setRealX] = useState(props.position.position.x)
-    // const [realY, setRealY] = useState(props.position.position.y)
-
-    // useEffect(()=>{
-    //     setRealX(props.position.position.x);
-    //     setRealY(props.position.position.y);
-
-    // }, [props.position.position.x,props.position.position.x])
-   //console.log(props.routen)
+//    console.log(props)
             //Mapsize we want to show
     const [mapSizeX, setMapSizeX] = useState(767.00);
     const [mapSizeY, setMapSizeY] = useState(432.00);
             //Scale from pixel to meter
+    console.log(props.satellite.scale)
     const [scale, setScale] = useState(0.08);
     const [style, setStyle] = useState({visibility: 'hidden'});
 
@@ -113,8 +106,8 @@ const Map = (props) => {
     const handleClickOpen = () => {
         // setX(mouse.x )
         // setY((mapSizeY - mouse.y))
-        var bx = ((mouse.x/mxs)/offsetScale + (offsetX))
-        var by =(pixSizeY - ((mouse.y/mys)/offsetScale + offsetY*mys))
+        var bx = ((mouse.x)/offsetScale + (offsetX))/mxs
+        var by =((mapSizeY - mouse.y)/offsetScale + offsetY)/mys
         setX(parseFloat((bx*scale).toFixed(3)));
         setY(parseFloat((by*scale).toFixed(3)));
 
@@ -386,13 +379,13 @@ const Map = (props) => {
                                             <Button variant="contained"  onClick={() => { resetTransform(); setZomvar(1); handleReset() }}>Reset</Button>
                                             </Box>
                                             <div>
-                                                <IconButton variant='contained'  onClick={() => { setTransform(0, 0, 2, 300, "easeOut"); handleOffset(0, mapSizeY / 2, 2) }}>
-                                                    <ArrowBackIosIcon sx={{transform: "rotate(45deg)"}} />
+                                                <IconButton variant='contained' onClick={() => { setTransform(0, 0, 2, 300, "easeOut"); handleOffset(0, mapSizeY / 2, 2) }}>
+                                                    <ArrowBackIosIcon  sx={{transform: "rotate(45deg)"}}/>
                                                 </IconButton>
-                                                <IconButton variant='contained'   onClick={() => { setTransform(-mapSizeX / 2, 0, 2, 300, "easeOut"); handleOffset(mapSizeX / 4, mapSizeY / 2, 2) }}>
-                                                    <ArrowBackIosIcon sx={{transform: "rotate(90deg)"}} />
+                                                <IconButton variant='contained' onClick={() => { setTransform(-mapSizeX / 2, 0, 2, 300, "easeOut"); handleOffset(mapSizeX / 4, mapSizeY / 2, 2) }}>
+                                                    <ArrowBackIosIcon  sx={{transform: "rotate(90deg)"}}/>
                                                 </IconButton>
-                                                <IconButton variant='contained'   onClick={() => { setTransform(-mapSizeX, 0, 2, 300, "easeOut"); handleOffset(pixSizeX / 2, pixSizeY / 2, 2) }}>
+                                                <IconButton variant='contained' onClick={() => { setTransform(-mapSizeX, 0, 2, 300, "easeOut"); handleOffset(mapSizeX / 2, mapSizeY / 2, 2) }}>
                                                     <ArrowBackIosIcon sx={{transform: "rotate(135deg)"}} />
                                                 </IconButton>
                                             </div>

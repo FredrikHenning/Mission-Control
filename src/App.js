@@ -221,9 +221,6 @@ function routemessage(topic, message){
 }
 
 
-
-
-
 useEffect(()=>{
   setClient(mqtt.connect('wss://tharsis.oru.se:8884', options));
 },[])
@@ -375,6 +372,9 @@ useEffect(() => {
     return () => clearInterval(interval);
   }, []);
 
+  // const [lidar, setLidar] = useState([
+  //   { "segments": [-1, -1, -1, -1, -1]},
+  // ]);
 
   return (
     

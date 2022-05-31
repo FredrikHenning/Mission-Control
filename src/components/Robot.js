@@ -2,7 +2,8 @@ import React,{ useEffect, useState } from "react";
 import robotImage from "./robot.png";
 
 const Robot = (props) => {
-    
+    var robosizey = 2 / props.pos.robotScale;
+    var robosizex = 3 / props.pos.robotScale;
     var rot = 'rotate(' + Math.round((props.rotation.rotation)*(180/Math.PI)*-1).toString() + 'deg)'
     //console.log(rot)
     const [alerts, setAlerts] = useState([]);
@@ -29,8 +30,8 @@ const Robot = (props) => {
             }}
         >
             <img
-                width="30px"
-                height="auto"
+                width= {robosizex}
+                height= {robosizey}
                 style={{transform: rot}}   
                 src={robotImage}
              />

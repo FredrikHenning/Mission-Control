@@ -1,9 +1,10 @@
-import { Box, Button, Checkbox, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Fade, FormControl, FormControlLabel, IconButton, InputLabel, MenuItem, Paper, Popover, Popper, Select, Stack, TextField, Typography } from '@mui/material';
+import { Box, Button, Checkbox, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Fade, FormControl, FormControlLabel, FormHelperText, Grid, IconButton, Input, InputAdornment, InputLabel, listClasses, MenuItem, OutlinedInput, Paper, Popover, Popper, Select, Stack, TextField, Typography } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import { useState } from 'react';
 import { keyframes } from '@mui/system';
 import { styled } from '@mui/material/styles';
 import { purple, red } from '@mui/material/colors';
+import Lidar from './Lidar';
 
 
 
@@ -14,20 +15,33 @@ const AlienCounter = (props) => {
     const [disp, setDisp] = useState('hidden')
     const CounterMeasure = () => {
         // 'https://localhost:8000/fire'
-        //console.log(angle)
-        var rad = angle * 3 * (Math.PI / 180)
-        var mission = { rad };
-        //console.log(mission)
+        console.log(segment)
+        var radianer = (segment * 3 + 1.5)* (Math.PI / 180)
+        console.log(rad)
+        var rad = radianer;
+        var pointsObj = { rad }
+        var data = JSON.stringify(pointsObj);
 
-        fetch('https://localhost:7071/todo/mc/fire',
+        fetch('https://localhost:7071/todo/mcfire',
             {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(mission)
+                body: JSON.stringify(data)
 
             })
     }
-    //console.log(props)
+
+    const Fire = () => {
+        var laser = ("fire now")
+        var data = JSON.stringify(laser)
+        fetch('https://localhost:7071/todo/simulationlaser',
+        {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+        })
+    }
+    // console.log(props.lidar)
 
     const blink = keyframes`
     from { opacity: 0.3; }
@@ -44,7 +58,7 @@ const AlienCounter = (props) => {
     }));
 
     const enemy = (e) => {
-        //console.log("Alien detected at segment: " + e)
+        console.log("Alien detected at segment: " + e)
         setDanger(true)
         setDisp('')
     }
@@ -57,52 +71,53 @@ const AlienCounter = (props) => {
 
     const handleSegment = (event) => {
         // setAngle(event.target.value)
-        //console.log(angle)
+        console.log(angle)
     }
+    console.log(props.lidar.segments[1])
 
+    const getLidar = () =>{
+        return (
+            <div>
+             <Lidar lid={props.lidar.segments} />
+         </div>
+        ) 
+    }
     return (
-        <Box sx={{textAlign: 'center' }}>
-            <Paper elevation={2} sx={{ padding: '20px' }}>
-            <Box >
-                <Typography variant="h6">Laser</Typography>
+        <div>
+
+            <Paper
+                sx={{width: 200}}
+            >
+                <Typography variant="h6" sx= {{padding: "10px"}}>
+                    Laser
+                </Typography>
                 
-            </Box>
-            <Box sx={{ padding: '10px' }}>
-                {/* {props.lidar.map((lid) => {
-                    for (let i = 0; i < lid.segments.length; i++) {
-                        if (lid.segments[i] !== -1) {
-                            return (
-                                <div className="lidar" key={lid.id}>
-                                    {console.log(lid.segments[i])}
-                                    {"Alien detected at segment: " + i}
-                                </div>
-                            )
-                        }
-                    }
-                    return (
-                        <Typography>
-                            No enemy detected
-                        </Typography>
-                    )
-                    
-                })} */}
-                <Box sx={{ padding: '10px' }}>
-                    <TextField
-                        id="filled-number"
-                        label="Segment"
+                <FormControl fullWidth sx={{ m: 1 }} variant="standard">
+                    <InputLabel htmlFor="standard-adornment-amount">Segment</InputLabel>
+                    <Input
                         type="number"
-                        InputLabelProps={{
-                            shrink: true,
-                        }}
-                        variant="filled"
+                        required
                         value={segment}
-                        onChange={handleSegment}
+                        onChange={(e) => {setSegment(e.target.value%120)}}
+                        sx={{width: 50}}
                     />
+
+                </FormControl>
+                
+                
+                {getLidar()}
+                <Box sx={{p: "10px"}}>
+                    <Grid spacing={5}>
+                        <Grid item xs={"auto"}>
+                            <Button variant='contained' onClick={CounterMeasure} sx={{padding: "10px"}}>Rotate</Button>
+                        </Grid>
+                        <Grid>
+                            <ColorButton variant='contained' onClick={Fire} sx={{padding: "10px"}}>Fire</ColorButton>
+                        </Grid>
+                    </Grid>
                 </Box>
-            </Box>
-                <ColorButton variant='contained' onClick={CounterMeasure}>Fire</ColorButton>
             </Paper>
-        </Box>
+        </div>
     );
 }
 
