@@ -27,6 +27,9 @@ const Map = (props) => {
 
 //    console.log(props)
             //Mapsize we want to show
+    if(props.obstacleMap.image){console.log(props.obstacleMap.image[2][0])}
+    // console.log(props.obstacleMap)
+            
     const [mapSizeX, setMapSizeX] = useState(767.00);
     const [mapSizeY, setMapSizeY] = useState(432.00);
             //Scale from pixel to meter
@@ -178,23 +181,48 @@ const Map = (props) => {
         
         setOpenOne(false);
     }
+    const [obs, setObs] = useState([
+        { "rowSize": 700, "colSize": 1100, "scale": 0.08, "imagesss": [[-1, -1, 255, -1, -1], [-1, -1, 255, -1, -1], [255, 255, 255, 255, 255], [-1, -1, 255, -1, -1], [-1, -1, 255, -1, -1]] },
+    ]);
 
-    const [map, setMap] = useState("/final_demo2.png")
-    const [mapTwo, setMapTwo] = useState("/mars2.png")
+    // const [map, setMap] = useState("/final_demo2.png")
+    const [map, setMap] = useState(`data:image/jpeg;base64,${data}`)
+    // const [mapTwo, setMapTwo] = useState("/mars2.png")
+    // const [mapData, setMapData] = useState(`data:image/jpeg;base64,${data}`)
+    // const [obsCheck, setObsCheck] = useState(0)
     // Function for toggling the maps
     const handleClick=() =>{
-        if (map === "/mars1.png")( 
-            setMap("/mars2.png")
-            )
-        else( 
-            setMap("/mars1.png")
-            )
-        if (map === "/mars1.png")( 
-            setMapTwo("/mars1.png")
-            )
-        else( 
-            setMapTwo("/mars2.png")
-            )
+        // setObsCheck(!obsCheck);
+        // if(obsCheck){
+        //     setMap(mapData)
+        // }
+        // else{
+        //     setMap(mapTwo)
+        // }
+        // {console.log(obs[0].imagesss)}
+        // {obs[0] && obs[0].imagesss.map((ob, i) =>{
+        //     return(
+        //         <div key={ob.id}>
+        //             {console.log(i)}
+        //             {console.log(ob)}
+        //             <ul>
+        //                 {ob.map((pixeObs, j) =>{
+        //                     return(
+        //                         <div key={pixeObs.id}
+        //                             style={{
+        //                                 position: "absolute",
+        //                                 left: `${100}px`,
+        //                                 top: `${-100 }px`,
+        //                             }}
+        //                         >
+        //                             <SensorsSharpIcon style={{ color: "blue" }} />
+        //                         </div>
+        //                     )
+        //                 })}
+        //             </ul>
+        //         </div>
+        //     )
+        // })}
     }
 
     const [anchorEl, setAnchorEl] = useState(null);
@@ -332,6 +360,8 @@ const Map = (props) => {
         </div>
        )  
     }
+
+    
     
     //console.log({scaleH, scaleW})
     //console.log({pixSizeX, pixSizeY, mxs, mys})
@@ -377,6 +407,7 @@ const Map = (props) => {
                                         <div>
                                              <Box sx={{textAlign: "center"}}>
                                             <Button variant="contained"  onClick={() => { resetTransform(); setZomvar(1); handleReset() }}>Reset</Button>
+                                            <Button onClick={handleClick}>Obs Map</Button>
                                             </Box>
                                             <div>
                                                 <IconButton variant='contained' onClick={() => { setTransform(0, 0, 2, 300, "easeOut"); handleOffset(0, mapSizeY / 2, 2) }}>
@@ -491,6 +522,32 @@ const Map = (props) => {
                                             </div>
                                         )
                                     })}
+
+                                    {/* {props.obstacleMap && props.obstacleMap.image.map((ob, i) =>{
+                                                return(
+                                                    <div key={i}>
+                                                        
+                                                        <ul>
+                                                            {ob.map((pixeObs, j) =>{
+                                                                if(pixeObs != 0){
+                                                                    return(
+                                                                        <div key={j}
+                                                                            style={{
+                                                                                position: "absolute",
+                                                                                left: `${i*mys}px`,
+                                                                                top: `${(pixSizeY - j)*mys}px`,
+                                                                            }}
+                                                                        >
+                                                                            <SensorsSharpIcon sx={{width: '1px', height: '1px'}} style={{ color: "blue" }} />
+                                                                        </div>
+                                                                    )
+                                                                }
+                                                            })}
+                                                        </ul>
+                                                    </div>
+                                                )
+                                        })} */}
+                                        
                                     </Paper>
                                     <Box sx={{position: "absolute", right: 0, bottom: 0, zIndex: 3, opacity: 0.7, padding: "10px" }}>
                                         <Paper sx={{padding: "3px"}}>

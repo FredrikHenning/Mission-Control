@@ -84,7 +84,7 @@ const AlienCounter = (props) => {
         <div>
 
             <Paper
-                sx={{textAlign:"center"}}
+                sx={{width: 200}}
             >
                 <Typography variant="h6" sx= {{padding: "10px"}}>
                     Laser

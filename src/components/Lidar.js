@@ -4,7 +4,7 @@ import CardContent from '@mui/material/CardContent';
 import { Typography } from "@mui/material";
 
 const Lidar = (props) => {
-
+    
     const AreAliens = () =>{
         
         for(let i = 0; i < props.lid.length; i++){

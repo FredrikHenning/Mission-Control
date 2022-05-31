@@ -23,6 +23,7 @@ import AlienCounter from './components/alienCounter';
 //import GridListTile from '@material-ui/core/GridListTile';
 import Box from '@mui/material/Box';
 import Masonry from '@mui/lab/Masonry';
+import ObstacleMape from './components/ObstacleMap';
 
 var c = true;
 
@@ -393,7 +394,7 @@ useEffect(() => {
       <Box sx={{p:"20px"}}>
         <Grid container>
           <Grid item xs={"auto"}>
-            <Map position={update.Position} sensors={placedSensors} rotation={update.Rotation} routen={path.path} satellite ={imageEncoded} allSensors={allSensors}/>
+            <Map position={update.Position} sensors={placedSensors} rotation={update.Rotation} routen={path.path} satellite ={imageEncoded} allSensors={allSensors} obstacleMap={obstacleMap}/>
             <Console2 message={cmessage}/> 
           </Grid>   
           <Grid item xs={"7"} sx={{bgcolor: "white", pl:"20px"}}>
@@ -405,6 +406,9 @@ useEffect(() => {
                 <Control />
             </Masonry>
             </Grid>
+            {/* <Grid>
+              <ObstacleMape obstacleMap={obstacleMap}/>
+            </Grid> */}
         </Grid>
       </Box>
     </ThemeProvider>
