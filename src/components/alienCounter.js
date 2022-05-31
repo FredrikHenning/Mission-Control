@@ -15,9 +15,9 @@ const AlienCounter = (props) => {
     const [disp, setDisp] = useState('hidden')
     const CounterMeasure = () => {
         // 'https://localhost:8000/fire'
-        console.log(segment)
+        // console.log(segment)
         var radianer = (segment * 3 + 1.5)* (Math.PI / 180)
-        console.log(rad)
+        // console.log(rad)
         var rad = radianer;
         var pointsObj = { rad }
         var data = JSON.stringify(pointsObj);
@@ -86,32 +86,35 @@ const AlienCounter = (props) => {
         <div>
 
             <Paper
-                sx={{textAlign:"center"}}
+                sx={{width: 200}}
             >
                 <Typography variant="h6" sx= {{padding: "10px"}}>
                     Laser
                 </Typography>
-                <Box >
-                    <FormControl fullWidth sx={{ m: 1}} variant="standard">
-                        <InputLabel htmlFor="standard-adornment-amount">Segment</InputLabel>
-                        <Input
-                            type="number"
-                            required
-                            value={segment}
-                            onChange={(e) => {setSegment(e.target.value%120)}}
-                            sx={{width: 50}}
-                        />
+                
+                <FormControl fullWidth sx={{ m: 1 }} variant="standard">
+                    <InputLabel htmlFor="standard-adornment-amount">Segment</InputLabel>
+                    <Input
+                        type="number"
+                        required
+                        value={segment}
+                        onChange={(e) => {setSegment(e.target.value%120)}}
+                        sx={{width: 50}}
+                    />
 
-                    </FormControl>
-                </Box>
-                <Box>
-                    <Typography variant="body2">
-                        {getLidar()}
-                    </Typography>
-                </Box>
-                <Box sx={{p: "20px", display:"flex", justifyContent:"space-evenly"}}>
-                    <Button variant='contained' onClick={CounterMeasure} sx={{padding: "10px"}}>Rotate</Button>
-                    <ColorButton variant='contained' onClick={Fire} sx={{padding: "10px"}}>Fire</ColorButton>
+                </FormControl>
+                
+                
+                {getLidar()}
+                <Box sx={{p: "10px"}}>
+                    <Grid spacing={5}>
+                        <Grid item xs={"auto"}>
+                            <Button variant='contained' onClick={CounterMeasure} sx={{padding: "10px"}}>Rotate</Button>
+                        </Grid>
+                        <Grid>
+                            <ColorButton variant='contained' onClick={Fire} sx={{padding: "10px"}}>Fire</ColorButton>
+                        </Grid>
+                    </Grid>
                 </Box>
             </Paper>
         </div>
