@@ -83,27 +83,24 @@ const AlienCounter = (props) => {
     return (
         <div>
 
-            <Paper
-                sx={{width: 200}}
-            >
+            <Paper sx={{textAlign:"center"}}>
                 <Typography variant="h6" sx= {{padding: "10px"}}>
                     Laser
                 </Typography>
                 <Box sx={{ display: 'flex', justifyContent: "center"}}>
-                    <FormControl fullWidth sx={{ m: 1}} variant="standard">
+                        {getLidar()}
+                </Box>
+                <Box sx={{ display: 'flex', justifyContent: "center"}}>
+                    <FormControl size="medium" sx={{ m: 1}} variant="standard">
                         <InputLabel htmlFor="standard-adornment-amount">Segment</InputLabel>
                         <Input
                             type="number"
                             required
                             value={segment}
                             onChange={(e) => {setSegment(e.target.value%120)}}
-                            sx={{width: 50}}
                         />
 
                     </FormControl>
-                </Box>
-                <Box sx={{ display: 'flex', justifyContent: "center"}}>
-                        {getLidar()}
                 </Box>
                 <Box sx={{p: "20px", display:"flex", justifyContent:"space-evenly"}}>
                     <Button variant='contained' onClick={CounterMeasure} sx={{padding: "10px"}}>Rotate</Button>

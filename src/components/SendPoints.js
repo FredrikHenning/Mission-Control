@@ -23,7 +23,7 @@ import PointInfo from "./pointInfo";
 const SendPoints = (props) => {
     const [openOne, setOpenOne] = useState(false);
     const [points, setPoints] = useState(null);
-    const [sent, setSent] = useState('Use Points');
+    const [sent, setSent] = useState('Send mission');
     const [fullWidth, setFullWidth] = useState(true);
     const [pointList, setPointList] = useState(true)
 
@@ -67,7 +67,7 @@ const SendPoints = (props) => {
         
        // props.sub.publish("mcpoints", data)
 
-        setSent('Use Points')
+        setSent('Send mission')
         fetch('https://localhost:7071/todo/mcpoints',
             {
                 method: 'POST',
@@ -107,16 +107,16 @@ const SendPoints = (props) => {
                 List of added points
             </Typography>
             <Button onClick={() => {
-                    if (sent === 'Use Points') {
-                        setSent('New points waiting to be sent');
+                    if (sent === 'Send mission') {
+                        setSent('Send mission');
                         setOpenOne(true);
                     }
                     else {
-                        setSent('Use Points');
+                        setSent('Send mission');
                     }
                 } }>{sent}
                 </Button>
-                <Button onClick={handlePointList}> See Point List</Button>
+                <Button onClick={handlePointList}> Update list</Button>
                     <List>
                         {points && points.map((point) => (
                             <div className="point-list" key={point.id}>
