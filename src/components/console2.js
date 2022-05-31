@@ -17,16 +17,6 @@ import { Typography } from '@mui/material';
 
 export default function Console2(props) {
 
-  const [dt, setDt] = useState(new Date().toLocaleTimeString());
-
-  useEffect(() => {
-      let secTimer = setInterval( () => {
-        setDt(new Date().toLocaleTimeString())
-      }, 1000)
-
-      return () => clearInterval(secTimer);
-  }, []);
-
 const listItems2 = props.message.map( (number, index) => 
   <div key={index}>
     <Collapse in={true}>

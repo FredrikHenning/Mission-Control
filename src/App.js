@@ -24,19 +24,21 @@ import AlienCounter from './components/alienCounter';
 import Box from '@mui/material/Box';
 import Masonry from '@mui/lab/Masonry';
 
+var c = true;
+
 const theme = createTheme({
   
 })
 
 const mqtt    = require('precompiled-mqtt');
 const options = {
-  clean: true,
+  clean: c,
   //protocol: "ws",
   // Auth
   clientId: 'mission-control2',
+  retain: false,
 	// clientId uniquely identifies client
 	// choose any string you wish
-	retain: true,
   username: "mission-control",
   password: "upon map citadel overstep",
 };
@@ -96,11 +98,14 @@ function App() {
 const [client, setClient] = useState(null);
 const [connectStatus, setConnectStatus] = useState("");
 const [payload, setPayload] = useState("");
-
+var oldmessage;
 
 function handlemessage(message, severity){
   var obj = {"message":message, "severity":severity}
-  setCmessage(myArray => [obj, ...myArray] )
+  if(message != oldmessage){
+    setCmessage(myArray => [obj, ...myArray])
+  }
+  oldmessage = message;
 }
 
 function routemessage(topic, message){
@@ -134,7 +139,7 @@ function routemessage(topic, message){
       setPictureOK(false)
     }
   }
-  else if(topic == "tp/status"){
+  else if(topic == "tp/info"){
     let status = JSON.parse(message);
     setPlanStatus(status);
       if (status.status != "OK") {
@@ -173,6 +178,13 @@ function routemessage(topic, message){
   else if(topic == "simulation/current_path"){
     setPath(JSON.parse(message))
     handlemessage("New path!", "info")
+  }
+  // else if(topic == "simulation/robot/collision"){
+  //   setPath(JSON.parse(message))
+  //   handlemessage("Collision detected", "error")
+  // }
+  else if(topic == "mc/message"){
+    handlemessage(message, "info")
   }
   else if(topic.slice(0, -1) == "simulation/sensor/status/"){
     var id = parseInt(topic.substr(topic.length - 1));
@@ -222,14 +234,20 @@ useEffect(()=>{
   if (client) {
    
     client.on('connect', () => {
+      console.log(options)
+      handlemessage("Connected to MQTT Server", "success")
       setConnectStatus('Connected');
       console.log("connected")
     });
     client.on('error', (err) => {
+      handlemessage("Connection error to MQTT Server: " + err, "warning")
       console.error('Connection error: ', err);
       client.end();
     });
     client.on('reconnect', () => {
+      options.clean = false;
+      console.log(options)
+      handlemessage("Reconnecting to MQTT Server..", "warning")
       setConnectStatus('Reconnecting');
       console.log("reconnecting")
 
@@ -365,7 +383,7 @@ useEffect(() => {
       <Box sx={{p:"20px"}}>
         <Grid container>
           <Grid item xs={"auto"}>
-            <Map position={posrot} sensors={placedSensors} rotation={posrot} routen={path.path} satellite ={imageEncoded} allSensors={allSensors}/>
+            <Map position={update.Position} sensors={placedSensors} rotation={update.Rotation} routen={path.path} satellite ={imageEncoded} allSensors={allSensors}/>
             <Console2 message={cmessage}/> 
           </Grid>   
           <Grid item xs={"7"} sx={{bgcolor: "white", pl:"20px"}}>
