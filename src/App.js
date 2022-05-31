@@ -35,7 +35,7 @@ const options = {
   clean: c,
   //protocol: "ws",
   // Auth
-  clientId: 'mission-control223452345',
+  clientId: 'mission-control5',
   retain: false,
 	// clientId uniquely identifies client
 	// choose any string you wish
@@ -84,6 +84,7 @@ function App() {
  const [placedSensors, setPlacedSensors] = useState([])
  const [allSensors, setAllSensors] = useState([])
  const [pictureOK, setPictureOK] = useState (false)
+ const [obstacleMap, setObstacleMap] = useState([])
   
   const [cmessage, setCmessage] = useState([]);
   const [imageEncoded, setImage] = useState("");
@@ -182,6 +183,10 @@ function routemessage(topic, message){
   else if(topic == "simulation/current_path"){
     setPath(JSON.parse(message))
     handlemessage("New path!", "info")
+  }
+  else if(topic == "perception/obsmap"){
+    setObstacleMap(JSON.parse(message))
+    
   }
   // else if(topic == "simulation/robot/collision"){
   //   setPath(JSON.parse(message))
@@ -380,6 +385,7 @@ useEffect(() => {
   //   { "segments": [-1, -1, -1, -1, -1]},
   // ]);
 
+  
   return (
     
     <ThemeProvider theme={theme}>
