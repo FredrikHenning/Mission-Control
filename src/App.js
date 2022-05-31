@@ -35,7 +35,7 @@ const options = {
   clean: c,
   //protocol: "ws",
   // Auth
-  clientId: 'mission-control2',
+  clientId: 'mission-control123',
   retain: false,
 	// clientId uniquely identifies client
 	// choose any string you wish
@@ -84,6 +84,7 @@ function App() {
  const [placedSensors, setPlacedSensors] = useState([])
  const [allSensors, setAllSensors] = useState([])
  const [pictureOK, setPictureOK] = useState (false)
+ const [obsacleMap, setObstacleMap] = useState([])
   
   const [cmessage, setCmessage] = useState([]);
   const [imageEncoded, setImage] = useState("");
@@ -174,6 +175,9 @@ function routemessage(topic, message){
   else if(topic == "tp/plan"){
     setPlan(JSON.parse(message))
     handlemessage("New plan!", "info")
+  }
+  else if(topic == "perception/obsmap"){
+    setObstacleMap(JSON.parse(message))
   }
   else if(topic == "simulation/current_path"){
     setPath(JSON.parse(message))
@@ -375,7 +379,7 @@ useEffect(() => {
   // const [lidar, setLidar] = useState([
   //   { "segments": [-1, -1, -1, -1, -1]},
   // ]);
-
+  console.log(obsacleMap)
   return (
     
     <ThemeProvider theme={theme}>

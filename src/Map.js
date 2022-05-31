@@ -178,21 +178,48 @@ const Map = (props) => {
         
         setOpenOne(false);
     }
+    const [obs, setObs] = useState([
+        { "rowSize": 700, "colSize": 1100, "scale": 0.08, "imagesss": [[-1, -1, 255, -1, -1], [-1, -1, 255, -1, -1], [255, 255, 255, 255, 255], [-1, -1, 255, -1, -1], [-1, -1, 255, -1, -1]] },
+    ]);
 
     // const [map, setMap] = useState("/final_demo2.png")
-    const [mapData, setMapData] = useState(`data:image/jpeg;base64,${data}`)
-    const [mapTwo, setMapTwo] = useState("/mars2.png")
-    const [map, setMap] = useState(mapData)
-    const [obsCheck, setObsCheck] = useState(0)
+    const [map, setMap] = useState(`data:image/jpeg;base64,${data}`)
+    // const [mapTwo, setMapTwo] = useState("/mars2.png")
+    // const [mapData, setMapData] = useState(`data:image/jpeg;base64,${data}`)
+    // const [obsCheck, setObsCheck] = useState(0)
     // Function for toggling the maps
     const handleClick=() =>{
-        setObsCheck = !obsCheck;
-        if(obsCheck){
-            setMap(mapData)
-        }
-        else{
-            setMap(mapTwo)
-        }
+        // setObsCheck(!obsCheck);
+        // if(obsCheck){
+        //     setMap(mapData)
+        // }
+        // else{
+        //     setMap(mapTwo)
+        // }
+        {console.log(obs[0].imagesss)}
+        // {obs[0] && obs[0].imagesss.map((ob, i) =>{
+        //     return(
+        //         <div key={ob.id}>
+        //             {console.log(i)}
+        //             {console.log(ob)}
+        //             <ul>
+        //                 {ob.map((pixeObs, j) =>{
+        //                     return(
+        //                         <div key={pixeObs.id}
+        //                             style={{
+        //                                 position: "absolute",
+        //                                 left: `${100}px`,
+        //                                 top: `${-100 }px`,
+        //                             }}
+        //                         >
+        //                             <SensorsSharpIcon style={{ color: "blue" }} />
+        //                         </div>
+        //                     )
+        //                 })}
+        //             </ul>
+        //         </div>
+        //     )
+        // })}
     }
 
     const [anchorEl, setAnchorEl] = useState(null);
@@ -492,6 +519,32 @@ const Map = (props) => {
                                             </div>
                                         )
                                     })}
+
+                                    {obs[0] && obs[0].imagesss.map((ob, i) =>{
+                                                return(
+                                                    <div key={ob.id}>
+                                                        {console.log(i)}
+                                                        {console.log(ob)}
+                                                        <ul>
+                                                            {ob.map((pixeObs, j) =>{
+                                                                if(pixeObs != -1){
+                                                                    return(
+                                                                        <div key={pixeObs.id}
+                                                                            style={{
+                                                                                position: "absolute",
+                                                                                left: `${i*mys + 100}px`,
+                                                                                top: `${(pixSizeY - j)*mys - 100}px`,
+                                                                            }}
+                                                                        >
+                                                                            <SensorsSharpIcon sx={{width: '1px', height: '1px'}} style={{ color: "blue" }} />
+                                                                        </div>
+                                                                    )
+                                                                }
+                                                            })}
+                                                        </ul>
+                                                    </div>
+                                                )
+                                            })}
                                     </Paper>
                                     <Box sx={{position: "absolute", right: 0, bottom: 0, zIndex: 3, opacity: 0.7, padding: "10px" }}>
                                         <Paper sx={{padding: "3px"}}>
