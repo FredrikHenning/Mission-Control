@@ -1,7 +1,7 @@
 
 
 const Lidar = (props) => {
-
+    
     const AreAliens = () =>{
         
         for(let i = 0; i < props.lid.length; i++){

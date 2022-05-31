@@ -179,22 +179,20 @@ const Map = (props) => {
         setOpenOne(false);
     }
 
-    const [map, setMap] = useState("/final_demo2.png")
+    // const [map, setMap] = useState("/final_demo2.png")
+    const [mapData, setMapData] = useState(`data:image/jpeg;base64,${data}`)
     const [mapTwo, setMapTwo] = useState("/mars2.png")
+    const [map, setMap] = useState(mapData)
+    const [obsCheck, setObsCheck] = useState(0)
     // Function for toggling the maps
     const handleClick=() =>{
-        if (map === "/mars1.png")( 
-            setMap("/mars2.png")
-            )
-        else( 
-            setMap("/mars1.png")
-            )
-        if (map === "/mars1.png")( 
-            setMapTwo("/mars1.png")
-            )
-        else( 
-            setMapTwo("/mars2.png")
-            )
+        setObsCheck = !obsCheck;
+        if(obsCheck){
+            setMap(mapData)
+        }
+        else{
+            setMap(mapTwo)
+        }
     }
 
     const [anchorEl, setAnchorEl] = useState(null);
@@ -332,6 +330,8 @@ const Map = (props) => {
         </div>
        )  
     }
+
+    
     
     //console.log({scaleH, scaleW})
     //console.log({pixSizeX, pixSizeY, mxs, mys})
@@ -377,6 +377,7 @@ const Map = (props) => {
                                         <div>
                                              <Box sx={{textAlign: "center"}}>
                                             <Button variant="contained"  onClick={() => { resetTransform(); setZomvar(1); handleReset() }}>Reset</Button>
+                                            <Button onClick={handleClick}>Obs Map</Button>
                                             </Box>
                                             <div>
                                                 <IconButton variant='contained' onClick={() => { setTransform(0, 0, 2, 300, "easeOut"); handleOffset(0, mapSizeY / 2, 2) }}>
@@ -424,7 +425,7 @@ const Map = (props) => {
                             
                                 <TransformComponent className="react-transform-component">
                                     <Paper >
-                                        <img src={`data:image/jpeg;base64,${data}`} alt="test" onLoad={onImgLoad} style={pixSizeX ? {width: mapSizeX, height: mapSizeY} : {width: undefined, height: undefined}}/>                                 
+                                        <img src={map} alt="test" onLoad={onImgLoad} style={pixSizeX ? {width: mapSizeX, height: mapSizeY} : {width: undefined, height: undefined}}/>                                 
                                         {/* <img src={`data:image/jpeg;base64,${data}`} alt="test" onLoad={onImgLoad} style={{}}/>                                  */}
                                         
                                         {/* <img src={map} alt="test" onLoad={onImgLoad} style={pixSizeX ? {width: mapSizeX, height: mapSizeY} : {width: undefined, height: undefined}}/>                                  */}
