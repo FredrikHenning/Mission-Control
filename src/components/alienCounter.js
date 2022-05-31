@@ -73,7 +73,7 @@ const AlienCounter = (props) => {
         // setAngle(event.target.value)
         console.log(angle)
     }
-    console.log(props.lidar.segments[1])
+    // console.log(props.lidar.segments[1])
 
     const getLidar = () =>{
         return (

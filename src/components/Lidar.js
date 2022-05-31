@@ -13,7 +13,7 @@ const Lidar = (props) => {
             }
         }
     }
-    console.log(props.lid[2])
+    // console.log(props.lid[2])
     return ( 
         <div> {AreAliens()}
         {/* {props.lidar && props.lidar.map((lid) => {

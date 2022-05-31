@@ -139,6 +139,15 @@ const SendPoints = (props) => {
                     <DialogContent>
                         <DialogContentText>
                             {"Do you want to use these points: "}
+                            <List>
+                        {points && points.map((point) => (
+                            <div className="point-list" key={point.id}>
+                            <ListItem sx={{width: "100%"}}>
+                                <PointInfo sx={{width: "100%"}} point={point} handleDelete={handleDelete}/>
+                            </ListItem>
+                            </div>
+                            ))} 
+                    </List>
 
                         </DialogContentText>
 

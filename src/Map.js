@@ -27,6 +27,9 @@ const Map = (props) => {
 
 //    console.log(props)
             //Mapsize we want to show
+    if(props.obstacleMap.image){console.log(props.obstacleMap.image[2][0])}
+    // console.log(props.obstacleMap)
+            
     const [mapSizeX, setMapSizeX] = useState(767.00);
     const [mapSizeY, setMapSizeY] = useState(432.00);
             //Scale from pixel to meter
@@ -196,7 +199,7 @@ const Map = (props) => {
         // else{
         //     setMap(mapTwo)
         // }
-        {console.log(obs[0].imagesss)}
+        // {console.log(obs[0].imagesss)}
         // {obs[0] && obs[0].imagesss.map((ob, i) =>{
         //     return(
         //         <div key={ob.id}>
@@ -452,7 +455,7 @@ const Map = (props) => {
                             
                                 <TransformComponent className="react-transform-component">
                                     <Paper >
-                                        <img src={map} alt="test" onLoad={onImgLoad} style={pixSizeX ? {width: mapSizeX, height: mapSizeY} : {width: undefined, height: undefined}}/>                                 
+                                        <img src={`data:image/jpeg;base64,${data}`} alt="test" onLoad={onImgLoad} style={pixSizeX ? {width: mapSizeX, height: mapSizeY} : {width: undefined, height: undefined}}/>                                 
                                         {/* <img src={`data:image/jpeg;base64,${data}`} alt="test" onLoad={onImgLoad} style={{}}/>                                  */}
                                         
                                         {/* <img src={map} alt="test" onLoad={onImgLoad} style={pixSizeX ? {width: mapSizeX, height: mapSizeY} : {width: undefined, height: undefined}}/>                                  */}
@@ -520,20 +523,19 @@ const Map = (props) => {
                                         )
                                     })}
 
-                                    {obs[0] && obs[0].imagesss.map((ob, i) =>{
+                                    {/* {props.obstacleMap && props.obstacleMap.image.map((ob, i) =>{
                                                 return(
-                                                    <div key={ob.id}>
-                                                        {console.log(i)}
-                                                        {console.log(ob)}
+                                                    <div key={i}>
+                                                        
                                                         <ul>
                                                             {ob.map((pixeObs, j) =>{
-                                                                if(pixeObs != -1){
+                                                                if(pixeObs != 0){
                                                                     return(
-                                                                        <div key={pixeObs.id}
+                                                                        <div key={j}
                                                                             style={{
                                                                                 position: "absolute",
-                                                                                left: `${i*mys + 100}px`,
-                                                                                top: `${(pixSizeY - j)*mys - 100}px`,
+                                                                                left: `${i*mys}px`,
+                                                                                top: `${(pixSizeY - j)*mys}px`,
                                                                             }}
                                                                         >
                                                                             <SensorsSharpIcon sx={{width: '1px', height: '1px'}} style={{ color: "blue" }} />
@@ -544,7 +546,8 @@ const Map = (props) => {
                                                         </ul>
                                                     </div>
                                                 )
-                                            })}
+                                        })} */}
+                                        
                                     </Paper>
                                     <Box sx={{position: "absolute", right: 0, bottom: 0, zIndex: 3, opacity: 0.7, padding: "10px" }}>
                                         <Paper sx={{padding: "3px"}}>
