@@ -86,35 +86,32 @@ const AlienCounter = (props) => {
         <div>
 
             <Paper
-                sx={{width: 200}}
+                sx={{textAlign:"center"}}
             >
                 <Typography variant="h6" sx= {{padding: "10px"}}>
                     Laser
                 </Typography>
-                
-                <FormControl fullWidth sx={{ m: 1 }} variant="standard">
-                    <InputLabel htmlFor="standard-adornment-amount">Segment</InputLabel>
-                    <Input
-                        type="number"
-                        required
-                        value={segment}
-                        onChange={(e) => {setSegment(e.target.value%120)}}
-                        sx={{width: 50}}
-                    />
+                <Box >
+                    <FormControl fullWidth sx={{ m: 1}} variant="standard">
+                        <InputLabel htmlFor="standard-adornment-amount">Segment</InputLabel>
+                        <Input
+                            type="number"
+                            required
+                            value={segment}
+                            onChange={(e) => {setSegment(e.target.value%120)}}
+                            sx={{width: 50}}
+                        />
 
-                </FormControl>
-                
-                
-                {getLidar()}
-                <Box sx={{p: "10px"}}>
-                    <Grid spacing={5}>
-                        <Grid item xs={"auto"}>
-                            <Button variant='contained' onClick={CounterMeasure} sx={{padding: "10px"}}>Rotate</Button>
-                        </Grid>
-                        <Grid>
-                            <ColorButton variant='contained' onClick={Fire} sx={{padding: "10px"}}>Fire</ColorButton>
-                        </Grid>
-                    </Grid>
+                    </FormControl>
+                </Box>
+                <Box>
+                    <Typography variant="body2">
+                        {getLidar()}
+                    </Typography>
+                </Box>
+                <Box sx={{p: "20px", display:"flex", justifyContent:"space-evenly"}}>
+                    <Button variant='contained' onClick={CounterMeasure} sx={{padding: "10px"}}>Rotate</Button>
+                    <ColorButton variant='contained' onClick={Fire} sx={{padding: "10px"}}>Fire</ColorButton>
                 </Box>
             </Paper>
         </div>

@@ -153,7 +153,8 @@ export default function ButtonAppBar(props) {
       props.sub.subscribe('simulation/robot/collision');
       props.sub.subscribe('tp/info');
       props.sub.subscribe('mc/message');
-      props.sub.subscribe('perception/obsmap')
+      props.sub.subscribe('mc/rotation');
+      props.sub.subscribe('perception/obsmap');
       //props.sub.subscribe('simulation/robot/velocity');
      
 
