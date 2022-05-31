@@ -56,7 +56,7 @@ import { useState } from 'react';
         "y": y
                         }}
       var data = JSON.stringify(payload2)
-      fetch('https://localhost:7071/todo/tp/instructions',
+      fetch('https://localhost:7071/todo/tp%2Finstruction',
             {
               method: 'POST',
               headers: { "Content-Type": "application/json" },

@@ -33,7 +33,7 @@ import { Popover, Popper } from '@mui/material';
 
 //import MenuIcon from '@mui/icons-material/Menu';
 function ShowBattery(props){
-    if(props.Charging == "false"){
+    if(props.Charging == false){
         if(props.Battery >= 90)
             return(<BatteryFullIcon fontSize="large"/>);
         else if(props.Battery >= 80)
@@ -140,9 +140,8 @@ export default function ButtonAppBar(props) {
 
     const handleSub = (event) => {
       fetch('https://localhost:7071/todo/sub')
-      //props.sub.subscribe('simulation/robot/position_and_rotation');
+      // props.sub.subscribe('simulation/robot/position_and_rotation');
       props.sub.subscribe('mc/landscape');
-      props.sub.subscribe('tp/status');
       //props.sub.subscribe('simulation/lidar');
       props.sub.subscribe('simulation/sensor/status/#');
       props.sub.subscribe('tp/plan');
@@ -151,8 +150,11 @@ export default function ButtonAppBar(props) {
       //props.sub.subscribe('simulation/images/satellite');
       //props.sub.subscribe('tp/instruction');
       props.sub.subscribe('simulation/map_scale');
+      props.sub.subscribe('simulation/robot/collision');
+      props.sub.subscribe('tp/info');
+      props.sub.subscribe('mc/message');
       //props.sub.subscribe('simulation/robot/velocity');
-      props.sub.subscribe('simulation/current_path');
+     
 
       
 

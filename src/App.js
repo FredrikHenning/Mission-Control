@@ -24,24 +24,26 @@ import AlienCounter from './components/alienCounter';
 import Box from '@mui/material/Box';
 import Masonry from '@mui/lab/Masonry';
 
+var c = true;
 
 const theme = createTheme({
   
 })
 
-var mqtt    = require('precompiled-mqtt');
-var options = {
-  clean: true,
-  connectTimeout: 4000,
+const mqtt    = require('precompiled-mqtt');
+const options = {
+  clean: c,
   //protocol: "ws",
   // Auth
-  clientId: 'mission-control',
+  clientId: 'mission-control2',
+  retain: false,
 	// clientId uniquely identifies client
 	// choose any string you wish
-	
   username: "mission-control",
-  password: "upon map citadel overstep", 
+  password: "upon map citadel overstep",
 };
+
+
 
 
 
@@ -81,7 +83,7 @@ function App() {
  const [path, setPath] = useState(startPath);
  const [placedSensors, setPlacedSensors] = useState([])
  const [allSensors, setAllSensors] = useState([])
- 
+ const [pictureOK, setPictureOK] = useState (false)
   
   const [cmessage, setCmessage] = useState([]);
   const [imageEncoded, setImage] = useState("");
@@ -96,14 +98,14 @@ function App() {
 const [client, setClient] = useState(null);
 const [connectStatus, setConnectStatus] = useState("");
 const [payload, setPayload] = useState("");
-const mqttConnect = () => {
-  setConnectStatus('Connecting');
-  //setClient(mqtt.connect('wss://tharsis.oru.se:8884', options));
-};
+var oldmessage;
 
 function handlemessage(message, severity){
   var obj = {"message":message, "severity":severity}
-  setCmessage(myArray => [obj, ...myArray] )
+  if(message != oldmessage){
+    setCmessage(myArray => [obj, ...myArray])
+  }
+  oldmessage = message;
 }
 
 function routemessage(topic, message){
@@ -111,32 +113,33 @@ function routemessage(topic, message){
     //console.log(JSON.parse(message))
     let dat = JSON.parse(message)
     
-
-    if(dat.position.x.toFixed(2) != posrot.position.x.toFixed(2) || dat.position.y.toFixed(2) != posrot.position.y.toFixed(2)|| dat.rotation.toFixed(2) != posrot.rotation.toFixed(2) ){
     setPosrot(JSON.parse(message))
     //console.log("uppdaterar")
-  }
+  
     
   }
   else if(topic == "mc/landscape"){
     let data = JSON.parse(message);
-      if(data.imageBroken == 0){
+
+    if(data.imageBroken == 0){
+      setPictureOK(true)
       setLandscape(data.image)
-      if(data.sensorinimage == 1){
+
+      if(data.sensorInImage == 1){
         handlemessage("Sensor in image!", "success")
-        if(data.sensorbroken == 1){
-          handlemessage("Sensor broken!", "warning")
+        if(data.sensorBroken == 1){
+          handlemessage("Sensor broken!", "warning")  
         }
       }
-      else{handlemessage("Sensor not in image!", "warning")}
-      }
-      else
-      {
-        handlemessage("Image broken! Type of damage: " + data.typeOfNoise, "warning")
-      }
-      
+      else{
+        handlemessage("Sensor not in image!", "warning")}
+    }
+    else{
+      handlemessage("Image broken! Type of damage: " + data.typeOfNoise, "warning")
+      setPictureOK(false)
+    }
   }
-  else if(topic == "tp/status"){
+  else if(topic == "tp/info"){
     let status = JSON.parse(message);
     setPlanStatus(status);
       if (status.status != "OK") {
@@ -176,6 +179,13 @@ function routemessage(topic, message){
     setPath(JSON.parse(message))
     handlemessage("New path!", "info")
   }
+  // else if(topic == "simulation/robot/collision"){
+  //   setPath(JSON.parse(message))
+  //   handlemessage("Collision detected", "error")
+  // }
+  else if(topic == "mc/message"){
+    handlemessage(message, "info")
+  }
   else if(topic.slice(0, -1) == "simulation/sensor/status/"){
     var id = parseInt(topic.substr(topic.length - 1));
     let dat = JSON.parse(message);
@@ -199,8 +209,10 @@ function routemessage(topic, message){
     }
     if(newJSON.is_placed == true)
     {fakeList2.push(newJSON)
-    handlemessage("Sensor " + newJSON.id + " has been placed", "info")}
-    else{handlemessage("Sensor " + newJSON.id + " is in inventory", "info")}
+      handlemessage("Sensor " + newJSON.id + " has been placed", "info")
+     } 
+    else
+      {handlemessage("Sensor " + newJSON.id + " is in inventory", "info")}
     setPlacedSensors(fakeList2)
 
 
@@ -214,20 +226,28 @@ useEffect(()=>{
 },[])
 
 
-useEffect(() => {
+ useEffect(() => {
   
   if (client) {
    
     client.on('connect', () => {
+      console.log(options)
+      handlemessage("Connected to MQTT Server", "success")
       setConnectStatus('Connected');
-     // console.log("connected")
+      console.log("connected")
     });
     client.on('error', (err) => {
+      handlemessage("Connection error to MQTT Server: " + err, "warning")
       console.error('Connection error: ', err);
       client.end();
     });
     client.on('reconnect', () => {
+      options.clean = false;
+      console.log(options)
+      handlemessage("Reconnecting to MQTT Server..", "warning")
       setConnectStatus('Reconnecting');
+      console.log("reconnecting")
+
     });
     client.on('message', (topic, message) => {
       const payload = { topic, message: message.toString() };
@@ -239,6 +259,8 @@ useEffect(() => {
     });
   }
 }, [client]);
+
+
 
 
 
@@ -346,7 +368,7 @@ useEffect(() => {
         startLidar = lidar1
         startBattery = battery1
       
-    })}, 50);
+    })}, 200);
     return () => clearInterval(interval);
   }, []);
 
@@ -362,12 +384,12 @@ useEffect(() => {
         <Grid container>
           <Grid item xs={"auto"}>
             <Map position={update.Position} sensors={placedSensors} rotation={update.Rotation} routen={path.path} satellite ={imageEncoded} allSensors={allSensors}/>
-            {/* <Console2 message={cmessage}/>  */}
+            <Console2 message={cmessage}/> 
           </Grid>   
           <Grid item xs={"7"} sx={{bgcolor: "white", pl:"20px"}}>
             <Masonry columns={3} spacing={2}>
                 <PlanningComponent plans={plan} status={planStatus}/>
-                <Photo landscape = {landscapeEncoded}/>
+                <Photo landscape = {landscapeEncoded}  image = {pictureOK}/>
                 <SendPoints sub={client}/>
                 <AlienCounter lidar={update.Lidar}></AlienCounter>
                 <Control />
