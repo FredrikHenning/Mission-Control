@@ -30,7 +30,7 @@ const Map = (props) => {
     const [mapSizeX, setMapSizeX] = useState(767.00);
     const [mapSizeY, setMapSizeY] = useState(432.00);
             //Scale from pixel to meter
-    console.log(props.satellite.scale)
+    //console.log(props.satellite.scale)
     const [scale, setScale] = useState(0.08);
     const [style, setStyle] = useState({visibility: 'hidden'});
 
@@ -57,7 +57,7 @@ const Map = (props) => {
         'Content-Type': 'application/json',
         }})
 
-        console.log(points)
+       // console.log(points)
     }
 
     // setMapSizeX(props.position.sizeX);
@@ -170,7 +170,7 @@ const Map = (props) => {
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(point)
         }).then(() => {
-            console.log('Point is added')
+            //console.log('Point is added')
             setIsPending(false);
         }).then(() => {
             setNodes('New point')
@@ -263,7 +263,7 @@ const Map = (props) => {
                                         <Checkbox 
                                             disabled={!(command==="sensor-drop")} 
                                             onClick={() => {
-                                                console.log("Click button");
+                                                //console.log("Click button");
                                                 setSensor(sens.id)
                                                 setCommand("sensor-drop")
                                                 setColor("blue")

@@ -1,4 +1,7 @@
-
+import { Box } from "@mui/material";
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import { Typography } from "@mui/material";
 
 const Lidar = (props) => {
 
@@ -6,34 +9,54 @@ const Lidar = (props) => {
         
         for(let i = 0; i < props.lid.length; i++){
             if(props.lid[i] != -1){
-                return(<div>{"Aliens detected at segment: " + i + " position: " + parseFloat(props.lid[i].toFixed(3)) }</div>)
+                return(
+                    <div >
+                        <Card sx={{ display: 'flex', justifyContent: "space-evenly", px:"20px"}}>
+                            <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent:"center", alignItems:"center"  }}>
+                                <CardContent >
+                                    <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+                                        Alien, at distance:           
+                                    </Typography>
+                                    <Typography variant="h6" component="div">
+                                        {(parseFloat(props.lid[i].toFixed(3)))}
+                                    </Typography>
+                                </CardContent>
+                            </Box>
+                            <CardContent >
+                            <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent:"center", alignItems:"center" }}>
+                                <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+                                    SEGMENT           
+                                </Typography>
+                                <Typography variant="h5">
+                                    {i}
+                                </Typography>
+                            </Box>
+                            </CardContent>
+                        </Card>
+                    </div>
+                    
+                )
             }
             else if(i === 119){
-                return( <div>{"No threat detected"}</div>)
+                return(
+                    <Card sx={{ display: 'flex', justifyContent: "space-evenly", px:"20px"}}>
+                        <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent:"center", alignItems:"center"  }}>
+                            <CardContent >
+                                <Typography variant="h6" color="text.secondary" gutterBottom>
+                                    No threat detected           
+                                </Typography>
+                            </CardContent>
+                        </Box>
+                    </Card>
+                )
             }
         }
     }
-    console.log(props.lid[2])
+    //console.log(props.lid[2])
     return ( 
-        <div> {AreAliens()}
-        {/* {props.lidar && props.lidar.map((lid) => {
-            for(let i=0; i < lid.segments.lenght; i++){
-                if(lid.segments[i] !== -1){
-                
-                    return (
-                        <div key={lid.id}> {"Alien detected at segment: " + lid.id }</div>
-                    )
-                }
-                else{
-                    return (
-                        <div key={lid.id}> 
-                        {console.log(i)}
-                        </div>
-                    )
-                }
-            }
-        })} */}
-    </div>
+        <div> 
+            {AreAliens()}
+        </div>
      );
 }
  

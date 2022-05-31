@@ -15,9 +15,9 @@ const AlienCounter = (props) => {
     const [disp, setDisp] = useState('hidden')
     const CounterMeasure = () => {
         // 'https://localhost:8000/fire'
-        console.log(segment)
+        //console.log(segment)
         var radianer = (segment * 3 + 1.5)* (Math.PI / 180)
-        console.log(rad)
+       // console.log(rad)
         var rad = radianer;
         var pointsObj = { rad }
         var data = JSON.stringify(pointsObj);
@@ -58,7 +58,7 @@ const AlienCounter = (props) => {
     }));
 
     const enemy = (e) => {
-        console.log("Alien detected at segment: " + e)
+        //console.log("Alien detected at segment: " + e)
         setDanger(true)
         setDisp('')
     }
@@ -71,15 +71,13 @@ const AlienCounter = (props) => {
 
     const handleSegment = (event) => {
         // setAngle(event.target.value)
-        console.log(angle)
+        //console.log(angle)
     }
-    console.log(props.lidar.segments[1])
+    //console.log(props.lidar.segments[1])
 
     const getLidar = () =>{
         return (
-            <div>
              <Lidar lid={props.lidar.segments} />
-         </div>
         ) 
     }
     return (
@@ -91,7 +89,7 @@ const AlienCounter = (props) => {
                 <Typography variant="h6" sx= {{padding: "10px"}}>
                     Laser
                 </Typography>
-                <Box >
+                <Box sx={{ display: 'flex', justifyContent: "center"}}>
                     <FormControl fullWidth sx={{ m: 1}} variant="standard">
                         <InputLabel htmlFor="standard-adornment-amount">Segment</InputLabel>
                         <Input
@@ -104,10 +102,8 @@ const AlienCounter = (props) => {
 
                     </FormControl>
                 </Box>
-                <Box>
-                    <Typography variant="body2">
+                <Box sx={{ display: 'flex', justifyContent: "center"}}>
                         {getLidar()}
-                    </Typography>
                 </Box>
                 <Box sx={{p: "20px", display:"flex", justifyContent:"space-evenly"}}>
                     <Button variant='contained' onClick={CounterMeasure} sx={{padding: "10px"}}>Rotate</Button>

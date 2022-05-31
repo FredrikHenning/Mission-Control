@@ -10,12 +10,6 @@ import TextField from '@mui/material/TextField';
 import { useState } from 'react';
 
   export default function LoadingButtonsTransition() {
-
-    function sendPointPlace() {
-      
-      
-    }
-
     const handleClick1 = () => {
       setLoading(false)
       if (flag){
@@ -28,20 +22,10 @@ import { useState } from 'react';
 
     const [loading, setLoading] = React.useState(false);
     const [flag, setFlag] = React.useState(false);
-    const [x, setX] = useState(null);
-    const [y, setY] = useState(null);
-
-    const updateX = (event) => {
-      setX(event.target.value)
-  }
-
-    const updateY = (event) => {
-      setY(event.target.value)
-  }
 
   function sendXY() {
+      if(flag == false){
       console.log("sent");
-
       var payload = {"control": 1}
       var data = JSON.stringify(payload)
       fetch('https://localhost:7071/todo/mcmanualcontrol',
@@ -50,22 +34,12 @@ import { useState } from 'react';
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(data)
             })
+          }
+        }
 
-      var payload2 = {"position": {
-        "x": x,
-        "y": y
-                        }}
-      var data = JSON.stringify(payload2)
-      fetch('https://localhost:7071/todo/tp%2Finstruction',
-            {
-              method: 'POST',
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify(data)
-            })
-  }
-  
     function handleClick2() {
       setLoading(true)
+      sendXY()
       setTimeout(() => {  handleClick1(); }, 1000);
       
     }
@@ -88,18 +62,6 @@ import { useState } from 'react';
         >
         </LoadingButton>
       </Box>
-        <Box sx={{ '& > button': { m: 0.5 } }}>
-        <Typography variant="body2" sx={{padding: "5px"}}>
-          Input coordinates:
-        </Typography>
-        <Box sx={{ display: 'flex', justifyContent: "space-evenly", padding:"10px" }}>
-          <TextField onChange={(updateX)} id="outlined-basic" label="x" variant="outlined" disabled={!flag} sx={{padding: "5px"}}/>
-          <TextField onChange={(updateY)} id="outlined-basic" label="y" variant="outlined" disabled={!flag } sx={{padding: "5px"}}/>
-        </Box>
-        </Box>
-          <Button onClick={sendXY} disabled={!flag} color="primary" variant="contained">
-            Move here
-          </Button>
       </Paper>
       </Box>
     </Box>

@@ -32,9 +32,6 @@ export default function Photo(props) {
          <Image image={props.image} landscape={props.landscape}/>
         </Box>
         </Box>
-        <Button color="primary" variant="contained" startIcon={<PhotoCamera />} >
-          Take photo
-        </Button>
         </Paper>
     </Box>
   )

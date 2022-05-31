@@ -35,7 +35,7 @@ const options = {
   clean: c,
   //protocol: "ws",
   // Auth
-  clientId: 'mission-control223452345',
+  clientId: 'mission-control2234523465',
   retain: false,
 	// clientId uniquely identifies client
 	// choose any string you wish
