@@ -35,7 +35,7 @@ const options = {
   clean: c,
   //protocol: "ws",
   // Auth
-  clientId: 'mission-control2',
+  clientId: 'mission-control223452345',
   retain: false,
 	// clientId uniquely identifies client
 	// choose any string you wish
@@ -174,6 +174,10 @@ function routemessage(topic, message){
   else if(topic == "tp/plan"){
     setPlan(JSON.parse(message))
     handlemessage("New plan!", "info")
+  }
+  else if(topic == "mc/rotation"){
+    setPlan(JSON.parse(message))
+    handlemessage("Rotation finished", "success")
   }
   else if(topic == "simulation/current_path"){
     setPath(JSON.parse(message))
