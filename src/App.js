@@ -15,7 +15,7 @@ import PlanningComponent from './components/Planning';
 import './app.css';
 import React, { useState, useEffect } from 'react';
 import SensorList from './components/SensorList';
-import { parseJSON } from 'date-fns';
+import { parseJSON, set } from 'date-fns';
 import Photo from './components/photo';
 import { Grid } from '@mui/material';
 import AlienCounter from './components/alienCounter';
@@ -36,7 +36,7 @@ const options = {
   clean: c,
   //protocol: "ws",
   // Auth
-  clientId: 'mission-control2234523465',
+  clientId: 'mission-co344',
   retain: false,
 	// clientId uniquely identifies client
 	// choose any string you wish
@@ -80,7 +80,9 @@ function App() {
  const [velocity, setVelocity] = useState(startVelocity);
  const [planStatus, setPlanStatus] = useState();
  const [lidar, setLidar] = useState(startLidar);
- const [plan, setPlan] = useState(startPlan);
+ const [plan, setPlan] = useState([]);
+ const [finplan, setFinPlan] = useState([]);
+
  const [path, setPath] = useState(startPath);
  const [placedSensors, setPlacedSensors] = useState([])
  const [allSensors, setAllSensors] = useState([])
@@ -93,6 +95,8 @@ function App() {
 
   const [update, setUpdate] = useState({Position: startPos1, Rotation: startrotation1, Lidar: startLidar, Battery: startBattery, Velocity: startVelocity });
   const [count1, setCount1] = useState(0);
+  var activePlan = false;
+  var newestPlan;
 
 //MQTTT
 
@@ -101,6 +105,31 @@ const [client, setClient] = useState(null);
 const [connectStatus, setConnectStatus] = useState("");
 const [payload, setPayload] = useState("");
 var oldmessage;
+
+function convertToPlans(losPlans){
+  var PlansList = [];
+  var oldPlans = losPlans;
+  var pro = 0;
+  if(losPlans == null){oldPlans={};}
+  for(var i = 0; i<oldPlans.length; i++){
+      var titleN = oldPlans[i].command;
+      if(titleN == "goto" || titleN == "capture"){
+      var bodyN = "x=" + oldPlans[i].x + ", y=" + oldPlans[i].y; 
+      }
+      else{
+          var bodyN = "Sensor " + oldPlans[i].id;
+      }
+      var keyN = oldPlans[i].id;
+      if(i == 0){
+          pro = 100; 
+      }
+      else{pro = 0;}
+      var plan = {title:titleN, body: bodyN, progress:pro, key: keyN, visible:true}
+      PlansList[i] = plan;
+  }
+  //console.log(PlansList);
+  return PlansList;
+}
 
 function handlemessage(message, severity){
   var obj = {"message":message, "severity":severity}
@@ -111,6 +140,7 @@ function handlemessage(message, severity){
 }
 
 function routemessage(topic, message){
+  console.log("message kommm")
   if(topic == "simulation/robot/position_and_rotation"){
     //console.log(JSON.parse(message))
     let dat = JSON.parse(message)
@@ -146,10 +176,13 @@ function routemessage(topic, message){
     setPlanStatus(status);
       if (status.status != "OK") {
         handlemessage("Error from task planning: " + status.comment, "error")
+        setPlan([])
       }
       else {
-        handlemessage("Task " + status.id + " is finished", "success")
-      }
+        handlemessage("Task is finised! Id: " + status.id, "success")
+        setPlan((plan) => plan.filter((_, index) => index !== 0))
+        }
+
   }
   else if(topic == "simulation/lidar"){
     //setLidar(JSON.parse(message));
@@ -174,7 +207,9 @@ function routemessage(topic, message){
     //setTimeout(client.subscribe("simulation/robot/velocity"), 5000);
   }
   else if(topic == "tp/plan"){
-    setPlan(JSON.parse(message))
+    activePlan = true;
+    console.log("Plan kom")
+    setPlan(convertToPlans(JSON.parse(message).plan))
     handlemessage("New plan!", "info")
   }
   else if(topic == "mc/rotation"){
@@ -194,6 +229,7 @@ function routemessage(topic, message){
   //   handlemessage("Collision detected", "error")
   // }
   else if(topic == "mc/message"){
+    setPlan([])
     handlemessage(message, "info")
   }
   else if(topic.slice(0, -1) == "simulation/sensor/status/"){
@@ -229,6 +265,10 @@ function routemessage(topic, message){
   }
 
 }
+
+useEffect(()=>{
+  console.log(plan)
+},[plan])
 
 
 useEffect(()=>{
@@ -399,7 +439,7 @@ useEffect(() => {
           </Grid>   
           <Grid item xs={"7"} sx={{bgcolor: "white", pl:"20px"}}>
             <Masonry columns={3} spacing={2}>
-                <PlanningComponent plans={plan} status={planStatus}/>
+                <PlanningComponent plans={plan} finplan={finplan}/>
                 <Photo landscape = {landscapeEncoded}  image = {pictureOK}/>
                 <SendPoints sub={client}/>
                 <AlienCounter lidar={update.Lidar}></AlienCounter>
