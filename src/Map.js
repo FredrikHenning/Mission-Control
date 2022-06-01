@@ -27,16 +27,19 @@ const Map = (props) => {
 
 //    console.log(props)
             //Mapsize we want to show
-    if(props.obstacleMap.image){console.log(props.obstacleMap.image[2][0])}
+    // if(props.obstacleMap.image){console.log(props.obstacleMap.image[2][0])}
     // console.log(props.obstacleMap)
             
     const [mapSizeX, setMapSizeX] = useState(767.00);
     const [mapSizeY, setMapSizeY] = useState(432.00);
             //Scale from pixel to meter
     //console.log(props.satellite.scale)
-    const [scale, setScale] = useState(0.08);
-    const [style, setStyle] = useState({visibility: 'hidden'});
+    
+    const [scale, setScale] = useState(10);
+    if(props.satellite && scale === 10){setScale(props.satellite.scale)}
+    // console.log(scale)
 
+    const [style, setStyle] = useState({visibility: 'hidden'});
     var data = props.satellite.data;
     const [manual, setManual] = useState(false);
 
@@ -407,7 +410,7 @@ const Map = (props) => {
                                         <div>
                                              <Box sx={{textAlign: "center"}}>
                                             <Button variant="contained"  onClick={() => { resetTransform(); setZomvar(1); handleReset() }}>Reset</Button>
-                                            <Button onClick={handleClick}>Obs Map</Button>
+                                            {/* <Button onClick={handleClick}>Obs Map</Button> */}
                                             </Box>
                                             <div>
                                                 <IconButton variant='contained' onClick={() => { setTransform(0, 0, 2, 300, "easeOut"); handleOffset(0, mapSizeY / 2, 2) }}>
